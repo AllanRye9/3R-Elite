@@ -1,7 +1,23 @@
+import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 
-const prisma = new PrismaClient();
+// Normalise "postgres://" → "postgresql://" to avoid the P1012 validation
+// error from Prisma's wasm-based config loader when DATABASE_URL uses the
+// shorter scheme (common with some hosting providers).
+const rawUrl = process.env.DATABASE_PRIVATE_URL || process.env.DATABASE_URL;
+if (!rawUrl) {
+  console.error(
+    'ERROR: DATABASE_URL is not set. ' +
+    'Provide a valid PostgreSQL connection string before running the seed script.'
+  );
+  process.exit(1);
+}
+const databaseUrl = rawUrl.startsWith('postgres://')
+  ? rawUrl.replace('postgres://', 'postgresql://')
+  : rawUrl;
+
+const prisma = new PrismaClient({ datasources: { db: { url: databaseUrl } } });
 
 async function main() {
   console.log('Seeding database...');
