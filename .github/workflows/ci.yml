@@ -30,6 +30,8 @@ jobs:
 
       - name: Generate Prisma client
         run: npx prisma generate
+        env:
+          DATABASE_URL: postgresql://user:password@localhost:5432/marketplace_db
 
       - name: TypeScript type check
         run: npm run typecheck
