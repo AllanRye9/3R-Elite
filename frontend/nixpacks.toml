@@ -1,0 +1,15 @@
+[phases.install]
+cmds = ["npm ci"]
+
+# Build Next.js in standalone mode and copy static assets into the standalone
+# output directory so the Node.js server can serve them.
+[phases.build]
+cmds = [
+  "npm run build",
+  "cp -r .next/static .next/standalone/.next/static",
+  "cp -r public .next/standalone/public",
+]
+
+[variables]
+NODE_ENV = "production"
+HOSTNAME = "0.0.0.0"
