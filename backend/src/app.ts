@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import { rateLimit } from 'express-rate-limit';
 import { errorHandler } from './middleware/errorHandler';
 import { logger } from './utils/logger';
+import { prisma } from './utils/prisma';
 import authRoutes from './routes/auth';
 import userRoutes from './routes/users';
 import listingRoutes from './routes/listings';
@@ -44,7 +45,14 @@ app.use(morgan('combined', {
 }));
 
 // Health check
-app.get('/health', (_, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
+app.get('/health', async (_, res) => {
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  } catch {
+    res.status(503).json({ status: 'error', timestamp: new Date().toISOString() });
+  }
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
