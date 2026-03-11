@@ -6,7 +6,6 @@ import morgan from 'morgan';
 import { rateLimit } from 'express-rate-limit';
 import { errorHandler } from './middleware/errorHandler';
 import { logger } from './utils/logger';
-import { prisma } from './utils/prisma';
 import authRoutes from './routes/auth';
 import userRoutes from './routes/users';
 import listingRoutes from './routes/listings';
@@ -43,20 +42,6 @@ app.use(compression());
 app.use(morgan('combined', {
   stream: { write: (message) => logger.info(message.trim()) },
 }));
-
-// Health check — always returns 200 so Railway's liveness probe succeeds.
-// DB connectivity is reported in the body for observability but does not affect
-// the HTTP status code; a 503 here would cause Railway to fail the deployment
-// even when the Node process and HTTP server are running correctly.
-app.get('/health', async (_, res) => {
-  let db = 'ok';
-  try {
-    await prisma.$queryRaw`SELECT 1`;
-  } catch {
-    db = 'error';
-  }
-  res.json({ status: 'ok', db, timestamp: new Date().toISOString() });
-});
 
 // Routes
 app.use('/api/auth', authRoutes);

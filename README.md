@@ -61,7 +61,6 @@ docker-compose up -d
 Services:
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:5000
-- Health check: http://localhost:5000/health
 
 ## Environment Variables
 
