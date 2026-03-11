@@ -2,8 +2,10 @@ const express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const prisma = require('../lib/prisma');
 const { auth } = require('../middleware/auth');
+const { strictLimiter } = require('../middleware/rateLimiter');
 
 const router = express.Router();
+router.use(strictLimiter);
 
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
 

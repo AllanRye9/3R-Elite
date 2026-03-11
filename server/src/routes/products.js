@@ -2,8 +2,10 @@ const express = require('express');
 const prisma = require('../lib/prisma');
 const { auth, optionalAuth } = require('../middleware/auth');
 const { upload } = require('../middleware/upload');
+const { generalLimiter } = require('../middleware/rateLimiter');
 
 const router = express.Router();
+router.use(generalLimiter);
 
 // GET /api/products
 router.get('/', optionalAuth, async (req, res) => {
