@@ -1,5 +1,5 @@
-DATABASE_URL="postgresql://db_3r_elite_user:pICFxzT7yjR8YgDhJn02dvPUid3Bt2Nt@dpg-d6ou2n5m5p6s73bep9tg-a.virginia-postgres.render.com/db_3r_elite"
-PUBLIC="postgresql://postgres:LnHjZmzcbhwMGvrKciXeEKqEyFgaNAjs@mainline.proxy.rlwy.net:51185/railway"
+DATABASE_URL=""
+
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl-openssl-3.0.x", "debian-openssl-3.0.x"]
@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL") || env("PUBLIC")
+  url      = env("DATABASE_URL")
 }
 
 enum Role {
