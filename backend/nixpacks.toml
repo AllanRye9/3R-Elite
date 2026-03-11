@@ -1,2 +1,10 @@
 [phases.setup]
 nixPkgs = ["openssl"]
+
+# Build-time placeholder DATABASE_URL so that `prisma generate` (triggered by
+# the @prisma/client postinstall hook during `npm ci` and the explicit generate
+# step) can validate the schema format without a real database connection.
+# Railway injects the real DATABASE_URL at container start-up, which overrides
+# this placeholder at runtime.
+[variables]
+DATABASE_URL = "postgresql://placeholder:placeholder@placeholder:5432/placeholder"
