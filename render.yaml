@@ -1,0 +1,109 @@
+# Render Blueprint — deploys backend API, frontend, PostgreSQL, and Redis
+# https://render.com/docs/blueprint-spec
+#
+# Usage:
+#   1. Push this repo to GitHub / GitLab.
+#   2. In the Render dashboard choose "New → Blueprint" and point it at this
+#      repository.  Render will provision every service defined below.
+#   3. After the first deploy update CORS_ORIGIN (backend service) and
+#      NEXT_PUBLIC_API_URL (frontend service) with the actual Render URLs that
+#      were assigned to each service.
+
+services:
+  # ── Backend API ────────────────────────────────────────────────────────────
+  - type: web
+    name: 3r-elite-backend
+    runtime: node
+    rootDir: backend
+    # DATABASE_URL below is a build-time placeholder only — it lets the Prisma
+    # client generator validate the schema format without a real database.
+    # The actual DATABASE_URL is injected at runtime from the database binding above.
+    buildCommand: >
+      npm ci --ignore-scripts &&
+      DATABASE_URL='postgresql://BUILD_PLACEHOLDER:BUILD_PLACEHOLDER@BUILD_PLACEHOLDER:5432/BUILD_PLACEHOLDER'
+      npx prisma generate &&
+      npm run build
+    startCommand: npx prisma migrate deploy && node dist/index.js
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Automatically wired to the PostgreSQL database defined below
+      - key: DATABASE_URL
+        fromDatabase:
+          name: 3r-elite-db
+          property: connectionString
+      # Automatically wired to the Redis instance defined below
+      - key: REDIS_URL
+        fromService:
+          name: 3r-elite-redis
+          type: redis
+          property: connectionString
+      # Render injects PORT automatically; the default matches the app fallback
+      - key: PORT
+        value: "10000"
+      # Render will auto-generate a secure random value for these secrets
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: "15m"
+      - key: JWT_REFRESH_EXPIRES_IN
+        value: "7d"
+      # Set this to the public URL of the frontend service after first deploy
+      # e.g. https://3r-elite-frontend.onrender.com
+      - key: CORS_ORIGIN
+        value: https://3r-elite-frontend.onrender.com
+      - key: RATE_LIMIT_WINDOW_MS
+        value: "900000"
+      - key: RATE_LIMIT_MAX
+        value: "100"
+      # AWS S3 — fill in via the Render dashboard (mark as secret)
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: AWS_REGION
+        value: us-east-1
+      - key: AWS_S3_BUCKET
+        sync: false
+      # Admin seed password — Render will auto-generate a secure value
+      - key: ADMIN_PASSWORD
+        generateValue: true
+
+  # ── Frontend (Next.js standalone) ─────────────────────────────────────────
+  - type: web
+    name: 3r-elite-frontend
+    runtime: node
+    rootDir: frontend
+    buildCommand: >
+      npm ci &&
+      npm run build &&
+      cp -r .next/static .next/standalone/.next/static &&
+      cp -r public .next/standalone/public
+    startCommand: node .next/standalone/server.js
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Set this to the public URL of the backend service after first deploy
+      # e.g. https://3r-elite-backend.onrender.com
+      - key: NEXT_PUBLIC_API_URL
+        value: https://3r-elite-backend.onrender.com
+      - key: HOSTNAME
+        value: "0.0.0.0"
+
+  # ── Redis ──────────────────────────────────────────────────────────────────
+  - type: redis
+    name: 3r-elite-redis
+    plan: free
+    maxmemoryPolicy: noeviction
+
+# ── PostgreSQL ────────────────────────────────────────────────────────────────
+databases:
+  - name: 3r-elite-db
+    plan: free
+    databaseName: marketplace_db
+    user: marketplace
