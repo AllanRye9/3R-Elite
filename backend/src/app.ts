@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import { rateLimit } from 'express-rate-limit';
 import { errorHandler } from './middleware/errorHandler';
 import { logger } from './utils/logger';
+import { prisma } from './utils/prisma';
 import authRoutes from './routes/auth';
 import userRoutes from './routes/users';
 import listingRoutes from './routes/listings';
@@ -23,6 +24,18 @@ app.use(cors({
   origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
   credentials: true,
 }));
+
+// Health check – must be registered before the rate-limiter so monitoring
+// tools that call /health frequently are not throttled or blocked.
+app.get('/health', async (_req: Request, res: Response) => {
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    res.status(200).json({ status: 'ok', database: 'connected' });
+  } catch (err) {
+    logger.error('Health check failed – database unreachable', err);
+    res.status(503).json({ status: 'error', database: 'disconnected' });
+  }
+});
 
 // Rate limiting
 const limiter = rateLimit({
