@@ -8,6 +8,12 @@ RUN npm ci --only=production
 
 FROM base AS builder
 COPY package*.json ./
+# Provide a placeholder DATABASE_URL so that the @prisma/client postinstall
+# hook (which runs `prisma generate`) and the explicit generate step below
+# can validate the schema format without a real database connection.
+# The actual DATABASE_URL is injected at container runtime by the host/orchestrator.
+ARG DATABASE_URL="postgresql://placeholder:placeholder@placeholder:5432/placeholder"
+ENV DATABASE_URL=${DATABASE_URL}
 RUN npm ci
 COPY . .
 RUN npx prisma generate
