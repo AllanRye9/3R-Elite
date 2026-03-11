@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { SearchBar } from '@/components/listings/SearchBar';
 import { CategoryNav } from '@/components/listings/CategoryNav';
 import { ListingGrid } from '@/components/listings/ListingGrid';
@@ -46,23 +47,23 @@ export default async function HomePage() {
         <section>
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-2xl font-bold text-gray-900">Latest Listings</h2>
-            <a href="/listings" className="text-orange-600 hover:underline text-sm font-medium">View all →</a>
+            <Link href="/listings" className="text-orange-600 hover:underline text-sm font-medium">View all →</Link>
           </div>
           <ListingGrid listings={listings} />
         </section>
 
         {/* Country CTA */}
         <section className="grid md:grid-cols-2 gap-6">
-          <a href="/listings?country=UAE" className="bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl p-8 hover:from-green-600 hover:to-green-700 transition-all">
+          <Link href="/listings?country=UAE" className="bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl p-8 hover:from-green-600 hover:to-green-700 transition-all">
             <div className="text-4xl mb-3">🇦🇪</div>
             <h3 className="text-2xl font-bold mb-1">UAE Market</h3>
             <p className="text-green-100">Discover listings across Dubai, Abu Dhabi, Sharjah and more</p>
-          </a>
-          <a href="/listings?country=UGANDA" className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-xl p-8 hover:from-yellow-600 hover:to-yellow-700 transition-all">
+          </Link>
+          <Link href="/listings?country=UGANDA" className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-xl p-8 hover:from-yellow-600 hover:to-yellow-700 transition-all">
             <div className="text-4xl mb-3">🇺🇬</div>
             <h3 className="text-2xl font-bold mb-1">Uganda Market</h3>
             <p className="text-yellow-100">Browse deals in Kampala, Jinja, Gulu and beyond</p>
-          </a>
+          </Link>
         </section>
       </div>
     </div>
