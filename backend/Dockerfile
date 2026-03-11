@@ -4,6 +4,7 @@ RUN apk add --no-cache openssl
 
 FROM base AS deps
 COPY package*.json ./
+# prisma CLI is needed at runtime to run `prisma migrate deploy`
 RUN npm ci --only=production
 
 FROM base AS builder
@@ -25,6 +26,8 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY docker-entrypoint.sh ./docker-entrypoint.sh
+RUN chmod +x ./docker-entrypoint.sh
 
 EXPOSE 5000
-CMD ["node", "dist/index.js"]
+ENTRYPOINT ["./docker-entrypoint.sh"]
