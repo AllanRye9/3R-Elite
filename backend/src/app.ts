@@ -22,8 +22,19 @@ const app = express();
 
 // Security middleware
 app.use(helmet());
+
+// Support a comma-separated list of allowed origins in CORS_ORIGIN so that
+// multiple deployment URLs (e.g. Railway + Render) can be whitelisted without
+// requiring code changes.
+const rawCorsOrigins = process.env.CORS_ORIGIN || 'http://localhost:3000';
+const allowedOrigins = rawCorsOrigins.split(',').map((o) => o.trim()).filter(Boolean);
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  origin: (origin, callback) => {
+    // Allow requests with no origin (e.g. server-to-server, curl, Postman)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(null, false);
+  },
   credentials: true,
 }));
 
