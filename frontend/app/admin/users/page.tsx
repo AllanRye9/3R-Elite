@@ -15,7 +15,7 @@ export default function AdminUsersPage() {
   const [fetching, setFetching] = useState(true);
 
   useEffect(() => {
-    if (!loading && (!user || user.role !== 'ADMIN')) router.push('/');
+    if (!loading && (!user || user.role !== 'ADMIN')) router.push('/admin/auth/login');
     if (user?.role === 'ADMIN') {
       api.get('/admin/users')
         .then(({ data }) => { setUsers(data.users); setTotal(data.pagination.total); })

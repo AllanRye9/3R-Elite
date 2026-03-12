@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
 import morgan from 'morgan';
+import path from 'path';
 import { rateLimit } from 'express-rate-limit';
 import { errorHandler } from './middleware/errorHandler';
 import { logger } from './utils/logger';
@@ -15,6 +16,7 @@ import messageRoutes from './routes/messages';
 import reportRoutes from './routes/reports';
 import reviewRoutes from './routes/reviews';
 import adminRoutes from './routes/admin';
+import uploadRoutes from './routes/upload';
 
 const app = express();
 
@@ -56,6 +58,9 @@ app.use(morgan('combined', {
   stream: { write: (message) => logger.info(message.trim()) },
 }));
 
+// Serve uploaded images as static files
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
@@ -65,6 +70,7 @@ app.use('/api/messages', messageRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Error handler
 app.use(errorHandler);
