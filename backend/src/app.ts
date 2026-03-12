@@ -33,7 +33,7 @@ app.use(cors({
     // Allow requests with no origin (e.g. server-to-server, curl, Postman)
     if (!origin) return callback(null, true);
     if (allowedOrigins.includes(origin)) return callback(null, true);
-    callback(null, false);
+    callback(new Error(`CORS: origin '${origin}' is not allowed`));
   },
   credentials: true,
 }));
