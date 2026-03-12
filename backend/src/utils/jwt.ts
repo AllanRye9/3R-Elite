@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-dev-only';
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'fallback-refresh-secret-dev-only';
-const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '15m';
+const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '1h';
 const JWT_REFRESH_EXPIRES_IN = process.env.JWT_REFRESH_EXPIRES_IN || '7d';
 
 export interface JwtPayload {

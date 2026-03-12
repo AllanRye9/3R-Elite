@@ -17,7 +17,7 @@ export default function AdminListingsPage() {
   const [fetching, setFetching] = useState(true);
 
   useEffect(() => {
-    if (!loading && (!user || user.role !== 'ADMIN')) router.push('/');
+    if (!loading && (!user || user.role !== 'ADMIN')) router.push('/admin/auth/login');
     if (user?.role === 'ADMIN') {
       api.get('/admin/listings')
         .then(({ data }) => { setListings(data.listings); setTotal(data.pagination.total); })

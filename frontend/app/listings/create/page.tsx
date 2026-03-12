@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { useAuth } from '@/context/AuthContext';
 import { useCountry } from '@/context/CountryContext';
 import { api } from '@/lib/api';
@@ -14,6 +15,9 @@ export default function CreateListingPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [uploadingImages, setUploadingImages] = useState(false);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [form, setForm] = useState({
     title: '',
     description: '',
@@ -29,11 +33,49 @@ export default function CreateListingPage() {
     api.get('/categories').then(({ data }) => setCategories(data)).catch(() => {});
   }, [user, loading, router]);
 
+  const handleImageFiles = async (files: FileList | null) => {
+    if (!files || files.length === 0) return;
+
+    // Show local previews immediately
+    const newPreviews: string[] = [];
+    for (const file of Array.from(files)) {
+      newPreviews.push(URL.createObjectURL(file));
+    }
+    setImagePreviews((prev) => [...prev, ...newPreviews]);
+
+    // Upload to server
+    setUploadingImages(true);
+    try {
+      const formData = new FormData();
+      for (const file of Array.from(files)) {
+        formData.append('images', file);
+      }
+      const { data } = await api.post('/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      setForm((prev) => ({ ...prev, images: [...prev.images, ...data.urls] }));
+    } catch {
+      setError('Image upload failed. Please try again.');
+      setImagePreviews((prev) => prev.slice(0, prev.length - newPreviews.length));
+    } finally {
+      setUploadingImages(false);
+    }
+  };
+
+  const removeImage = (index: number) => {
+    setImagePreviews((prev) => prev.filter((_, i) => i !== index));
+    setForm((prev) => ({ ...prev, images: prev.images.filter((_, i) => i !== index) }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     if (!form.title || !form.description || !form.price || !form.location || !form.categoryId) {
       setError('Please fill in all required fields');
+      return;
+    }
+    if (uploadingImages) {
+      setError('Please wait for images to finish uploading');
       return;
     }
     setSubmitting(true);
@@ -143,20 +185,64 @@ export default function CreateListingPage() {
           </select>
         </div>
 
+        {/* Photo Upload */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Image URLs (optional)</label>
-          <p className="text-xs text-gray-500 mb-2">Enter one image URL per line</p>
-          <textarea
-            rows={3}
-            placeholder="https://example.com/image1.jpg"
-            onChange={(e) => setForm({ ...form, images: e.target.value.split('\n').filter(Boolean) })}
-            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none font-mono text-sm"
+          <label className="block text-sm font-medium text-gray-700 mb-1">Photos (optional)</label>
+          <p className="text-xs text-gray-500 mb-3">Upload up to 10 images. Max 5 MB each.</p>
+
+          {/* Image previews */}
+          {imagePreviews.length > 0 && (
+            <div className="flex flex-wrap gap-3 mb-3">
+              {imagePreviews.map((src, i) => (
+                <div key={i} className="relative w-24 h-24 rounded-lg overflow-hidden border border-gray-200 group">
+                  <Image
+                    src={src}
+                    alt={`Preview ${i + 1}`}
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeImage(i)}
+                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                    aria-label="Remove image"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Upload area */}
+          <div
+            className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-orange-400 transition-colors"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            {uploadingImages ? (
+              <p className="text-sm text-gray-500">Uploading...</p>
+            ) : (
+              <>
+                <p className="text-3xl mb-1">📷</p>
+                <p className="text-sm text-gray-600 font-medium">Click to upload photos</p>
+                <p className="text-xs text-gray-400 mt-1">JPG, PNG, WEBP up to 5 MB</p>
+              </>
+            )}
+          </div>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            multiple
+            className="hidden"
+            onChange={(e) => handleImageFiles(e.target.files)}
           />
         </div>
 
         <button
           type="submit"
-          disabled={submitting}
+          disabled={submitting || uploadingImages}
           className="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition-colors disabled:opacity-50"
         >
           {submitting ? 'Posting...' : 'Post Listing'}

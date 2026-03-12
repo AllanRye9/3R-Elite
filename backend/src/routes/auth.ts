@@ -99,13 +99,63 @@ router.post('/refresh', async (req: Request, res: Response, next: NextFunction) 
   }
 });
 
-router.post('/logout', authenticate, async (req: AuthRequest, res: Response, next: NextFunction) => {
+router.post('/logout', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    await prisma.user.update({
-      where: { id: req.user!.userId },
-      data: { refreshToken: null },
-    });
+    // Try to revoke refresh token if provided; ignore auth errors so expired
+    // tokens don't block users from logging out.
+    const { refreshToken } = req.body;
+    if (refreshToken) {
+      try {
+        const payload = verifyRefreshToken(refreshToken);
+        await prisma.user.update({
+          where: { id: payload.userId },
+          data: { refreshToken: null },
+        });
+      } catch {
+        // Token is invalid/expired – still return success so client clears local storage
+      }
+    }
     res.json({ message: 'Logged out successfully' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post('/admin-register', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { email, password, name, adminSecret, country } = req.body;
+
+    const expectedSecret = process.env.ADMIN_SECRET;
+    if (!expectedSecret || !adminSecret || adminSecret !== expectedSecret) {
+      return next(createError('Invalid admin secret', 403));
+    }
+
+    if (!email || !password || !name) {
+      return next(createError('Email, password, and name are required', 400));
+    }
+
+    if (password.length < 8) {
+      return next(createError('Password must be at least 8 characters', 400));
+    }
+
+    const existing = await prisma.user.findUnique({ where: { email } });
+    if (existing) {
+      return next(createError('Email already registered', 400));
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    const user = await prisma.user.create({
+      data: { email, password: hashedPassword, name, role: 'ADMIN', country: country || 'UAE' },
+      select: { id: true, email: true, name: true, role: true, country: true, createdAt: true },
+    });
+
+    const accessToken = generateAccessToken({ userId: user.id, email: user.email, role: user.role });
+    const refreshToken = generateRefreshToken({ userId: user.id, email: user.email, role: user.role });
+
+    await prisma.user.update({ where: { id: user.id }, data: { refreshToken } });
+
+    res.status(201).json({ user, accessToken, refreshToken });
   } catch (err) {
     next(err);
   }

@@ -20,7 +20,7 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState<Stats | null>(null);
 
   useEffect(() => {
-    if (!loading && (!user || user.role !== 'ADMIN')) router.push('/');
+    if (!loading && (!user || user.role !== 'ADMIN')) router.push('/admin/auth/login');
     if (user?.role === 'ADMIN') {
       api.get('/admin/stats').then(({ data }) => setStats(data)).catch(() => {});
     }
