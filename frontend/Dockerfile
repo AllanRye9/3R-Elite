@@ -8,7 +8,7 @@ RUN npm ci
 FROM base AS builder
 # Accept the public API URL at build time so Next.js can embed it in the
 # client bundle.  Defaults to localhost for local Docker Compose usage.
-ARG NEXT_PUBLIC_API_URL=http://localhost:5000
+ARG NEXT_PUBLIC_API_URL=https://client-production-9fdc.up.railway.app
 ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 COPY package*.json ./
 RUN npm ci
