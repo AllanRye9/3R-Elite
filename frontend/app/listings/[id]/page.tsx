@@ -55,9 +55,9 @@ export default function ListingDetailPage() {
     : [`https://picsum.photos/seed/${listing.id}/800/600`];
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
       {/* Breadcrumb */}
-      <nav className="text-sm text-gray-500 mb-6 flex items-center gap-2">
+      <nav className="text-sm text-gray-500 mb-4 sm:mb-6 flex items-center gap-1.5 flex-wrap overflow-hidden">
         <Link href="/" className="hover:text-sky-600">Home</Link>
         <span>/</span>
         <Link href="/listings" className="hover:text-sky-600">Listings</Link>
