@@ -4,34 +4,28 @@ import { useState, useEffect, useCallback } from 'react';
 
 interface Slide {
   gradient: string;
-  icon: string;
   alt: string;
 }
 
 const defaultSlides: Slide[] = [
   {
     gradient: 'from-brand-900 via-brand-700 to-sky-600',
-    icon: '🛒',
     alt: 'Online shopping marketplace',
   },
   {
     gradient: 'from-indigo-900 via-brand-800 to-brand-600',
-    icon: '🏪',
     alt: 'Shop storefront',
   },
   {
     gradient: 'from-brand-900 via-sky-800 to-indigo-700',
-    icon: '🤝',
     alt: 'Marketplace trading',
   },
   {
     gradient: 'from-sky-900 via-brand-700 to-brand-800',
-    icon: '📦',
     alt: 'Ecommerce deals',
   },
   {
     gradient: 'from-brand-800 via-indigo-800 to-sky-700',
-    icon: '🛍️',
     alt: 'Shopping bags and products',
   },
 ];
@@ -57,7 +51,7 @@ export default function HeroSlideshow({ slides = defaultSlides, interval = 3000 
     <div className="absolute inset-0 overflow-hidden" role="presentation">
       {slides.map((slide, i) => (
         <div
-          key={slide.alt}
+          key={i}
           className={`absolute inset-0 bg-gradient-to-br ${slide.gradient} transition-opacity duration-700 ease-in-out`}
           style={{ opacity: i === current ? 1 : 0 }}
           aria-label={slide.alt}
