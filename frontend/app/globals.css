@@ -52,7 +52,7 @@
   body {
     font-family: 'Inter', 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
     color: var(--text-primary);
-    background-color: var(--surface-1);
+    background-color: #0c4a6e;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.6;

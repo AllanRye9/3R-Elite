@@ -59,7 +59,7 @@ export default async function HomePage() {
   return (
     <div className="animate-fade-in">
       {/* ═══ HERO ═══ */}
-      <section className="relative overflow-hidden bg-hero-gradient min-h-[320px] xs:min-h-[360px] sm:min-h-[400px]">
+      <section className="relative overflow-hidden bg-hero-gradient min-h-[320px] xs:min-h-[360px] sm:min-h-[400px] rounded-b-2xl">
         {/* Slideshow background */}
         <HeroSlideshow />
 
