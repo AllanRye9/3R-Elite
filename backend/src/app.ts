@@ -25,6 +25,7 @@ const app = express();
 // requiring code changes.
 const rawCorsOrigins = process.env.CORS_ORIGIN || 'http://localhost:3000';
 const allowedOrigins = rawCorsOrigins.split(',').map((o) => o.trim()).filter(Boolean);
+const allowAllOrigins = allowedOrigins.includes('*');
 
 // CORS must be registered before helmet so that CORS response headers
 // (Access-Control-Allow-Origin, etc.) are present on every response –
@@ -34,6 +35,10 @@ app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (e.g. server-to-server, curl, Postman)
     if (!origin) return callback(null, true);
+    // When CORS_ORIGIN contains '*', reflect the requesting origin so that
+    // the Access-Control-Allow-Origin header is always set.  A literal '*'
+    // cannot be used together with credentials: true.
+    if (allowAllOrigins) return callback(null, origin);
     if (allowedOrigins.includes(origin)) return callback(null, true);
     // Return false instead of an error so the response still gets CORS
     // headers (the browser can read the rejection) rather than blowing up

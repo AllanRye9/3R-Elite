@@ -60,10 +60,13 @@ export default function RegisterPage() {
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1.5">Full Name <span className="text-red-400">*</span></label>
               <input
+                id="name"
+                name="name"
                 type="text"
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 required
+                autoComplete="name"
                 placeholder="John Doe"
                 className="input-premium"
               />
@@ -71,6 +74,8 @@ export default function RegisterPage() {
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1.5">Email <span className="text-red-400">*</span></label>
               <input
+                id="email"
+                name="email"
                 type="email"
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -84,6 +89,8 @@ export default function RegisterPage() {
               <label className="block text-sm font-semibold text-gray-700 mb-1.5">Password <span className="text-red-400">*</span></label>
               <div className="relative">
                 <input
+                  id="password"
+                  name="password"
                   type={showPassword ? 'text' : 'password'}
                   value={form.password}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
@@ -121,9 +128,12 @@ export default function RegisterPage() {
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1.5">Phone <span className="text-gray-400 font-normal">(optional)</span></label>
               <input
+                id="phone"
+                name="phone"
                 type="tel"
                 value={form.phone}
                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                autoComplete="tel"
                 placeholder="+971 50 000 0000"
                 className="input-premium"
               />
@@ -131,8 +141,11 @@ export default function RegisterPage() {
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1.5">Country <span className="text-red-400">*</span></label>
               <select
+                id="country"
+                name="country"
                 value={form.country}
                 onChange={(e) => setForm({ ...form, country: e.target.value as 'UAE' | 'UGANDA' })}
+                autoComplete="country"
                 className="input-premium"
               >
                 <option value="UAE">🇦🇪 United Arab Emirates</option>

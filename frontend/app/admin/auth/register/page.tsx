@@ -77,16 +77,21 @@ export default function AdminRegisterPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
             <input
+              id="admin-name"
+              name="name"
               type="text"
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               required
+              autoComplete="name"
               className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-gray-700"
             />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
             <input
+              id="admin-email"
+              name="email"
               type="email"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -98,6 +103,8 @@ export default function AdminRegisterPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
             <input
+              id="admin-password"
+              name="password"
               type="password"
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
@@ -109,6 +116,8 @@ export default function AdminRegisterPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
             <input
+              id="admin-confirmPassword"
+              name="confirmPassword"
               type="password"
               value={form.confirmPassword}
               onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
@@ -120,8 +129,11 @@ export default function AdminRegisterPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
             <select
+              id="admin-country"
+              name="country"
               value={form.country}
               onChange={(e) => setForm({ ...form, country: e.target.value as 'UAE' | 'UGANDA' })}
+              autoComplete="country"
               className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-gray-700"
             >
               <option value="UAE">🇦🇪 United Arab Emirates</option>
@@ -131,6 +143,8 @@ export default function AdminRegisterPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Admin Secret</label>
             <input
+              id="admin-adminSecret"
+              name="adminSecret"
               type="password"
               value={form.adminSecret}
               onChange={(e) => setForm({ ...form, adminSecret: e.target.value })}
