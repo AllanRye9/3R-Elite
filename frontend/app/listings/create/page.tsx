@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { useCountry } from '@/context/CountryContext';
 import { api } from '@/lib/api';
@@ -15,6 +16,7 @@ export default function CreateListingPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [submitted, setSubmitted] = useState(false);
   const [uploadingImages, setUploadingImages] = useState(false);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -80,13 +82,13 @@ export default function CreateListingPage() {
     }
     setSubmitting(true);
     try {
-      const { data } = await api.post('/listings', {
+      await api.post('/listings', {
         ...form,
         price: parseFloat(form.price),
         country,
         currency,
       });
-      router.push(`/listings/${data.id}`);
+      setSubmitted(true);
     } catch (err: unknown) {
       const axiosErr = err as { response?: { data?: { message?: string } } };
       setError(axiosErr.response?.data?.message || 'Failed to create listing');
@@ -96,6 +98,38 @@ export default function CreateListingPage() {
   };
 
   if (loading) return <div className="p-8 text-center">Loading...</div>;
+
+  if (submitted) {
+    return (
+      <div className="max-w-lg mx-auto px-4 py-16 text-center animate-fade-in">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+          <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">Listing Submitted!</h2>
+          <p className="text-sm text-gray-500 mb-6">
+            Your listing is now <span className="font-semibold text-amber-600">pending review</span>. An admin will review and approve it shortly before it goes live.
+          </p>
+          <div className="flex gap-3 justify-center">
+            <Link
+              href="/profile/listings"
+              className="px-4 py-2 text-sm font-semibold text-brand-600 border border-brand-200 rounded-lg hover:bg-brand-50 transition-colors"
+            >
+              My Listings
+            </Link>
+            <Link
+              href="/"
+              className="px-4 py-2 text-sm font-semibold bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition-colors"
+            >
+              Go Home
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-10">

@@ -82,6 +82,7 @@ router.post('/', authenticate, async (req: AuthRequest, res: Response, next: Nex
         price: parseFloat(price),
         currency: currency || 'AED',
         condition: condition || 'USED',
+        status: 'PENDING',
         images: images || [],
         location, country,
         userId: req.user!.userId,

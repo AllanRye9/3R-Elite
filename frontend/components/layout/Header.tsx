@@ -39,7 +39,7 @@ export default function Header() {
       }`}
     >
       {/* Main bar */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 py-2.5">
+      <div className="w-full px-3 sm:px-6 py-2.5">
         <div className="flex items-center gap-2 sm:gap-3">
           {/* Hamburger – mobile only */}
           <button
