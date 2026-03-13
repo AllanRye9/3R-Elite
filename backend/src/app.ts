@@ -28,6 +28,10 @@ const rawCorsOrigins = process.env.CORS_ORIGIN || 'http://localhost:3000';
 const allowedOrigins = rawCorsOrigins.split(',').map((o) => o.trim()).filter(Boolean);
 const allowAllOrigins = allowedOrigins.includes('*');
 
+if (allowAllOrigins && process.env.NODE_ENV === 'production') {
+  logger.warn('CORS_ORIGIN is set to "*" – all origins are allowed. Consider restricting to specific origins in production.');
+}
+
 // CORS must be registered before helmet so that CORS response headers
 // (Access-Control-Allow-Origin, etc.) are present on every response –
 // including preflight OPTIONS replies – before helmet adds its own
@@ -38,6 +42,8 @@ app.use(cors({
     if (!origin) return callback(null, true);
     if (allowAllOrigins) return callback(null, true);
     if (allowedOrigins.includes(origin)) return callback(null, true);
+    // Returning false omits CORS headers entirely, so the browser blocks
+    // the request.  This is intentional for unknown origins.
     callback(null, false);
   },
   credentials: true,
