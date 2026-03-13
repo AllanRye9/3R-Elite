@@ -20,22 +20,35 @@ import uploadRoutes from './routes/upload';
 
 const app = express();
 
-// Security middleware
-app.use(helmet());
-
 // Support a comma-separated list of allowed origins in CORS_ORIGIN so that
 // multiple deployment URLs (e.g. Railway + Render) can be whitelisted without
 // requiring code changes.
 const rawCorsOrigins = process.env.CORS_ORIGIN || 'http://localhost:3000';
 const allowedOrigins = rawCorsOrigins.split(',').map((o) => o.trim()).filter(Boolean);
+
+// CORS must be registered before helmet so that CORS response headers
+// (Access-Control-Allow-Origin, etc.) are present on every response –
+// including preflight OPTIONS replies – before helmet adds its own
+// restrictive Cross-Origin-* headers.
 app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (e.g. server-to-server, curl, Postman)
     if (!origin) return callback(null, true);
     if (allowedOrigins.includes(origin)) return callback(null, true);
-    callback(new Error(`CORS: origin '${origin}' is not allowed`));
+    // Return false instead of an error so the response still gets CORS
+    // headers (the browser can read the rejection) rather than blowing up
+    // the request entirely.
+    callback(null, false);
   },
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
+// Security middleware – configured so its Cross-Origin-* defaults do not
+// strip or conflict with the CORS headers set above.
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
 }));
 
 // Health check – must be registered before the rate-limiter so monitoring
