@@ -427,6 +427,20 @@
   }
 }
 
+/* Extra-small phone improvements */
+@media (max-width: 374px) {
+  body {
+    font-size: 13px;
+  }
+}
+
+/* Tablet improvements */
+@media (min-width: 641px) and (max-width: 1023px) {
+  .has-bottom-nav {
+    padding-bottom: 0;
+  }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

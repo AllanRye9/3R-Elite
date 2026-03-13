@@ -28,17 +28,17 @@ export function CategoryNav({ categories }: Props) {
   const { country } = useCountry();
 
   return (
-    <div className="grid grid-cols-4 xs:grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-2 sm:gap-3">
+    <div className="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-1.5 xs:gap-2 sm:gap-3">
       {categories.map((cat, i) => (
         <Link
           key={cat.id}
           href={`/listings?category=${cat.slug}&country=${country}`}
-          className="group flex flex-col items-center gap-1.5 p-2 sm:p-3 rounded-xl hover:bg-white border border-transparent hover:border-sky-100 hover:shadow-sm transition-all duration-200 interactive"
+          className="group flex flex-col items-center gap-1 xs:gap-1.5 p-1.5 xs:p-2 sm:p-3 rounded-lg xs:rounded-xl hover:bg-white border border-transparent hover:border-sky-100 hover:shadow-sm transition-all duration-200 interactive"
         >
-          <div className={`w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br ${gradients[i % gradients.length]} flex items-center justify-center shadow-sm group-hover:shadow-md group-hover:scale-110 transition-all duration-200`}>
-            <span className="text-lg sm:text-xl" aria-hidden="true">{cat.icon || '📦'}</span>
+          <div className={`w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 rounded-lg xs:rounded-xl bg-gradient-to-br ${gradients[i % gradients.length]} flex items-center justify-center shadow-sm group-hover:shadow-md group-hover:scale-110 transition-all duration-200`}>
+            <span className="text-base xs:text-lg sm:text-xl" aria-hidden="true">{cat.icon || '📦'}</span>
           </div>
-          <span className="text-[9px] sm:text-[10px] text-gray-600 group-hover:text-sky-700 font-semibold leading-tight text-center line-clamp-2">
+          <span className="text-[8px] xs:text-[9px] sm:text-[10px] text-gray-600 group-hover:text-sky-700 font-semibold leading-tight text-center line-clamp-2">
             {cat.name}
           </span>
         </Link>
