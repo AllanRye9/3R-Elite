@@ -17,6 +17,7 @@ import reportRoutes from './routes/reports';
 import reviewRoutes from './routes/reviews';
 import adminRoutes from './routes/admin';
 import uploadRoutes from './routes/upload';
+import statsRoutes from './routes/stats';
 
 const app = express();
 
@@ -95,6 +96,7 @@ app.use('/api/reports', reportRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/stats', statsRoutes);
 
 // Error handler
 app.use(errorHandler);
