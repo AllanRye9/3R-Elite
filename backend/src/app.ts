@@ -22,9 +22,11 @@ const app = express();
 
 // Support a comma-separated list of allowed origins in CORS_ORIGIN so that
 // multiple deployment URLs (e.g. Railway + Render) can be whitelisted without
-// requiring code changes.
+// requiring code changes.  Set CORS_ORIGIN=* to allow every origin (the
+// actual request origin is reflected back so credentials still work).
 const rawCorsOrigins = process.env.CORS_ORIGIN || 'http://localhost:3000';
 const allowedOrigins = rawCorsOrigins.split(',').map((o) => o.trim()).filter(Boolean);
+const allowAllOrigins = allowedOrigins.includes('*');
 
 // CORS must be registered before helmet so that CORS response headers
 // (Access-Control-Allow-Origin, etc.) are present on every response –
@@ -34,10 +36,8 @@ app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (e.g. server-to-server, curl, Postman)
     if (!origin) return callback(null, true);
+    if (allowAllOrigins) return callback(null, true);
     if (allowedOrigins.includes(origin)) return callback(null, true);
-    // Return false instead of an error so the response still gets CORS
-    // headers (the browser can read the rejection) rather than blowing up
-    // the request entirely.
     callback(null, false);
   },
   credentials: true,

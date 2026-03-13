@@ -129,7 +129,7 @@ npm run dev
 | `JWT_REFRESH_SECRET` | *(insecure default)* | Signs JWT refresh tokens. **Change in production.** |
 | `JWT_EXPIRES_IN` | `15m` | Access token lifetime. |
 | `JWT_REFRESH_EXPIRES_IN` | `7d` | Refresh token lifetime. |
-| `CORS_ORIGIN` | `http://localhost:3000` | Comma-separated list of allowed CORS origins for the backend. **Must include your frontend URL in production** (e.g. `https://client-production-9fdc.up.railway.app,http://localhost:3000`). |
+| `CORS_ORIGIN` | `http://localhost:3000` | Comma-separated list of allowed CORS origins for the backend, or `*` to allow all origins. **Must include your frontend URL in production** (e.g. `https://client-production-9fdc.up.railway.app,http://localhost:3000`). |
 | `NEXT_PUBLIC_API_URL` | `http://localhost:5000` | Browser-accessible backend API URL (baked into the frontend image at build time). |
 | `AWS_ACCESS_KEY_ID` | *(empty)* | AWS key for S3 image uploads (optional). |
 | `AWS_SECRET_ACCESS_KEY` | *(empty)* | AWS secret for S3 image uploads (optional). |
