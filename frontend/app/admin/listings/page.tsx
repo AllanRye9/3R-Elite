@@ -54,7 +54,7 @@ export default function AdminListingsPage() {
             {listings.map((l) => (
               <tr key={l.id} className="hover:bg-gray-50">
                 <td className="px-4 py-3">
-                  <Link href={`/listings/${l.id}`} className="hover:text-orange-600 line-clamp-1 font-medium">
+                  <Link href={`/listings/${l.id}`} className="hover:text-sky-600 line-clamp-1 font-medium">
                     {l.title}
                   </Link>
                 </td>

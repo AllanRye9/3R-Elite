@@ -45,7 +45,7 @@ export default function ListingDetailPage() {
       <div className="max-w-6xl mx-auto px-4 py-16 text-center">
         <p className="text-4xl mb-4">😕</p>
         <p className="text-xl font-semibold text-gray-700">Listing not found</p>
-        <Link href="/listings" className="mt-4 text-orange-600 hover:underline">Browse other listings</Link>
+        <Link href="/listings" className="mt-4 text-sky-600 hover:underline">Browse other listings</Link>
       </div>
     );
   }
@@ -58,11 +58,11 @@ export default function ListingDetailPage() {
     <div className="max-w-6xl mx-auto px-4 py-8">
       {/* Breadcrumb */}
       <nav className="text-sm text-gray-500 mb-6 flex items-center gap-2">
-        <Link href="/" className="hover:text-orange-600">Home</Link>
+        <Link href="/" className="hover:text-sky-600">Home</Link>
         <span>/</span>
-        <Link href="/listings" className="hover:text-orange-600">Listings</Link>
+        <Link href="/listings" className="hover:text-sky-600">Listings</Link>
         <span>/</span>
-        <Link href={`/listings?category=${listing.category.slug}`} className="hover:text-orange-600">{listing.category.name}</Link>
+        <Link href={`/listings?category=${listing.category.slug}`} className="hover:text-sky-600">{listing.category.name}</Link>
         <span>/</span>
         <span className="text-gray-700 line-clamp-1">{listing.title}</span>
       </nav>
@@ -94,7 +94,7 @@ export default function ListingDetailPage() {
                 <button
                   key={i}
                   onClick={() => setActiveImage(i)}
-                  className={`shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 ${i === activeImage ? 'border-orange-500' : 'border-transparent'}`}
+                  className={`shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 ${i === activeImage ? 'border-sky-500' : 'border-transparent'}`}
                 >
                   <Image src={img} alt="" width={64} height={64} className="object-cover w-full h-full" />
                 </button>
@@ -148,7 +148,7 @@ export default function ListingDetailPage() {
               <CurrencyDisplay
                 amount={listing.price}
                 currency={listing.currency}
-                className="text-3xl font-bold text-orange-600"
+                className="text-3xl font-bold text-sky-600"
               />
               <FavoriteButton listingId={listing.id} />
             </div>
@@ -173,7 +173,7 @@ export default function ListingDetailPage() {
             </div>
             <Link
               href={`/profile/${listing.userId}`}
-              className="mt-3 text-sm text-orange-600 hover:underline block"
+              className="mt-3 text-sm text-sky-600 hover:underline block"
             >
               View all listings by this seller →
             </Link>

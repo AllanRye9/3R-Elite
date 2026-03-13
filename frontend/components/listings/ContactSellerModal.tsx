@@ -42,7 +42,7 @@ export function ContactSellerModal({ listing }: Props) {
       <div className="flex flex-col gap-2">
         <button
           onClick={() => setOpen(true)}
-          className="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition-colors"
+          className="w-full bg-sky-500 text-white py-3 rounded-lg font-semibold hover:bg-sky-600 transition-colors"
         >
           Contact Seller
         </button>
@@ -66,7 +66,7 @@ export function ContactSellerModal({ listing }: Props) {
         <div className="text-center py-4">
           <p className="text-green-600 font-semibold">Message sent! ✓</p>
           <p className="text-sm text-gray-500 mt-1">The seller will reply soon.</p>
-          <button onClick={() => router.push('/messages')} className="mt-3 text-orange-600 text-sm underline">
+          <button onClick={() => router.push('/messages')} className="mt-3 text-sky-600 text-sm underline">
             View Messages
           </button>
         </div>
@@ -77,13 +77,13 @@ export function ContactSellerModal({ listing }: Props) {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             rows={3}
-            className="w-full border border-gray-300 rounded p-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="w-full border border-gray-300 rounded p-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-sky-400"
           />
           <div className="flex gap-2 mt-2">
             <button
               onClick={handleSend}
               disabled={loading || !message.trim()}
-              className="flex-1 bg-orange-500 text-white py-2 rounded-lg text-sm font-medium hover:bg-orange-600 disabled:opacity-50 transition-colors"
+              className="flex-1 bg-sky-500 text-white py-2 rounded-lg text-sm font-medium hover:bg-sky-600 disabled:opacity-50 transition-colors"
             >
               {loading ? 'Sending...' : 'Send'}
             </button>

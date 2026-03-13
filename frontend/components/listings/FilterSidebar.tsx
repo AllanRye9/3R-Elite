@@ -63,7 +63,7 @@ export function FilterSidebar({ categories }: Props) {
                   value={c}
                   checked={params.get('condition') === c || (!params.get('condition') && c === '')}
                   onChange={() => update('condition', c)}
-                  className="accent-orange-500"
+                  className="accent-sky-500"
                 />
                 {c === '' ? 'Any' : c === 'NEW' ? 'New' : 'Used'}
               </label>
@@ -107,7 +107,7 @@ export function FilterSidebar({ categories }: Props) {
 
         <button
           onClick={() => router.push(`/listings?country=${country}`)}
-          className="w-full text-sm text-gray-500 hover:text-orange-600 underline text-center"
+          className="w-full text-sm text-gray-500 hover:text-sky-600 underline text-center"
         >
           Clear Filters
         </button>

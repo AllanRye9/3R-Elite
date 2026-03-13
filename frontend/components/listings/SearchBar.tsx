@@ -26,18 +26,18 @@ export function SearchBar({ initialQ = '', initialLocation = '', className = '' 
   };
 
   return (
-    <form onSubmit={handleSearch} className={`flex flex-col sm:flex-row gap-2 ${className}`}>
+    <form onSubmit={handleSearch} className={`flex flex-col sm:flex-row gap-1 ${className}`}>
       <input
         type="text"
         value={q}
         onChange={(e) => setQ(e.target.value)}
-        placeholder="What are you looking for?"
-        className="flex-1 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-400"
+        placeholder="Search products, brands and categories..."
+        className="flex-1 border-0 rounded-l-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-sky-300"
       />
       <select
         value={location}
         onChange={(e) => setLocation(e.target.value)}
-        className="border border-gray-300 rounded-lg px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-orange-400"
+        className="border-0 border-l border-gray-200 px-3 py-2 bg-white text-sm focus:outline-none focus:ring-1 focus:ring-sky-300"
       >
         <option value="">All Locations</option>
         {locations.map((loc) => (
@@ -46,7 +46,7 @@ export function SearchBar({ initialQ = '', initialLocation = '', className = '' 
       </select>
       <button
         type="submit"
-        className="bg-orange-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-orange-600 transition-colors"
+        className="bg-sky-700 text-white px-6 py-2 rounded-r-md text-sm font-semibold hover:bg-sky-800 transition-colors"
       >
         Search
       </button>

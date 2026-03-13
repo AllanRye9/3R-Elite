@@ -111,7 +111,7 @@ export default function CreateListingPage() {
             onChange={(e) => setForm({ ...form, title: e.target.value })}
             placeholder="e.g. iPhone 15 Pro Max 256GB"
             maxLength={100}
-            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-sky-400"
           />
         </div>
 
@@ -122,7 +122,7 @@ export default function CreateListingPage() {
             onChange={(e) => setForm({ ...form, description: e.target.value })}
             rows={5}
             placeholder="Describe your item in detail..."
-            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-sky-400 resize-none"
           />
         </div>
 
@@ -136,7 +136,7 @@ export default function CreateListingPage() {
               placeholder="0.00"
               min="0"
               step="0.01"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-sky-400"
             />
           </div>
           <div>
@@ -144,7 +144,7 @@ export default function CreateListingPage() {
             <select
               value={form.condition}
               onChange={(e) => setForm({ ...form, condition: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-sky-400"
             >
               <option value="USED">Used</option>
               <option value="NEW">New</option>
@@ -157,7 +157,7 @@ export default function CreateListingPage() {
           <select
             value={form.categoryId}
             onChange={(e) => setForm({ ...form, categoryId: e.target.value })}
-            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-sky-400"
           >
             <option value="">Select a category</option>
             {categories.map((cat) => (
@@ -176,7 +176,7 @@ export default function CreateListingPage() {
           <select
             value={form.location}
             onChange={(e) => setForm({ ...form, location: e.target.value })}
-            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-sky-400"
           >
             <option value="">Select location</option>
             {locations.map((loc) => (
@@ -217,7 +217,7 @@ export default function CreateListingPage() {
 
           {/* Upload area */}
           <div
-            className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-orange-400 transition-colors"
+            className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-sky-400 transition-colors"
             onClick={() => fileInputRef.current?.click()}
           >
             {uploadingImages ? (
@@ -243,7 +243,7 @@ export default function CreateListingPage() {
         <button
           type="submit"
           disabled={submitting || uploadingImages}
-          className="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition-colors disabled:opacity-50"
+          className="w-full bg-sky-500 text-white py-3 rounded-lg font-semibold hover:bg-sky-600 transition-colors disabled:opacity-50"
         >
           {submitting ? 'Posting...' : 'Post Listing'}
         </button>
