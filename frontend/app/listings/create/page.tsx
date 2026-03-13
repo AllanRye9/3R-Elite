@@ -110,7 +110,7 @@ export default function CreateListingPage() {
           </div>
           <h2 className="text-xl font-bold text-gray-900 mb-2">Listing Submitted!</h2>
           <p className="text-sm text-gray-500 mb-6">
-            Your listing is now <span className="font-semibold text-amber-600">pending review</span>. An admin will review and approve it shortly. You&apos;ll be notified once it&apos;s live.
+            Your listing is now <span className="font-semibold text-amber-600">pending review</span>. An admin will review and approve it shortly before it goes live.
           </p>
           <div className="flex gap-3 justify-center">
             <Link

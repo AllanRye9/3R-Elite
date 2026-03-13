@@ -34,10 +34,16 @@ export default function ProfilePage() {
     }
   };
 
+  const [avatarError, setAvatarError] = useState('');
+
   const handleAvatarUpload = async (files: FileList | null) => {
     if (!files || files.length === 0) return;
+    setAvatarError('');
     const file = files[0];
-    if (file.size > 5 * 1024 * 1024) return;
+    if (file.size > 5 * 1024 * 1024) {
+      setAvatarError('Image must be under 5 MB');
+      return;
+    }
     setUploadingAvatar(true);
     try {
       const formData = new FormData();
@@ -50,7 +56,7 @@ export default function ProfilePage() {
         updateUser(userData);
       }
     } catch {
-      // silent fail
+      setAvatarError('Failed to upload photo. Please try again.');
     } finally {
       setUploadingAvatar(false);
     }
@@ -118,6 +124,9 @@ export default function ProfilePage() {
               </span>
             </div>
           </div>
+          {avatarError && (
+            <p className="text-xs text-red-500 mt-2">{avatarError}</p>
+          )}
         </div>
       </div>
 
