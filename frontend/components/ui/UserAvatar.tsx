@@ -24,7 +24,7 @@ export function UserAvatar({ user, size = 'md' }: Props) {
   }
   return (
     <div
-      className="rounded-full bg-orange-500 flex items-center justify-center text-white font-bold"
+      className="rounded-full bg-sky-500 flex items-center justify-center text-white font-bold"
       style={{ width: px, height: px, fontSize: px * 0.4 }}
     >
       {(user.name || 'U').charAt(0).toUpperCase()}

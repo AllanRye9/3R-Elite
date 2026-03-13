@@ -79,7 +79,7 @@ function ListingsContent() {
                       onClick={() => goToPage(p)}
                       className={`px-4 py-2 rounded-lg text-sm font-medium ${
                         p === currentPage
-                          ? 'bg-orange-500 text-white'
+                          ? 'bg-sky-500 text-white'
                           : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
                       }`}
                     >

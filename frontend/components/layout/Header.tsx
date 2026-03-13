@@ -21,26 +21,26 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 py-3">
-        <div className="flex items-center gap-4">
+    <header className="bg-sky-500 shadow-sm sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 py-2">
+        <div className="flex items-center gap-3">
           {/* Logo */}
-          <Link href="/" className="text-2xl font-bold text-orange-600 shrink-0">
+          <Link href="/" className="text-xl font-bold text-white shrink-0">
             3R-Elite
           </Link>
 
           {/* Search */}
-          <form onSubmit={handleSearch} className="flex-1 flex gap-2 max-w-2xl">
+          <form onSubmit={handleSearch} className="flex-1 flex max-w-2xl">
             <input
               type="text"
               value={searchQ}
               onChange={(e) => setSearchQ(e.target.value)}
-              placeholder="Search listings..."
-              className="flex-1 border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+              placeholder="Search products, brands and categories..."
+              className="flex-1 border-0 rounded-l-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-sky-300"
             />
             <button
               type="submit"
-              className="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors"
+              className="bg-sky-700 text-white px-4 py-1.5 rounded-r-md text-sm font-medium hover:bg-sky-800 transition-colors"
             >
               Search
             </button>
@@ -50,10 +50,10 @@ export default function Header() {
           <CountrySelector />
 
           {/* Nav */}
-          <nav className="flex items-center gap-3">
+          <nav className="flex items-center gap-2">
             <Link
               href="/listings/create"
-              className="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors"
+              className="bg-white text-sky-600 px-3 py-1.5 rounded-md text-sm font-medium hover:bg-sky-50 transition-colors"
             >
               + Sell
             </Link>
@@ -62,7 +62,7 @@ export default function Header() {
               <div className="relative">
                 <button
                   onClick={() => setMenuOpen(!menuOpen)}
-                  className="flex items-center gap-2 text-sm hover:text-orange-600"
+                  className="flex items-center gap-2 text-sm text-white hover:text-sky-100"
                 >
                   <UserAvatar user={user} size="sm" />
                   <span className="hidden md:block">{user.name.split(' ')[0]}</span>
@@ -87,9 +87,9 @@ export default function Header() {
                 )}
               </div>
             ) : (
-              <div className="flex gap-2">
-                <Link href="/auth/login" className="text-sm font-medium text-gray-700 hover:text-orange-600 px-3 py-2">Login</Link>
-                <Link href="/auth/register" className="text-sm font-medium bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2">Register</Link>
+              <div className="flex gap-1">
+                <Link href="/auth/login" className="text-sm font-medium text-white hover:text-sky-100 px-2 py-1.5">Login</Link>
+                <Link href="/auth/register" className="text-sm font-medium bg-white text-sky-600 hover:bg-sky-50 rounded-md px-2 py-1.5">Register</Link>
               </div>
             )}
           </nav>

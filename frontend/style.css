@@ -272,11 +272,11 @@
 }
 
 .btn {
-    color: #f68b1e
+    color: #0ea5e9
 }
 
 ._val-btn .cb:checked~.btn,.btn._prim {
-    background-color: #f68b1e
+    background-color: #0ea5e9
 }
 
 .crs-w._main .c-btn {
@@ -284,7 +284,7 @@
 }
 
 ._val-btn .cb:checked~.btn:hover,.btn._prim:hover {
-    background-color: #e07e1b
+    background-color: #0284c7
 }
 
 .dpdw._wt .tgl:not(:checked)+.trig:hover {
@@ -456,23 +456,23 @@
 }
 
 #jm .-hov-or5:focus,#jm .-hov-or5:hover,#jm .-or5,._cl .core:focus .name,._fl .core:focus .name,.bdg._dsct,.bdg._fee,.bdg._lim,.brd-btn._rnd:focus,.brd-btn._rnd:hover,.brd-btn._sqr:focus,.brd-btn._sqr:hover,.chip._cpr,.chip._slct,.chip._slct:focus,.cms .tabs>[type=radio]:checked+label,.crs-w._lnk .itm a,.dp:focus+.lbl,.dpdw .tgl:not(:checked)+.trig:hover,.dpdw._cmn._slct .tgl+.trig,.dpdw._cmn._slct .tgl:checked+.trig,.dpdw._hov:hover .tgl:not(:checked)+.trig,.fi:focus+.lbl,.flyout .itm:hover,.flyout .tit:hover,.pg._act,.prd .spon:focus,.prd .spon:hover,.prd._fb .core:focus .name,.sel:focus+.lbl,.ta:focus+.lbl,.tab ._actv,.tab .flap:focus,.tab .flap:hover,.var-w .vi:checked+.vl,.var-w .vi:focus+.vl {
-    color: #f68b1e
+    color: #0ea5e9
 }
 
 #jm .-bg-or5,.cb+.lbl:active:before,.cb:checked+.lbl:after,.fi-br button:active:before,.fk-cb._chkd:after,.fk-cb:active:before,.fk-rad._chk:after,.fk-rad:active:before,.pfs-w .paint,.rad:checked~.lbl._dfl:after,.rad~.lbl:active:before,.sldr>.sld:checked+.itm+.lab+.dot:after,[data-bbl]:after {
-    background-color: #f68b1e
+    background-color: #0ea5e9
 }
 
 #jm .-f-or5,#jm .-hov-or5:focus .ic,#jm .-hov-or5:hover .ic,.bdg._lim .ic,.brd-btn._rnd:focus .ic,.brd-btn._rnd:hover .ic,.brd-btn._sqr:focus .ic,.brd-btn._sqr:hover .ic,.btn._def .ic,.btn._sec .ic,.chip._slct:focus .ic,.crs-w._gal .c-btn:hover:not(._dis) .ic,.dp:focus~.ic,.dpdw .tgl:not(:checked)+.trig:hover svg,.dpdw._cmn._slct .tgl+.trig svg,.dpdw._cmn._slct .tgl:checked+.trig svg,.dpdw._hov:hover .tgl:not(:checked)+.trig>svg,.fi:focus~.ic,.flyout .itm:hover .ic,.prd .spon:focus .ic,.prd .spon:hover .ic,.sel:focus~.ic,footer .ic-link[href]:focus .ic,footer .ic-link[href]:hover .ic {
-    fill: #f68b1e
+    fill: #0ea5e9
 }
 
 .brd-btn._rnd:focus,.brd-btn._rnd:hover,.brd-btn._sqr:focus,.brd-btn._sqr:hover,.fk-rad._chk:after,.rad:checked~.lbl._dfl:after,.spin:before,.spinner._dft,.var-w .vi:checked+.vl,.var-w .vi:focus+.vl {
-    border-color: #f68b1e
+    border-color: #0ea5e9
 }
 
 #jm .-bg-or58 {
-    background-color: #ff550c
+    background-color: #38bdf8
 }
 
 .alert._nfo {
@@ -608,15 +608,15 @@
 }
 
 .tab._fsale ._actv,.tab._fsale .flap:focus,.tab._fsale .flap:hover {
-    color: #e61601
+    color: #0369a1
 }
 
 #jm .-bg-fsale {
-    background-color: #e61601
+    background-color: #0369a1
 }
 
 #jm .-c-xp {
-    color: #ff550c
+    color: #38bdf8
 }
 
 .scc .cdn {
@@ -1726,11 +1726,11 @@ body,html {
 }
 
 .tab._fsale ._actv {
-    border-bottom: 2px solid #e61601
+    border-bottom: 2px solid #0369a1
 }
 
 .cms .tabs>[type=radio]:checked+label,.tab ._actv {
-    border-bottom: 2px solid #f68b1e
+    border-bottom: 2px solid #0ea5e9
 }
 
 .stpr .stp .circ,[data-bbl]:after {
@@ -1815,7 +1815,7 @@ table {
 }
 
 .crs-w .itm-sel._on,.crs-w .itm-sel:focus,.pg._act {
-    border: 1px solid #f68b1e
+    border: 1px solid #0ea5e9
 }
 
 #jm .-ba-gy05,.dpdw._cmn .inbox {
@@ -1879,7 +1879,7 @@ table {
 }
 
 #jm .-brbl-fsale {
-    border-bottom: 1px solid #e61601
+    border-bottom: 1px solid #0369a1
 }
 
 #jm .-bb-sec-ch {
@@ -1887,7 +1887,7 @@ table {
 }
 
 #jm .-brbl-fsale {
-    border-right: 1px solid #e61601
+    border-right: 1px solid #0369a1
 }
 
 #jm .-vrl:not(:first-child) {
@@ -1895,7 +1895,7 @@ table {
 }
 
 #jm .-brbl-fsale {
-    border-left: 1px solid #e61601
+    border-left: 1px solid #0369a1
 }
 
 .load {
@@ -2171,11 +2171,11 @@ img[data-lazy-error]._ni,img[data-lazy-slide]._ni,img[data-lazy]._ni {
 }
 
 .btn._sec {
-    box-shadow: 0 0 0 1px #f68b1e
+    box-shadow: 0 0 0 1px #0ea5e9
 }
 
 .btn._sec:focus {
-    box-shadow: 0 0 0 2px #f68b1e
+    box-shadow: 0 0 0 2px #0ea5e9
 }
 
 .btn._wpp {
@@ -2368,7 +2368,7 @@ body {
 }
 
 .btn._sec:after {
-    background: radial-gradient(circle,#f68b1e 10%,transparent 0) 50%
+    background: radial-gradient(circle,#0ea5e9 10%,transparent 0) 50%
 }
 
 ._val-btn .cb:checked~.btn:after,.btn._prim:after {
@@ -2444,7 +2444,7 @@ body {
 
 @keyframes p {
     0% {
-        filter: drop-shadow(0 0 0 #f68b1e)
+        filter: drop-shadow(0 0 0 #0ea5e9)
     }
 
     to {
@@ -2474,7 +2474,7 @@ body {
 
 .pfs-w .ps::-webkit-slider-thumb {
     -webkit-appearance: none;
-    background: #f68b1e;
+    background: #0ea5e9;
     border-radius: 14px;
     height: 16px;
     pointer-events: all;
@@ -2491,7 +2491,7 @@ body {
 }
 
 .pfs-w .ps::-moz-range-thumb {
-    background-color: #f68b1e;
+    background-color: #0ea5e9;
     border: 0;
     height: 16px;
     width: 16px

@@ -54,7 +54,7 @@ export default function AdminReportsPage() {
                 <tr key={r.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4">{r.reporter.name} <span className="text-gray-400">({r.reporter.email})</span></td>
                   <td className="px-6 py-4">
-                    <Link href={`/listings/${r.listing.id}`} className="hover:text-orange-600">{r.listing.title}</Link>
+                    <Link href={`/listings/${r.listing.id}`} className="hover:text-sky-600">{r.listing.title}</Link>
                   </td>
                   <td className="px-6 py-4 text-gray-600">{r.reason}</td>
                   <td className="px-6 py-4 text-gray-500">{formatDate(r.createdAt)}</td>

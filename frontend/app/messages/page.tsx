@@ -53,7 +53,7 @@ export default function MessagesPage() {
                     <span className="text-xs text-gray-400 shrink-0">{timeAgo(conv.createdAt)}</span>
                   </div>
                   {conv.listing && (
-                    <p className="text-xs text-orange-600 mb-1 truncate">Re: {conv.listing.title}</p>
+                    <p className="text-xs text-sky-600 mb-1 truncate">Re: {conv.listing.title}</p>
                   )}
                   <p className={`text-sm truncate ${!conv.read && conv.receiverId === user?.id ? 'font-semibold text-gray-900' : 'text-gray-500'}`}>
                     {conv.content}
