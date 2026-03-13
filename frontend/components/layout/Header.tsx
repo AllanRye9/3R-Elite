@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useCountry } from '@/context/CountryContext';
 import { CountrySelector } from '@/components/ui/CountrySelector';
@@ -14,7 +14,14 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [searchQ, setSearchQ] = useState('');
+  const [scrolled, setScrolled] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,94 +31,152 @@ export default function Header() {
   const closeMobileNav = () => setMobileNavOpen(false);
 
   return (
-    <header className="bg-sky-500 shadow-sm sticky top-0 z-50">
+    <header
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? 'bg-white/95 backdrop-blur-md shadow-md border-b border-gray-100'
+          : 'bg-gradient-to-r from-brand-700 via-brand-600 to-sky-500'
+      }`}
+    >
       {/* Main bar */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 py-2">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 py-2.5">
         <div className="flex items-center gap-2 sm:gap-3">
           {/* Hamburger – mobile only */}
           <button
             onClick={() => setMobileNavOpen(!mobileNavOpen)}
-            className="md:hidden flex-shrink-0 p-1.5 rounded text-white hover:bg-sky-600 transition-colors"
+            className={`md:hidden flex-shrink-0 p-1.5 rounded-lg transition-all interactive ${
+              scrolled
+                ? 'text-gray-600 hover:bg-gray-100'
+                : 'text-white hover:bg-white/20'
+            }`}
             aria-label="Toggle menu"
             aria-expanded={mobileNavOpen}
           >
-            {mobileNavOpen ? (
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            )}
+            <div className="w-5 h-5 flex flex-col justify-center gap-[5px]">
+              <span className={`block h-0.5 rounded-full transition-all duration-300 ${scrolled ? 'bg-gray-700' : 'bg-white'} ${mobileNavOpen ? 'rotate-45 translate-y-[7px]' : ''}`} />
+              <span className={`block h-0.5 rounded-full transition-all duration-300 ${scrolled ? 'bg-gray-700' : 'bg-white'} ${mobileNavOpen ? 'opacity-0 scale-x-0' : ''}`} />
+              <span className={`block h-0.5 rounded-full transition-all duration-300 ${scrolled ? 'bg-gray-700' : 'bg-white'} ${mobileNavOpen ? '-rotate-45 -translate-y-[7px]' : ''}`} />
+            </div>
           </button>
 
           {/* Logo */}
-          <Link href="/" className="text-lg sm:text-xl font-bold text-white shrink-0">
-            3R-Elite
+          <Link href="/" className="flex items-center gap-1.5 shrink-0 group">
+            <div className={`w-7 h-7 rounded-lg flex items-center justify-center font-black text-sm transition-colors ${
+              scrolled ? 'bg-brand-600 text-white' : 'bg-white/20 text-white'
+            }`}>
+              3R
+            </div>
+            <span className={`font-extrabold text-base sm:text-lg tracking-tight transition-colors ${scrolled ? 'text-brand-700' : 'text-white'}`}>
+              Elite
+            </span>
           </Link>
 
-          {/* Search – hidden on small mobile, visible from sm */}
-          <form onSubmit={handleSearch} className="hidden sm:flex flex-1 max-w-2xl">
-            <input
-              type="text"
-              value={searchQ}
-              onChange={(e) => setSearchQ(e.target.value)}
-              placeholder="Search products, brands and categories..."
-              className="flex-1 min-w-0 border-0 rounded-l-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-sky-300"
-            />
-            <button
-              type="submit"
-              className="bg-sky-700 text-white px-3 sm:px-4 py-1.5 rounded-r-md text-sm font-medium hover:bg-sky-800 transition-colors whitespace-nowrap"
-            >
-              Search
-            </button>
+          {/* Search – visible from sm */}
+          <form onSubmit={handleSearch} className="hidden sm:flex flex-1 max-w-xl">
+            <div className={`flex flex-1 rounded-lg overflow-hidden ring-2 transition-all ${
+              scrolled ? 'ring-gray-200 focus-within:ring-brand-400' : 'ring-white/30 focus-within:ring-white/80'
+            }`}>
+              <input
+                type="text"
+                value={searchQ}
+                onChange={(e) => setSearchQ(e.target.value)}
+                placeholder="Search products, brands and categories..."
+                className={`flex-1 min-w-0 px-3 py-1.5 text-sm focus:outline-none transition-colors ${
+                  scrolled ? 'bg-white text-gray-900 placeholder:text-gray-400' : 'bg-white/15 text-white placeholder:text-white/70'
+                }`}
+              />
+              <button
+                type="submit"
+                className={`px-3 sm:px-4 py-1.5 text-sm font-semibold whitespace-nowrap transition-colors interactive ${
+                  scrolled
+                    ? 'bg-brand-600 text-white hover:bg-brand-700'
+                    : 'bg-white/20 text-white hover:bg-white/30'
+                }`}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </button>
+            </div>
           </form>
 
           {/* Spacer on mobile */}
           <div className="flex-1 sm:hidden" />
 
-          {/* Country Selector – desktop only (shown in mobile menu) */}
-          <div className="hidden md:block">
+          {/* Country Selector – desktop only */}
+          <div className="hidden lg:block">
             <CountrySelector />
           </div>
 
-          {/* Nav – right side */}
-          <nav className="flex items-center gap-1 sm:gap-2">
+          {/* Right nav */}
+          <nav className="flex items-center gap-1">
+            {/* Sell button */}
             <Link
               href="/listings/create"
-              className="bg-white text-sky-600 px-2 sm:px-3 py-1.5 rounded-md text-xs sm:text-sm font-medium hover:bg-sky-50 transition-colors whitespace-nowrap"
+              className={`hidden sm:flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all interactive ${
+                scrolled
+                  ? 'bg-brand-600 text-white hover:bg-brand-700 shadow-sm hover:shadow-glow'
+                  : 'bg-white text-brand-700 hover:bg-white/90'
+              }`}
             >
-              + Sell
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+              </svg>
+              Sell
             </Link>
 
             {user ? (
               <div className="relative">
                 <button
                   onClick={() => setMenuOpen(!menuOpen)}
-                  className="flex items-center gap-1.5 text-sm text-white hover:text-sky-100"
+                  className={`flex items-center gap-1.5 text-sm rounded-lg p-1.5 transition-all interactive ${
+                    scrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-white hover:bg-white/20'
+                  }`}
                   aria-label="User menu"
                   aria-expanded={menuOpen}
                 >
                   <UserAvatar user={user} size="sm" />
-                  <span className="hidden md:block">{user.name.split(' ')[0]}</span>
+                  <span className="hidden md:block font-medium">{user.name.split(' ')[0]}</span>
+                  <svg className="w-3.5 h-3.5 hidden md:block opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
                 </button>
                 {menuOpen && (
                   <>
                     <div className="fixed inset-0 z-40" onClick={() => setMenuOpen(false)} aria-hidden="true" />
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border py-1 z-50">
-                      <Link href="/profile" className="block px-4 py-2 text-sm hover:bg-gray-50" onClick={() => setMenuOpen(false)}>My Profile</Link>
-                      <Link href="/profile/listings" className="block px-4 py-2 text-sm hover:bg-gray-50" onClick={() => setMenuOpen(false)}>My Listings</Link>
-                      <Link href="/profile/favorites" className="block px-4 py-2 text-sm hover:bg-gray-50" onClick={() => setMenuOpen(false)}>Favorites</Link>
-                      <Link href="/messages" className="block px-4 py-2 text-sm hover:bg-gray-50" onClick={() => setMenuOpen(false)}>Messages</Link>
+                    <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 z-50 animate-scale-in">
+                      <div className="px-3 py-2 border-b border-gray-50 mb-1">
+                        <p className="font-semibold text-sm text-gray-900">{user.name}</p>
+                        <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                      </div>
+                      <Link href="/profile" className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-sky-700 transition-colors" onClick={() => setMenuOpen(false)}>
+                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                        My Profile
+                      </Link>
+                      <Link href="/profile/listings" className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-sky-700 transition-colors" onClick={() => setMenuOpen(false)}>
+                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                        My Listings
+                      </Link>
+                      <Link href="/profile/favorites" className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-sky-700 transition-colors" onClick={() => setMenuOpen(false)}>
+                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                        Favorites
+                      </Link>
+                      <Link href="/messages" className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-sky-700 transition-colors" onClick={() => setMenuOpen(false)}>
+                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
+                        Messages
+                      </Link>
                       {user.role === 'ADMIN' && (
-                        <Link href="/admin" className="block px-4 py-2 text-sm hover:bg-gray-50 text-purple-600" onClick={() => setMenuOpen(false)}>Admin Panel</Link>
+                        <Link href="/admin" className="flex items-center gap-2 px-3 py-2 text-sm text-purple-600 hover:bg-purple-50 transition-colors" onClick={() => setMenuOpen(false)}>
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                          Admin Panel
+                        </Link>
                       )}
-                      <hr className="my-1" />
+                      <hr className="my-1 border-gray-100" />
                       <button
                         onClick={() => { logout(); setMenuOpen(false); router.push('/'); }}
-                        className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50"
+                        className="flex items-center gap-2 w-full px-3 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors"
                       >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
                         Logout
                       </button>
                     </div>
@@ -119,9 +184,25 @@ export default function Header() {
                 )}
               </div>
             ) : (
-              <div className="flex gap-1">
-                <Link href="/auth/login" className="text-xs sm:text-sm font-medium text-white hover:text-sky-100 px-1.5 sm:px-2 py-1.5">Login</Link>
-                <Link href="/auth/register" className="text-xs sm:text-sm font-medium bg-white text-sky-600 hover:bg-sky-50 rounded-md px-1.5 sm:px-2 py-1.5 whitespace-nowrap">Register</Link>
+              <div className="flex items-center gap-1">
+                <Link
+                  href="/auth/login"
+                  className={`text-xs sm:text-sm font-medium px-2 sm:px-3 py-1.5 rounded-lg transition-colors interactive ${
+                    scrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-white hover:bg-white/20'
+                  }`}
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/auth/register"
+                  className={`hidden sm:flex text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg transition-all interactive ${
+                    scrolled
+                      ? 'bg-brand-600 text-white hover:bg-brand-700'
+                      : 'bg-white/20 text-white hover:bg-white/30 border border-white/40'
+                  }`}
+                >
+                  Register
+                </Link>
               </div>
             )}
           </nav>
@@ -129,20 +210,30 @@ export default function Header() {
       </div>
 
       {/* Mobile search bar */}
-      <div className="sm:hidden border-t border-sky-400 px-3 py-2">
-        <form onSubmit={handleSearch} className="flex">
+      <div className={`sm:hidden border-t px-3 py-2 transition-colors ${
+        scrolled ? 'border-gray-100 bg-white' : 'border-white/20 bg-transparent'
+      }`}>
+        <form onSubmit={handleSearch} className={`flex rounded-lg overflow-hidden ring-2 transition-colors ${
+          scrolled ? 'ring-gray-200' : 'ring-white/30'
+        }`}>
           <input
             type="text"
             value={searchQ}
             onChange={(e) => setSearchQ(e.target.value)}
-            placeholder="Search products..."
-            className="flex-1 min-w-0 border-0 rounded-l-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-sky-300"
+            placeholder="Search anything..."
+            className={`flex-1 min-w-0 px-3 py-2 text-sm focus:outline-none transition-colors ${
+              scrolled ? 'bg-white text-gray-900 placeholder:text-gray-400' : 'bg-white/15 text-white placeholder:text-white/70'
+            }`}
           />
           <button
             type="submit"
-            className="bg-sky-700 text-white px-4 py-1.5 rounded-r-md text-sm font-medium hover:bg-sky-800 transition-colors"
+            className={`px-4 py-2 text-sm font-semibold whitespace-nowrap interactive transition-colors ${
+              scrolled ? 'bg-brand-600 text-white hover:bg-brand-700' : 'bg-white/20 text-white hover:bg-white/30'
+            }`}
           >
-            Go
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
           </button>
         </form>
       </div>
@@ -150,44 +241,72 @@ export default function Header() {
       {/* Mobile nav drawer */}
       {mobileNavOpen && (
         <>
-          <div className="fixed inset-0 bg-black/30 z-40 md:hidden" onClick={closeMobileNav} aria-hidden="true" />
-          <div className="absolute top-full left-0 right-0 bg-white shadow-lg z-50 md:hidden border-t max-h-[80vh] overflow-y-auto">
-            <div className="px-4 py-3 space-y-1">
+          <div className="fixed inset-0 bg-black/40 z-40 md:hidden animate-fade-in" onClick={closeMobileNav} aria-hidden="true" />
+          <div className="absolute top-full left-0 right-0 bg-white shadow-xl z-50 md:hidden border-t border-gray-100 max-h-[80vh] overflow-y-auto animate-slide-down">
+            <div className="px-4 py-3">
               {/* Country selector in mobile menu */}
-              <div className="pb-3 border-b border-gray-100">
-                <p className="text-xs text-gray-500 mb-1.5 font-medium uppercase tracking-wide">Country</p>
+              <div className="pb-3 mb-3 border-b border-gray-100">
+                <p className="text-xs text-gray-400 mb-2 font-semibold uppercase tracking-wider">Select Country</p>
                 <CountrySelector />
               </div>
 
-              <Link href="/" className="block px-3 py-2.5 rounded-md text-sm font-medium text-gray-700 hover:bg-sky-50 hover:text-sky-600" onClick={closeMobileNav}>Home</Link>
-              <Link href="/listings" className="block px-3 py-2.5 rounded-md text-sm font-medium text-gray-700 hover:bg-sky-50 hover:text-sky-600" onClick={closeMobileNav}>Browse Listings</Link>
-              <Link href="/listings?country=UAE" className="block px-3 py-2.5 rounded-md text-sm font-medium text-gray-700 hover:bg-sky-50 hover:text-sky-600" onClick={closeMobileNav}>🇦🇪 UAE Market</Link>
-              <Link href="/listings?country=UGANDA" className="block px-3 py-2.5 rounded-md text-sm font-medium text-gray-700 hover:bg-sky-50 hover:text-sky-600" onClick={closeMobileNav}>🇺🇬 Uganda Market</Link>
+              <div className="space-y-0.5">
+                <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider px-3 py-1">Navigation</p>
+                {[
+                  { href: '/', label: '🏠 Home' },
+                  { href: '/listings', label: '🔍 Browse Listings' },
+                  { href: '/listings?country=UAE', label: '🇦🇪 UAE Market' },
+                  { href: '/listings?country=UGANDA', label: '🇺🇬 Uganda Market' },
+                  { href: '/listings/create', label: '➕ Post an Ad' },
+                ].map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="flex items-center px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-sky-50 hover:text-sky-700 transition-colors interactive"
+                    onClick={closeMobileNav}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
 
               {user ? (
-                <>
-                  <hr className="my-1 border-gray-100" />
-                  <Link href="/profile" className="block px-3 py-2.5 rounded-md text-sm font-medium text-gray-700 hover:bg-sky-50 hover:text-sky-600" onClick={closeMobileNav}>My Profile</Link>
-                  <Link href="/profile/listings" className="block px-3 py-2.5 rounded-md text-sm font-medium text-gray-700 hover:bg-sky-50 hover:text-sky-600" onClick={closeMobileNav}>My Listings</Link>
-                  <Link href="/profile/favorites" className="block px-3 py-2.5 rounded-md text-sm font-medium text-gray-700 hover:bg-sky-50 hover:text-sky-600" onClick={closeMobileNav}>Favorites</Link>
-                  <Link href="/messages" className="block px-3 py-2.5 rounded-md text-sm font-medium text-gray-700 hover:bg-sky-50 hover:text-sky-600" onClick={closeMobileNav}>Messages</Link>
-                  {user.role === 'ADMIN' && (
-                    <Link href="/admin" className="block px-3 py-2.5 rounded-md text-sm font-medium text-purple-600 hover:bg-purple-50" onClick={closeMobileNav}>Admin Panel</Link>
-                  )}
-                  <hr className="my-1 border-gray-100" />
-                  <button
-                    onClick={() => { logout(); closeMobileNav(); router.push('/'); }}
-                    className="block w-full text-left px-3 py-2.5 rounded-md text-sm font-medium text-red-600 hover:bg-red-50"
-                  >
-                    Logout
-                  </button>
-                </>
+                <div className="mt-3 pt-3 border-t border-gray-100">
+                  <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider px-3 py-1">Account</p>
+                  <div className="space-y-0.5">
+                    {[
+                      { href: '/profile', label: '👤 My Profile' },
+                      { href: '/profile/listings', label: '📋 My Listings' },
+                      { href: '/profile/favorites', label: '❤️ Favorites' },
+                      { href: '/messages', label: '💬 Messages' },
+                    ].map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className="flex items-center px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-sky-50 hover:text-sky-700 transition-colors interactive"
+                        onClick={closeMobileNav}
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                    {user.role === 'ADMIN' && (
+                      <Link href="/admin" className="flex items-center px-3 py-2.5 rounded-xl text-sm font-medium text-purple-600 hover:bg-purple-50 transition-colors interactive" onClick={closeMobileNav}>
+                        🛡️ Admin Panel
+                      </Link>
+                    )}
+                    <button
+                      onClick={() => { logout(); closeMobileNav(); router.push('/'); }}
+                      className="flex items-center w-full px-3 py-2.5 rounded-xl text-sm font-medium text-red-500 hover:bg-red-50 transition-colors interactive"
+                    >
+                      🚪 Logout
+                    </button>
+                  </div>
+                </div>
               ) : (
-                <>
-                  <hr className="my-1 border-gray-100" />
-                  <Link href="/auth/login" className="block px-3 py-2.5 rounded-md text-sm font-medium text-gray-700 hover:bg-sky-50 hover:text-sky-600" onClick={closeMobileNav}>Login</Link>
-                  <Link href="/auth/register" className="block px-3 py-2.5 rounded-md text-sm font-medium text-sky-600 hover:bg-sky-50" onClick={closeMobileNav}>Register</Link>
-                </>
+                <div className="mt-3 pt-3 border-t border-gray-100 flex gap-2">
+                  <Link href="/auth/login" className="flex-1 text-center py-2.5 rounded-xl text-sm font-semibold border border-gray-200 text-gray-700 hover:bg-gray-50 interactive transition-colors" onClick={closeMobileNav}>Login</Link>
+                  <Link href="/auth/register" className="flex-1 text-center py-2.5 rounded-xl text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 interactive transition-colors" onClick={closeMobileNav}>Register</Link>
+                </div>
               )}
             </div>
           </div>
