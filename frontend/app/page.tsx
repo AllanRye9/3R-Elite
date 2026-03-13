@@ -3,6 +3,7 @@ import { SearchBar } from '@/components/listings/SearchBar';
 import { CategoryNav } from '@/components/listings/CategoryNav';
 import { ListingGrid } from '@/components/listings/ListingGrid';
 import HeroSlideshow from '@/components/ui/HeroSlideshow';
+import HeroSideCards from '@/components/ui/HeroSideCards';
 import type { Category } from '@/lib/types';
 
 async function getHomeData() {
@@ -63,7 +64,10 @@ export default async function HomePage() {
         {/* Slideshow background */}
         <HeroSlideshow />
 
-        <div className="relative max-w-7xl mx-auto px-3 xs:px-4 pt-8 xs:pt-10 pb-10 xs:pb-12 sm:pt-14 sm:pb-16 text-center z-10">
+        {/* Side cards - 20% width on each side */}
+        <HeroSideCards />
+
+        <div className="relative max-w-7xl mx-auto px-3 xs:px-4 lg:px-[22%] pt-8 xs:pt-10 pb-10 xs:pb-12 sm:pt-14 sm:pb-16 text-center z-10">
           {/* Badge */}
           <div className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm text-white text-[10px] xs:text-xs font-semibold px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full mb-3 xs:mb-4 border border-white/20">
             <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
