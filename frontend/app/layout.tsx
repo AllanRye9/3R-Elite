@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import '../style.css';
 import { AuthProvider } from '@/context/AuthContext';
@@ -10,6 +10,12 @@ export const metadata: Metadata = {
   title: '3R-Elite Marketplace - UAE & Uganda',
   description: 'Buy and sell anything in UAE and Uganda. Find deals on electronics, vehicles, real estate, and more.',
   keywords: 'marketplace, buy, sell, UAE, Uganda, Dubai, Kampala, classifieds',
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
