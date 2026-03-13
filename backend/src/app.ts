@@ -23,7 +23,7 @@ const app = express();
 // Support a comma-separated list of allowed origins in CORS_ORIGIN so that
 // multiple deployment URLs (e.g. Railway + Render) can be whitelisted without
 // requiring code changes.
-const rawCorsOrigins = process.env.CORS_ORIGIN || 'http://localhost:3000';
+const rawCorsOrigins = process.env.CORS_ORIGIN || 'http://localhost,http://localhost:3000,https://client-production-9fdc.up.railway.app';
 const allowedOrigins = rawCorsOrigins.split(',').map((o) => o.trim()).filter(Boolean);
 
 // CORS must be registered before helmet so that CORS response headers
@@ -41,8 +41,8 @@ app.use(cors({
     callback(null, false);
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD'],
+  allowedHeaders: '*',
 }));
 
 // Security middleware – configured so its Cross-Origin-* defaults do not
