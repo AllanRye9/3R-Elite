@@ -20,20 +20,21 @@ import uploadRoutes from './routes/upload';
 
 const app = express();
 
-// Support a comma-separated list of allowed origins in CORS_ORIGIN so that
-// multiple deployment URLs (e.g. Railway + Render) can be whitelisted without
-// requiring code changes.
+// Support a comma-separated list of allowed origins, or a single wildcard '*',
+// in CORS_ORIGIN so that multiple deployment URLs (e.g. Railway + Render) can
+// be whitelisted without requiring code changes.
 const rawCorsOrigins = process.env.CORS_ORIGIN || 'http://localhost:3000';
-const allowedOrigins = rawCorsOrigins.split(',').map((o) => o.trim()).filter(Boolean);
+const isWildcard = rawCorsOrigins.trim() === '*';
+const allowedOrigins = isWildcard
+  ? []
+  : rawCorsOrigins.split(',').map((o) => o.trim()).filter(Boolean);
 
-// CORS must be registered before helmet so that CORS response headers
-// (Access-Control-Allow-Origin, etc.) are present on every response –
-// including preflight OPTIONS replies – before helmet adds its own
-// restrictive Cross-Origin-* headers.
-app.use(cors({
+const corsOptions: cors.CorsOptions = {
   origin: (origin, callback) => {
     // Allow requests with no origin (e.g. server-to-server, curl, Postman)
     if (!origin) return callback(null, true);
+    // Wildcard: reflect the request origin so credentials still work
+    if (isWildcard) return callback(null, true);
     if (allowedOrigins.includes(origin)) return callback(null, true);
     // Return false instead of an error so the response still gets CORS
     // headers (the browser can read the rejection) rather than blowing up
@@ -41,9 +42,21 @@ app.use(cors({
     callback(null, false);
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
+
+// CORS must be registered before helmet so that CORS response headers
+// (Access-Control-Allow-Origin, etc.) are present on every response –
+// including preflight OPTIONS replies – before helmet adds its own
+// restrictive Cross-Origin-* headers.
+app.use(cors(corsOptions));
+
+// Explicitly handle OPTIONS preflight for all routes so they return 204
+// even if a route handler isn't defined for that method.
+app.options('*', cors(corsOptions));
 
 // Security middleware – configured so its Cross-Origin-* defaults do not
 // strip or conflict with the CORS headers set above.
