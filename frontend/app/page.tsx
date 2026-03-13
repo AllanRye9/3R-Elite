@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import { SearchBar } from '@/components/listings/SearchBar';
 import { CategoryNav } from '@/components/listings/CategoryNav';
 import { ListingGrid } from '@/components/listings/ListingGrid';
+import { HeroSlideshow } from '@/components/ui/HeroSlideshow';
 import type { Category } from '@/lib/types';
 
 async function getHomeData() {
@@ -23,16 +23,16 @@ export default async function HomePage() {
 
   return (
     <div>
-      {/* Hero - compact like Jumia */}
+      {/* Hero - compact with text + slideshow */}
       <section className="bg-gradient-to-r from-sky-500 to-sky-600 text-white py-6">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h1 className="text-2xl md:text-3xl font-bold mb-2">
             Buy &amp; Sell Anything in UAE &amp; Uganda
           </h1>
-          <p className="text-sm mb-4 text-sky-100">
+          <p className="text-sm mb-2 text-sky-100">
             Millions of listings. Find the best deals near you.
           </p>
-          <SearchBar className="max-w-2xl mx-auto" />
+          <HeroSlideshow />
         </div>
       </section>
 

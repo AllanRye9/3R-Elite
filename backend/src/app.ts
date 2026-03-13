@@ -34,6 +34,10 @@ app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (e.g. server-to-server, curl, Postman)
     if (!origin) return callback(null, true);
+    // Wildcard: reflect the request origin so credentials still work
+    // (Access-Control-Allow-Origin cannot literally be "*" when
+    // credentials: true).
+    if (allowedOrigins.includes('*')) return callback(null, origin);
     if (allowedOrigins.includes(origin)) return callback(null, true);
     // Return false instead of an error so the response still gets CORS
     // headers (the browser can read the rejection) rather than blowing up

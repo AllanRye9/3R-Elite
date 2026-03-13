@@ -3,22 +3,14 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { useCountry } from '@/context/CountryContext';
 import { CountrySelector } from '@/components/ui/CountrySelector';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { useRouter } from 'next/navigation';
 
 export default function Header() {
   const { user, logout } = useAuth();
-  const { country } = useCountry();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [searchQ, setSearchQ] = useState('');
   const router = useRouter();
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQ.trim()) router.push(`/listings?q=${encodeURIComponent(searchQ)}&country=${country}`);
-  };
 
   return (
     <header className="bg-sky-500 shadow-sm sticky top-0 z-50">
@@ -29,22 +21,8 @@ export default function Header() {
             3R-Elite
           </Link>
 
-          {/* Search */}
-          <form onSubmit={handleSearch} className="flex-1 flex max-w-2xl">
-            <input
-              type="text"
-              value={searchQ}
-              onChange={(e) => setSearchQ(e.target.value)}
-              placeholder="Search products, brands and categories..."
-              className="flex-1 border-0 rounded-l-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-sky-300"
-            />
-            <button
-              type="submit"
-              className="bg-sky-700 text-white px-4 py-1.5 rounded-r-md text-sm font-medium hover:bg-sky-800 transition-colors"
-            >
-              Search
-            </button>
-          </form>
+          {/* Spacer */}
+          <div className="flex-1" />
 
           {/* Country Selector */}
           <CountrySelector />
