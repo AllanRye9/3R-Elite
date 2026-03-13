@@ -116,7 +116,7 @@ export default function AdminRegisterPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
             <input
-              id="admin-confirmPassword"
+              id="admin-confirm-password"
               name="confirmPassword"
               type="password"
               value={form.confirmPassword}
@@ -143,7 +143,7 @@ export default function AdminRegisterPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Admin Secret</label>
             <input
-              id="admin-adminSecret"
+              id="admin-secret"
               name="adminSecret"
               type="password"
               value={form.adminSecret}
