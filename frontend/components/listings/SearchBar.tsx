@@ -31,13 +31,13 @@ export function SearchBar({ initialQ = '', initialLocation = '', className = '' 
         type="text"
         value={q}
         onChange={(e) => setQ(e.target.value)}
-        placeholder="Search products, brands and categories..."
-        className="flex-1 border-0 rounded-l-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-sky-300"
+        placeholder="Search products, brands..."
+        className="flex-1 border-0 rounded-lg sm:rounded-l-md sm:rounded-r-none px-3 py-2.5 xs:py-2 text-sm focus:outline-none focus:ring-1 focus:ring-sky-300"
       />
       <select
         value={location}
         onChange={(e) => setLocation(e.target.value)}
-        className="border-0 border-l border-gray-200 px-3 py-2 bg-white text-sm focus:outline-none focus:ring-1 focus:ring-sky-300"
+        className="border-0 border-l border-gray-200 rounded-lg sm:rounded-none px-3 py-2.5 xs:py-2 bg-white text-sm focus:outline-none focus:ring-1 focus:ring-sky-300"
       >
         <option value="">All Locations</option>
         {locations.map((loc) => (
@@ -46,7 +46,7 @@ export function SearchBar({ initialQ = '', initialLocation = '', className = '' 
       </select>
       <button
         type="submit"
-        className="bg-sky-700 text-white px-6 py-2 rounded-r-md text-sm font-semibold hover:bg-sky-800 transition-colors"
+        className="bg-sky-700 text-white px-6 py-2.5 xs:py-2 rounded-lg sm:rounded-l-none sm:rounded-r-md text-sm font-semibold hover:bg-sky-800 transition-colors min-h-[44px] sm:min-h-0"
       >
         Search
       </button>
