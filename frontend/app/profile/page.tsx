@@ -66,7 +66,7 @@ export default function ProfilePage() {
     setAvatarError('');
     setUploadingAvatar(true);
     try {
-      const { data: userData } = await api.put('/users/me', { avatar: '' });
+      const { data: userData } = await api.put('/users/me', { avatar: null });
       updateUser(userData);
     } catch {
       setAvatarError('Failed to remove photo. Please try again.');

@@ -26,7 +26,7 @@ export default function TrustStats() {
   }, []);
 
   const items = [
-    { value: stats ? formatNumber(stats.totalListings) : '50K+', label: 'Active Listings', icon: '📋' },
+    { value: stats ? formatNumber(stats.activeListings) : '50K+', label: 'Active Listings', icon: '📋' },
     { value: stats ? formatNumber(stats.totalUsers) : '20K+', label: 'Happy Buyers', icon: '😊' },
     { value: stats ? String(stats.countries) : '2', label: 'Countries', icon: '🌍' },
     { value: '100%', label: 'Free to List', icon: '🎁' },

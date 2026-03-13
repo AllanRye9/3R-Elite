@@ -25,7 +25,7 @@ router.put('/me', authenticate, async (req: AuthRequest, res: Response, next: Ne
     if (name) data.name = name;
     if (phone) data.phone = phone;
     if (country) data.country = country;
-    if (avatar !== undefined) data.avatar = avatar || null;
+    if (avatar !== undefined) data.avatar = avatar === '' ? null : avatar;
     const user = await prisma.user.update({
       where: { id: req.user!.userId },
       data,

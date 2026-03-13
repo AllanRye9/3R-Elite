@@ -38,6 +38,7 @@ interface HeroSlideshowProps {
 
 export default function HeroSlideshow({ slides = defaultSlides, interval = 4000 }: HeroSlideshowProps) {
   const [current, setCurrent] = useState(0);
+  const [failedImages, setFailedImages] = useState<Set<number>>(new Set());
 
   const advance = useCallback(() => {
     setCurrent((prev) => (prev + 1) % slides.length);
@@ -48,6 +49,10 @@ export default function HeroSlideshow({ slides = defaultSlides, interval = 4000 
     return () => clearInterval(timer);
   }, [advance, interval]);
 
+  const handleImageError = (index: number) => {
+    setFailedImages((prev) => new Set(prev).add(index));
+  };
+
   return (
     <div className="absolute inset-0 overflow-hidden" role="presentation">
       {slides.map((slide, i) => (
@@ -56,14 +61,19 @@ export default function HeroSlideshow({ slides = defaultSlides, interval = 4000 
           className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
           style={{ opacity: i === current ? 1 : 0 }}
         >
-          <Image
-            src={slide.image}
-            alt={slide.alt}
-            fill
-            className="object-cover"
-            priority={i === 0}
-            sizes="100vw"
-          />
+          {failedImages.has(i) ? (
+            <div className="absolute inset-0 bg-gradient-to-br from-brand-900 via-brand-700 to-sky-600" />
+          ) : (
+            <Image
+              src={slide.image}
+              alt={slide.alt}
+              fill
+              className="object-cover"
+              priority={i === 0}
+              sizes="100vw"
+              onError={() => handleImageError(i)}
+            />
+          )}
         </div>
       ))}
       {/* Dark overlay for text readability */}
