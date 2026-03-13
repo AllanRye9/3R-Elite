@@ -51,20 +51,26 @@ const slides: Slide[] = [
 
 export function HeroSlideshow() {
   const [current, setCurrent] = useState(0);
+  const [paused, setPaused] = useState(false);
 
   const next = useCallback(() => {
     setCurrent((prev) => (prev + 1) % slides.length);
   }, []);
 
   useEffect(() => {
+    if (paused) return;
     const timer = setInterval(next, 3000);
     return () => clearInterval(timer);
-  }, [next]);
+  }, [next, paused]);
 
   const slide = slides[current];
 
   return (
-    <div className="relative w-full max-w-2xl mx-auto mt-4">
+    <div
+      className="relative w-full max-w-2xl mx-auto mt-4"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
       <Link href={slide.href} className="block">
         <div
           className={`bg-gradient-to-r ${slide.gradient} rounded-lg p-6 text-white text-center transition-all duration-500 ease-in-out cursor-pointer hover:opacity-90`}

@@ -8,9 +8,14 @@ interface Props {
 
 export function CountryPopup({ onSelect }: Props) {
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50">
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="country-popup-title"
+    >
       <div className="bg-white rounded-xl shadow-2xl p-6 max-w-sm w-full mx-4 text-center">
-        <h2 className="text-lg font-bold text-gray-900 mb-1">Select Your Country</h2>
+        <h2 id="country-popup-title" className="text-lg font-bold text-gray-900 mb-1">Select Your Country</h2>
         <p className="text-sm text-gray-500 mb-5">
           We couldn&apos;t detect your location automatically. Please choose your country.
         </p>

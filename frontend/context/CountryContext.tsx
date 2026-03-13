@@ -28,8 +28,14 @@ export function CountryProvider({ children }: { children: React.ReactNode }) {
     }
 
     // Try IP-based country detection
-    fetch('https://ipapi.co/json/')
-      .then((res) => res.json())
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+
+    fetch('https://ipapi.co/json/', { signal: controller.signal })
+      .then((res) => {
+        if (!res.ok) throw new Error('Geolocation API error');
+        return res.json();
+      })
       .then((data) => {
         const code = data?.country_code;
         if (code === 'UG') {
@@ -46,6 +52,7 @@ export function CountryProvider({ children }: { children: React.ReactNode }) {
         setShowPopup(true);
       })
       .finally(() => {
+        clearTimeout(timeout);
         setReady(true);
       });
   }, []);
