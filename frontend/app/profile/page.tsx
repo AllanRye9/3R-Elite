@@ -62,6 +62,19 @@ export default function ProfilePage() {
     }
   };
 
+  const handleAvatarDelete = async () => {
+    setAvatarError('');
+    setUploadingAvatar(true);
+    try {
+      const { data: userData } = await api.put('/users/me', { avatar: null });
+      updateUser(userData);
+    } catch {
+      setAvatarError('Failed to remove photo. Please try again.');
+    } finally {
+      setUploadingAvatar(false);
+    }
+  };
+
   if (loading || !user) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-10 animate-pulse space-y-4">
@@ -113,6 +126,18 @@ export default function ProfilePage() {
                 className="hidden"
                 onChange={(e) => handleAvatarUpload(e.target.files)}
               />
+              {user.avatar && (
+                <button
+                  type="button"
+                  onClick={handleAvatarDelete}
+                  disabled={uploadingAvatar}
+                  className="absolute -bottom-1 -right-1 w-6 h-6 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center shadow-md transition-colors disabled:opacity-50"
+                  aria-label="Remove profile photo"
+                  title="Remove photo"
+                >
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              )}
             </div>
             <div className="pb-1">
               <p className="text-xl font-extrabold text-gray-900">{user.name}</p>

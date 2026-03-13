@@ -66,7 +66,7 @@ export default function Header() {
             }`}>
               3R
             </div>
-            <span className={`font-extrabold text-base sm:text-lg tracking-tight transition-colors ${scrolled ? 'text-brand-700' : 'text-white'}`}>
+            <span className={`font-extrabold text-base sm:text-lg tracking-tight transition-colors whitespace-nowrap ${scrolled ? 'text-brand-700' : 'text-white'}`}>
               Elite
             </span>
           </Link>
@@ -104,7 +104,7 @@ export default function Header() {
           <div className="flex-1 sm:hidden" />
 
           {/* Country Selector – desktop only */}
-          <div className="hidden lg:block">
+          <div className="hidden lg:flex items-center shrink-0">
             <CountrySelector />
           </div>
 

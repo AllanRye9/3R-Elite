@@ -4,6 +4,7 @@ import { CategoryNav } from '@/components/listings/CategoryNav';
 import { ListingGrid } from '@/components/listings/ListingGrid';
 import HeroSlideshow from '@/components/ui/HeroSlideshow';
 import HeroSideCards from '@/components/ui/HeroSideCards';
+import TrustStats from '@/components/ui/TrustStats';
 import type { Category } from '@/lib/types';
 
 async function getHomeData() {
@@ -19,13 +20,6 @@ async function getHomeData() {
     return { categories: [], listings: [] };
   }
 }
-
-const trustStats = [
-  { value: '50K+', label: 'Active Listings', icon: '📋' },
-  { value: '20K+', label: 'Happy Buyers', icon: '😊' },
-  { value: '2', label: 'Countries', icon: '🌍' },
-  { value: '100%', label: 'Free to List', icon: '🎁' },
-];
 
 const features = [
   {
@@ -108,19 +102,7 @@ export default async function HomePage() {
       </section>
 
       {/* ═══ TRUST STATS ═══ */}
-      <section className="bg-white border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-3 xs:px-4 py-4 xs:py-5">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 xs:gap-4 sm:gap-6">
-            {trustStats.map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-xl xs:text-2xl mb-0.5">{stat.icon}</div>
-                <div className="text-lg xs:text-xl sm:text-2xl font-extrabold text-gray-900">{stat.value}</div>
-                <div className="text-[10px] xs:text-xs text-gray-500 font-medium">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <TrustStats />
 
       <div className="max-w-7xl mx-auto px-3 xs:px-4 py-4 xs:py-6 space-y-6 xs:space-y-8 sm:space-y-10">
 
