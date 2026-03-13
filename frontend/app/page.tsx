@@ -18,54 +18,223 @@ async function getHomeData() {
   }
 }
 
+const trustStats = [
+  { value: '50K+', label: 'Active Listings', icon: '📋' },
+  { value: '20K+', label: 'Happy Buyers', icon: '😊' },
+  { value: '2', label: 'Countries', icon: '🌍' },
+  { value: '100%', label: 'Free to List', icon: '🎁' },
+];
+
+const features = [
+  {
+    icon: '🔒',
+    title: 'Safe & Secure',
+    desc: 'Verified sellers and secure messaging to protect every transaction.',
+    color: 'from-emerald-400 to-teal-500',
+  },
+  {
+    icon: '⚡',
+    title: 'Lightning Fast',
+    desc: 'Post your listing in under 2 minutes. Reach thousands instantly.',
+    color: 'from-amber-400 to-orange-500',
+  },
+  {
+    icon: '💰',
+    title: 'Best Prices',
+    desc: 'Compare thousands of listings to find unbeatable deals near you.',
+    color: 'from-violet-400 to-purple-600',
+  },
+  {
+    icon: '📱',
+    title: 'Mobile First',
+    desc: 'Fully optimised for mobile. Buy and sell on the go, anywhere.',
+    color: 'from-sky-400 to-blue-600',
+  },
+];
+
 export default async function HomePage() {
   const { categories, listings } = await getHomeData();
 
   return (
-    <div>
-      {/* Hero - compact like Jumia */}
-      <section className="bg-gradient-to-r from-sky-500 to-sky-600 text-white py-6">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-2xl md:text-3xl font-bold mb-2">
-            Buy &amp; Sell Anything in UAE &amp; Uganda
+    <div className="animate-fade-in">
+      {/* ═══ HERO ═══ */}
+      <section className="relative overflow-hidden bg-hero-gradient">
+        {/* Decorative blobs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 -left-16 w-72 h-72 bg-sky-300/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-1/3 w-64 h-64 bg-indigo-400/10 rounded-full blur-2xl" />
+          {/* Floating dots */}
+          <div className="absolute top-8 left-[15%] w-2 h-2 bg-white/30 rounded-full animate-float" style={{ animationDelay: '0s' }} />
+          <div className="absolute top-16 right-[20%] w-1.5 h-1.5 bg-sky-300/50 rounded-full animate-float" style={{ animationDelay: '1s' }} />
+          <div className="absolute bottom-10 left-[30%] w-2 h-2 bg-white/20 rounded-full animate-float" style={{ animationDelay: '2s' }} />
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 pt-10 pb-12 sm:pt-14 sm:pb-16 text-center">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1.5 rounded-full mb-4 border border-white/20">
+            <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+            🌍 UAE &amp; Uganda&apos;s Premier Marketplace
+          </div>
+
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-3 leading-tight text-balance">
+            Buy &amp; Sell{' '}
+            <span className="relative inline-block">
+              <span className="relative z-10">Anything</span>
+              <span className="absolute inset-x-0 bottom-0 h-3 bg-sky-400/30 rounded-full -rotate-1" aria-hidden="true" />
+            </span>
+            {' '}in UAE &amp; Uganda
           </h1>
-          <p className="text-sm mb-4 text-sky-100">
-            Millions of listings. Find the best deals near you.
+          <p className="text-sky-100 text-sm sm:text-base mb-6 max-w-lg mx-auto">
+            Millions of listings. Verified sellers. Zero hidden fees.
+            Find the best deals near you today.
           </p>
-          <SearchBar className="max-w-2xl mx-auto" />
+
+          {/* Search */}
+          <div className="max-w-2xl mx-auto">
+            <SearchBar className="w-full" />
+          </div>
+
+          {/* Quick links */}
+          <div className="flex flex-wrap justify-center gap-2 mt-5">
+            {['Electronics', 'Vehicles', 'Real Estate', 'Fashion', 'Jobs'].map((cat) => (
+              <Link
+                key={cat}
+                href={`/listings?q=${cat.toLowerCase()}`}
+                className="text-xs text-sky-100 hover:text-white bg-white/10 hover:bg-white/20 border border-white/20 px-3 py-1.5 rounded-full transition-all interactive"
+              >
+                {cat}
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 py-4 space-y-5">
-        {/* Categories */}
-        <section>
-          <h2 className="text-lg font-bold text-gray-900 mb-3">Browse Categories</h2>
+      {/* ═══ TRUST STATS ═══ */}
+      <section className="bg-white border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 py-5">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+            {trustStats.map((stat) => (
+              <div key={stat.label} className="text-center">
+                <div className="text-2xl mb-0.5">{stat.icon}</div>
+                <div className="text-xl sm:text-2xl font-extrabold text-gray-900">{stat.value}</div>
+                <div className="text-xs text-gray-500 font-medium">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="max-w-7xl mx-auto px-4 py-6 space-y-10">
+
+        {/* ═══ CATEGORIES ═══ */}
+        <section className="animate-fade-up">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-xl font-extrabold text-gray-900">Browse Categories</h2>
+              <p className="text-sm text-gray-500 mt-0.5">Explore what&apos;s available near you</p>
+            </div>
+            <Link href="/listings" className="text-sm font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1 interactive">
+              All categories
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+            </Link>
+          </div>
           <CategoryNav categories={categories} />
         </section>
 
-        {/* Featured Listings */}
+        {/* ═══ LATEST LISTINGS ═══ */}
         <section>
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-bold text-gray-900">Latest Listings</h2>
-            <Link href="/listings" className="text-sky-600 hover:underline text-sm font-medium">View all →</Link>
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-xl font-extrabold text-gray-900">Latest Listings</h2>
+              <p className="text-sm text-gray-500 mt-0.5">Fresh deals just posted</p>
+            </div>
+            <Link href="/listings" className="text-sm font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1 interactive">
+              View all
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+            </Link>
           </div>
           <ListingGrid listings={listings} />
         </section>
 
-        {/* Country CTA */}
+        {/* ═══ MARKET CTAs ═══ */}
         <section className="grid md:grid-cols-2 gap-4">
-          <Link href="/listings?country=UAE" className="bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg p-5 hover:from-green-600 hover:to-green-700 transition-all">
-            <div className="text-2xl mb-1">🇦🇪</div>
-            <h3 className="text-lg font-bold mb-0.5">UAE Market</h3>
-            <p className="text-green-100 text-sm">Discover listings across Dubai, Abu Dhabi, Sharjah and more</p>
+          <Link
+            href="/listings?country=UAE"
+            className="group relative overflow-hidden rounded-2xl p-6 sm:p-8 bg-gradient-to-br from-green-500 to-emerald-600 text-white hover:shadow-xl transition-all duration-300 interactive"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/10 group-hover:to-black/20 transition-all" />
+            <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
+            <div className="relative">
+              <div className="text-4xl mb-3 group-hover:scale-110 transition-transform inline-block">🇦🇪</div>
+              <h3 className="text-xl font-extrabold mb-1">UAE Market</h3>
+              <p className="text-emerald-100 text-sm">Dubai · Abu Dhabi · Sharjah · Ajman</p>
+              <div className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold bg-white/20 px-3 py-1.5 rounded-full group-hover:bg-white/30 transition-colors">
+                Explore →
+              </div>
+            </div>
           </Link>
-          <Link href="/listings?country=UGANDA" className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-lg p-5 hover:from-yellow-600 hover:to-yellow-700 transition-all">
-            <div className="text-2xl mb-1">🇺🇬</div>
-            <h3 className="text-lg font-bold mb-0.5">Uganda Market</h3>
-            <p className="text-yellow-100 text-sm">Browse deals in Kampala, Jinja, Gulu and beyond</p>
+
+          <Link
+            href="/listings?country=UGANDA"
+            className="group relative overflow-hidden rounded-2xl p-6 sm:p-8 bg-gradient-to-br from-yellow-500 to-amber-600 text-white hover:shadow-xl transition-all duration-300 interactive"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/10 group-hover:to-black/20 transition-all" />
+            <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
+            <div className="relative">
+              <div className="text-4xl mb-3 group-hover:scale-110 transition-transform inline-block">🇺🇬</div>
+              <h3 className="text-xl font-extrabold mb-1">Uganda Market</h3>
+              <p className="text-amber-100 text-sm">Kampala · Jinja · Gulu · Mbarara</p>
+              <div className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold bg-white/20 px-3 py-1.5 rounded-full group-hover:bg-white/30 transition-colors">
+                Explore →
+              </div>
+            </div>
           </Link>
         </section>
+
+        {/* ═══ WHY 3R-ELITE ═══ */}
+        <section className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-8">
+          <div className="text-center mb-6">
+            <h2 className="text-xl font-extrabold text-gray-900">Why Choose 3R-Elite?</h2>
+            <p className="text-gray-500 text-sm mt-1">The smart way to buy and sell</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 stagger-children">
+            {features.map((f) => (
+              <div key={f.title} className="text-center group">
+                <div className={`w-12 h-12 mx-auto mb-3 rounded-2xl bg-gradient-to-br ${f.color} flex items-center justify-center text-2xl shadow-md group-hover:scale-110 transition-transform duration-300`}>
+                  {f.icon}
+                </div>
+                <h3 className="font-bold text-gray-900 text-sm mb-1">{f.title}</h3>
+                <p className="text-xs text-gray-500 leading-relaxed">{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ═══ POST AD CTA ═══ */}
+        <section className="relative overflow-hidden bg-gradient-to-r from-brand-700 to-indigo-700 rounded-2xl px-6 py-8 sm:px-10 text-white text-center">
+          <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+            <div className="absolute top-0 left-1/4 w-32 h-32 bg-white/5 rounded-full blur-xl" />
+            <div className="absolute bottom-0 right-1/4 w-40 h-40 bg-sky-400/10 rounded-full blur-xl" />
+          </div>
+          <div className="relative">
+            <p className="text-4xl mb-3">🚀</p>
+            <h2 className="text-2xl font-extrabold mb-2">Ready to Sell?</h2>
+            <p className="text-sky-200 text-sm mb-5 max-w-sm mx-auto">
+              List your item for free and reach thousands of buyers in UAE and Uganda today.
+            </p>
+            <Link
+              href="/listings/create"
+              className="inline-flex items-center gap-2 bg-white text-brand-700 font-bold px-6 py-3 rounded-xl hover:bg-sky-50 transition-all interactive shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
+              Post Free Ad
+            </Link>
+          </div>
+        </section>
+
       </div>
     </div>
   );
 }
+

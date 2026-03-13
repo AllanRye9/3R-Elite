@@ -1,0 +1,21 @@
+{
+  "name": "3R-Elite Marketplace",
+  "short_name": "3R-Elite",
+  "description": "Buy and sell anything in UAE & Uganda",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0c4a6e",
+  "theme_color": "#0ea5e9",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["shopping", "business"],
+  "lang": "en-US",
+  "dir": "ltr"
+}

@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import { api } from '@/lib/api';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function ProfilePage() {
   const { user, updateUser, loading } = useAuth();
@@ -31,52 +32,89 @@ export default function ProfilePage() {
     }
   };
 
-  if (loading || !user) return <div className="p-8 text-center">Loading...</div>;
-
-  return (
-    <div className="max-w-2xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">My Profile</h1>
-      <div className="bg-white rounded-xl shadow-sm p-8">
-        <div className="flex items-center gap-4 mb-8 pb-6 border-b">
-          <UserAvatar user={user} size="lg" />
-          <div>
-            <p className="text-xl font-bold">{user.name}</p>
-            <p className="text-gray-500">{user.email}</p>
-            <span className={`text-xs px-2 py-0.5 rounded-full font-medium mt-1 inline-block ${
-              user.isVerified ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
-            }`}>
-              {user.isVerified ? '✓ Verified' : 'Not Verified'}
-            </span>
+  if (loading || !user) {
+    return (
+      <div className="max-w-2xl mx-auto px-4 py-10 animate-pulse space-y-4">
+        <div className="h-8 shimmer rounded-full w-1/3" />
+        <div className="bg-white rounded-2xl p-8 space-y-4">
+          <div className="flex items-center gap-4">
+            <div className="w-20 h-20 shimmer rounded-full" />
+            <div className="space-y-2 flex-1">
+              <div className="h-5 shimmer rounded-full w-1/2" />
+              <div className="h-4 shimmer rounded-full w-1/3" />
+            </div>
           </div>
         </div>
+      </div>
+    );
+  }
 
-        {success && <div className="bg-green-50 border border-green-200 text-green-700 rounded p-3 text-sm mb-4">Profile updated successfully!</div>}
+  return (
+    <div className="max-w-2xl mx-auto px-4 py-8 animate-fade-in">
+      <h1 className="text-2xl font-extrabold text-gray-900 mb-6">My Profile</h1>
+
+      {/* Profile header */}
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-4">
+        {/* Banner */}
+        <div className="h-20 bg-gradient-to-r from-brand-600 to-sky-400" />
+        <div className="px-6 pb-6 -mt-10">
+          <div className="flex items-end gap-4">
+            <div className="ring-4 ring-white rounded-full shadow-lg">
+              <UserAvatar user={user} size="lg" />
+            </div>
+            <div className="pb-1">
+              <p className="text-xl font-extrabold text-gray-900">{user.name}</p>
+              <p className="text-sm text-gray-500">{user.email}</p>
+            </div>
+            <div className="ml-auto pb-1">
+              <span className={`badge text-xs ${user.isVerified ? 'badge-new' : 'bg-amber-100 text-amber-700'}`}>
+                {user.isVerified ? '✓ Verified' : '⚡ Unverified'}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Edit form */}
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-4">
+        <h2 className="font-bold text-gray-900 mb-4 text-base flex items-center gap-2">
+          <svg className="w-4 h-4 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+          Edit Profile
+        </h2>
+
+        {success && (
+          <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl p-3.5 text-sm mb-4 animate-scale-in">
+            <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            Profile updated successfully!
+          </div>
+        )}
 
         <form onSubmit={handleSave} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-1.5">Full Name</label>
             <input
               type="text"
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-sky-400"
+              className="input-premium"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-1.5">Phone</label>
             <input
               type="tel"
               value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-sky-400"
+              placeholder="+971 50 000 0000"
+              className="input-premium"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-1.5">Country</label>
             <select
               value={form.country}
               onChange={(e) => setForm({ ...form, country: e.target.value as 'UAE' | 'UGANDA' })}
-              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-sky-400"
+              className="input-premium"
             >
               <option value="UAE">🇦🇪 UAE</option>
               <option value="UGANDA">🇺🇬 Uganda</option>
@@ -85,22 +123,36 @@ export default function ProfilePage() {
           <button
             type="submit"
             disabled={saving}
-            className="bg-sky-500 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-sky-600 transition-colors disabled:opacity-50"
+            className="btn-primary disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            {saving ? 'Saving...' : 'Save Changes'}
+            {saving ? (
+              <span className="flex items-center gap-2">
+                <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                Saving...
+              </span>
+            ) : 'Save Changes'}
           </button>
         </form>
       </div>
 
-      <div className="mt-6 grid grid-cols-2 gap-4">
-        <a href="/profile/listings" className="bg-white rounded-xl shadow-sm p-6 text-center hover:shadow-md transition-shadow">
-          <p className="text-3xl mb-2">📋</p>
-          <p className="font-semibold">My Listings</p>
-        </a>
-        <a href="/profile/favorites" className="bg-white rounded-xl shadow-sm p-6 text-center hover:shadow-md transition-shadow">
-          <p className="text-3xl mb-2">❤️</p>
-          <p className="font-semibold">Favorites</p>
-        </a>
+      {/* Quick links */}
+      <div className="grid grid-cols-2 gap-3">
+        {[
+          { href: '/profile/listings', icon: '📋', label: 'My Listings', desc: 'Manage your ads' },
+          { href: '/profile/favorites', icon: '❤️', label: 'Favorites', desc: 'Saved items' },
+          { href: '/messages', icon: '💬', label: 'Messages', desc: 'Chat with buyers' },
+          { href: '/listings/create', icon: '➕', label: 'Post Ad', desc: 'Sell something' },
+        ].map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="bg-white rounded-2xl border border-gray-100 p-4 hover:border-sky-200 hover:shadow-md transition-all group interactive"
+          >
+            <p className="text-2xl mb-1 group-hover:scale-110 transition-transform inline-block">{item.icon}</p>
+            <p className="font-bold text-gray-900 text-sm">{item.label}</p>
+            <p className="text-xs text-gray-400">{item.desc}</p>
+          </Link>
+        ))}
       </div>
     </div>
   );
