@@ -86,6 +86,7 @@ const config: Config = {
       backgroundImage: {
         'hero-gradient': 'linear-gradient(135deg, #0c4a6e 0%, #075985 35%, #0369a1 65%, #1d4ed8 100%)',
         'brand-gradient': 'linear-gradient(135deg, #0ea5e9, #0284c7)',
+        'body-image': "url('https://images.unsplash.com/photo-1557683316-973673baf926?w=1920&q=80')",
       },
       screens: {
         'xs': '375px',

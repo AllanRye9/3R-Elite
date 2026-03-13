@@ -57,11 +57,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
         />
       </head>
-      <body className="font-sans">
+      <body className="font-sans bg-body-image bg-cover bg-center bg-fixed bg-no-repeat">
         <CountryProvider>
           <AuthProvider>
             <ToastProvider>
-              <div className="min-h-screen flex flex-col bg-slate-50">
+              <div className="min-h-screen flex flex-col bg-slate-50 m-[3%] rounded-2xl overflow-hidden shadow-xl">
                 <Header />
                 <main className="flex-1 has-bottom-nav md:pb-0">
                   {children}
