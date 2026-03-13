@@ -49,7 +49,7 @@ export default function HeroSlideshow({ slides = defaultSlides, interval = 3000 
   }, [advance, interval]);
 
   return (
-    <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+    <div className="absolute inset-0 overflow-hidden" role="presentation">
       {slides.map((slide, i) => (
         <div
           key={slide.src}
@@ -63,7 +63,6 @@ export default function HeroSlideshow({ slides = defaultSlides, interval = 3000 
             className="object-cover"
             sizes="100vw"
             priority={i === 0}
-            unoptimized
           />
         </div>
       ))}
