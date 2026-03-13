@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { api } from '@/lib/api';
 import { UserAvatar } from '@/components/ui/UserAvatar';
@@ -13,6 +13,8 @@ export default function ProfilePage() {
   const [form, setForm] = useState({ name: '', phone: '', country: 'UAE' as 'UAE' | 'UGANDA' });
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!loading && !user) router.push('/auth/login');
@@ -29,6 +31,28 @@ export default function ProfilePage() {
       setTimeout(() => setSuccess(false), 3000);
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleAvatarUpload = async (files: FileList | null) => {
+    if (!files || files.length === 0) return;
+    const file = files[0];
+    if (file.size > 5 * 1024 * 1024) return;
+    setUploadingAvatar(true);
+    try {
+      const formData = new FormData();
+      formData.append('images', file);
+      const { data: uploadData } = await api.post('/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      if (uploadData.urls && uploadData.urls.length > 0) {
+        const { data: userData } = await api.put('/users/me', { avatar: uploadData.urls[0] });
+        updateUser(userData);
+      }
+    } catch {
+      // silent fail
+    } finally {
+      setUploadingAvatar(false);
     }
   };
 
@@ -59,8 +83,30 @@ export default function ProfilePage() {
         <div className="h-20 bg-gradient-to-r from-brand-600 to-sky-400" />
         <div className="px-6 pb-6 -mt-10">
           <div className="flex items-end gap-4">
-            <div className="ring-4 ring-white rounded-full shadow-lg">
-              <UserAvatar user={user} size="lg" />
+            <div className="relative group">
+              <div className="ring-4 ring-white rounded-full shadow-lg">
+                <UserAvatar user={user} size="lg" />
+              </div>
+              <button
+                type="button"
+                onClick={() => avatarInputRef.current?.click()}
+                disabled={uploadingAvatar}
+                className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                aria-label="Upload profile photo"
+              >
+                {uploadingAvatar ? (
+                  <svg className="animate-spin w-6 h-6 text-white" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                ) : (
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                )}
+              </button>
+              <input
+                ref={avatarInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => handleAvatarUpload(e.target.files)}
+              />
             </div>
             <div className="pb-1">
               <p className="text-xl font-extrabold text-gray-900">{user.name}</p>

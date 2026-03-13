@@ -59,7 +59,7 @@ export default async function HomePage() {
   return (
     <div className="animate-fade-in">
       {/* ═══ HERO ═══ */}
-      <section className="relative overflow-hidden bg-hero-gradient min-h-[320px] xs:min-h-[360px] sm:min-h-[400px] rounded-b-2xl">
+      <section className="relative overflow-hidden bg-hero-gradient min-h-[320px] xs:min-h-[360px] sm:min-h-[400px]">
         {/* Slideshow background */}
         <HeroSlideshow />
 
@@ -132,7 +132,18 @@ export default async function HomePage() {
               <svg className="w-3.5 h-3.5 xs:w-4 xs:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
             </Link>
           </div>
-          <CategoryNav categories={categories} />
+          {categories.length > 0 ? (
+            <CategoryNav categories={categories} />
+          ) : (
+            <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="flex-shrink-0 w-28 h-28 bg-white border border-gray-100 rounded-xl flex flex-col items-center justify-center gap-2">
+                  <div className="w-10 h-10 bg-gray-100 rounded-lg shimmer" />
+                  <div className="w-16 h-2.5 bg-gray-100 rounded-full shimmer" />
+                </div>
+              ))}
+            </div>
+          )}
         </section>
 
         {/* ═══ LATEST LISTINGS ═══ */}
@@ -147,14 +158,29 @@ export default async function HomePage() {
               <svg className="w-3.5 h-3.5 xs:w-4 xs:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
             </Link>
           </div>
-          <ListingGrid listings={listings} />
+          {listings.length > 0 ? (
+            <ListingGrid listings={listings} />
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className="bg-white border border-gray-100 rounded-xl overflow-hidden">
+                  <div className="aspect-[4/3] bg-gray-100 shimmer" />
+                  <div className="p-3 space-y-2">
+                    <div className="h-3 bg-gray-100 rounded-full shimmer w-3/4" />
+                    <div className="h-3 bg-gray-100 rounded-full shimmer w-1/2" />
+                    <div className="h-4 bg-gray-100 rounded-full shimmer w-1/3 mt-1" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
 
         {/* ═══ MARKET CTAs ═══ */}
         <section className="grid grid-cols-1 xs:grid-cols-2 gap-3 xs:gap-4">
           <Link
             href="/listings?country=UAE"
-            className="group relative overflow-hidden rounded-xl xs:rounded-2xl p-4 xs:p-6 sm:p-8 bg-gradient-to-br from-green-500 to-emerald-600 text-white hover:shadow-xl transition-all duration-300 interactive"
+            className="group relative overflow-hidden rounded-lg p-4 xs:p-6 sm:p-8 bg-gradient-to-br from-green-500 to-emerald-600 text-white hover:shadow-xl transition-all duration-300 interactive"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/10 group-hover:to-black/20 transition-all" />
             <div className="absolute -top-10 -right-10 w-28 xs:w-40 h-28 xs:h-40 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
@@ -170,7 +196,7 @@ export default async function HomePage() {
 
           <Link
             href="/listings?country=UGANDA"
-            className="group relative overflow-hidden rounded-xl xs:rounded-2xl p-4 xs:p-6 sm:p-8 bg-gradient-to-br from-yellow-500 to-amber-600 text-white hover:shadow-xl transition-all duration-300 interactive"
+            className="group relative overflow-hidden rounded-lg p-4 xs:p-6 sm:p-8 bg-gradient-to-br from-yellow-500 to-amber-600 text-white hover:shadow-xl transition-all duration-300 interactive"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/10 group-hover:to-black/20 transition-all" />
             <div className="absolute -top-10 -right-10 w-28 xs:w-40 h-28 xs:h-40 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
@@ -186,7 +212,7 @@ export default async function HomePage() {
         </section>
 
         {/* ═══ WHY 3R-ELITE ═══ */}
-        <section className="bg-white rounded-xl xs:rounded-2xl border border-gray-100 shadow-sm p-4 xs:p-6 sm:p-8">
+        <section className="bg-white rounded-lg border border-gray-100 shadow-sm p-4 xs:p-6 sm:p-8">
           <div className="text-center mb-4 xs:mb-6">
             <h2 className="text-lg xs:text-xl font-extrabold text-gray-900">Why Choose 3R-Elite?</h2>
             <p className="text-gray-500 text-xs xs:text-sm mt-1">The smart way to buy and sell</p>
@@ -194,7 +220,7 @@ export default async function HomePage() {
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4 stagger-children">
             {features.map((f) => (
               <div key={f.title} className="text-center group">
-                <div className={`w-10 h-10 xs:w-12 xs:h-12 mx-auto mb-2 xs:mb-3 rounded-xl xs:rounded-2xl bg-gradient-to-br ${f.color} flex items-center justify-center text-xl xs:text-2xl shadow-md group-hover:scale-110 transition-transform duration-300`}>
+                <div className={`w-10 h-10 xs:w-12 xs:h-12 mx-auto mb-2 xs:mb-3 rounded-lg bg-gradient-to-br ${f.color} flex items-center justify-center text-xl xs:text-2xl shadow-md group-hover:scale-110 transition-transform duration-300`}>
                   {f.icon}
                 </div>
                 <h3 className="font-bold text-gray-900 text-xs xs:text-sm mb-0.5 xs:mb-1">{f.title}</h3>
@@ -205,7 +231,7 @@ export default async function HomePage() {
         </section>
 
         {/* ═══ POST AD CTA ═══ */}
-        <section className="relative overflow-hidden bg-gradient-to-r from-brand-700 to-indigo-700 rounded-xl xs:rounded-2xl px-4 xs:px-6 py-6 xs:py-8 sm:px-10 text-white text-center">
+        <section className="relative overflow-hidden bg-gradient-to-r from-brand-700 to-indigo-700 rounded-lg px-4 xs:px-6 py-6 xs:py-8 sm:px-10 text-white text-center">
           <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
             <div className="absolute top-0 left-1/4 w-24 xs:w-32 h-24 xs:h-32 bg-white/5 rounded-full blur-xl" />
             <div className="absolute bottom-0 right-1/4 w-32 xs:w-40 h-32 xs:h-40 bg-sky-400/10 rounded-full blur-xl" />
@@ -218,7 +244,7 @@ export default async function HomePage() {
             </p>
             <Link
               href="/listings/create"
-              className="inline-flex items-center gap-2 bg-white text-brand-700 font-bold px-6 py-3 rounded-xl hover:bg-sky-50 transition-all interactive shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 bg-white text-brand-700 font-bold px-6 py-3 rounded-lg hover:bg-sky-50 transition-all interactive shadow-lg hover:shadow-xl hover:-translate-y-0.5"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
               Post Free Ad
