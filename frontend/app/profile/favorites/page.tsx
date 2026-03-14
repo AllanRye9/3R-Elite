@@ -27,7 +27,7 @@ export default function FavoritesPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">My Favorites</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8">My Favorites</h1>
       <ListingGrid listings={listings} />
     </div>
   );

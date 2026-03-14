@@ -100,8 +100,8 @@ export default function ProfilePage() {
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-4">
         {/* Banner */}
         <div className="h-20 bg-gradient-to-r from-brand-600 to-sky-400" />
-        <div className="px-6 pb-6 -mt-10">
-          <div className="flex items-end gap-4">
+        <div className="px-4 sm:px-6 pb-4 sm:pb-6 -mt-10">
+          <div className="flex flex-col sm:flex-row items-start sm:items-end gap-3 sm:gap-4">
             <div className="relative group">
               <div className="ring-4 ring-white rounded-full shadow-lg">
                 <UserAvatar user={user} size="lg" />
@@ -143,7 +143,7 @@ export default function ProfilePage() {
               <p className="text-xl font-extrabold text-gray-900">{user.name}</p>
               <p className="text-sm text-gray-500">{user.email}</p>
             </div>
-            <div className="ml-auto pb-1">
+            <div className="sm:ml-auto pb-1">
               <span className={`badge text-xs ${user.isVerified ? 'badge-new' : 'bg-amber-100 text-amber-700'}`}>
                 {user.isVerified ? '✓ Verified' : '⚡ Unverified'}
               </span>
@@ -156,7 +156,7 @@ export default function ProfilePage() {
       </div>
 
       {/* Edit form */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-4">
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6 mb-4">
         <h2 className="font-bold text-gray-900 mb-4 text-base flex items-center gap-2">
           <svg className="w-4 h-4 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
           Edit Profile
@@ -216,7 +216,7 @@ export default function ProfilePage() {
       </div>
 
       {/* Quick links */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {[
           { href: '/profile/listings', icon: '📋', label: 'My Listings', desc: 'Manage your ads' },
           { href: '/profile/favorites', icon: '❤️', label: 'Favorites', desc: 'Saved items' },

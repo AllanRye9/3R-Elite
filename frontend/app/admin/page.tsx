@@ -70,7 +70,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3 sm:gap-4">
         <AdminStatsCard title="Total Users" value={stats.users} icon="👥" color="bg-blue-500" />
         <AdminStatsCard title="Total Listings" value={stats.listings} icon="📋" color="bg-purple-500" />
         <AdminStatsCard title="Active Listings" value={stats.activeListings} icon="✅" color="bg-green-500" />
@@ -93,29 +93,29 @@ export default function AdminDashboard() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="text-left text-gray-500 bg-gray-50">
-                  <th className="px-6 py-3 font-medium">Name</th>
-                  <th className="px-6 py-3 font-medium">Email</th>
-                  <th className="px-6 py-3 font-medium">Role</th>
-                  <th className="px-6 py-3 font-medium">Joined</th>
+                  <th className="px-3 sm:px-6 py-3 font-medium">Name</th>
+                  <th className="px-3 sm:px-6 py-3 font-medium">Email</th>
+                  <th className="px-3 sm:px-6 py-3 font-medium">Role</th>
+                  <th className="px-3 sm:px-6 py-3 font-medium">Joined</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {stats.recentUsers.slice(0, 5).map((u) => (
                   <tr key={u.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-3 font-medium text-gray-900">{u.name}</td>
-                    <td className="px-6 py-3 text-gray-600">{u.email}</td>
-                    <td className="px-6 py-3">
+                    <td className="px-3 sm:px-6 py-3 font-medium text-gray-900">{u.name}</td>
+                    <td className="px-3 sm:px-6 py-3 text-gray-600">{u.email}</td>
+                    <td className="px-3 sm:px-6 py-3">
                       <span className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${
                         u.role === 'ADMIN' ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-600'
                       }`}>
                         {u.role}
                       </span>
                     </td>
-                    <td className="px-6 py-3 text-gray-500">{formatDate(u.createdAt)}</td>
+                    <td className="px-3 sm:px-6 py-3 text-gray-500">{formatDate(u.createdAt)}</td>
                   </tr>
                 ))}
                 {stats.recentUsers.length === 0 && (
-                  <tr><td colSpan={4} className="px-6 py-4 text-center text-gray-400">No users yet</td></tr>
+                  <tr><td colSpan={4} className="px-3 sm:px-6 py-4 text-center text-gray-400">No users yet</td></tr>
                 )}
               </tbody>
             </table>
@@ -134,27 +134,27 @@ export default function AdminDashboard() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="text-left text-gray-500 bg-gray-50">
-                  <th className="px-6 py-3 font-medium">Title</th>
-                  <th className="px-6 py-3 font-medium">Status</th>
-                  <th className="px-6 py-3 font-medium">Created</th>
+                  <th className="px-3 sm:px-6 py-3 font-medium">Title</th>
+                  <th className="px-3 sm:px-6 py-3 font-medium">Status</th>
+                  <th className="px-3 sm:px-6 py-3 font-medium">Created</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {stats.recentListings.slice(0, 5).map((l) => (
                   <tr key={l.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-3 font-medium text-gray-900 truncate max-w-[200px]">{l.title}</td>
-                    <td className="px-6 py-3">
+                    <td className="px-3 sm:px-6 py-3 font-medium text-gray-900 truncate max-w-[120px] sm:max-w-[200px]">{l.title}</td>
+                    <td className="px-3 sm:px-6 py-3">
                       <span className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${
                         statusColors[l.status] || 'bg-gray-100 text-gray-600'
                       }`}>
                         {l.status}
                       </span>
                     </td>
-                    <td className="px-6 py-3 text-gray-500">{formatDate(l.createdAt)}</td>
+                    <td className="px-3 sm:px-6 py-3 text-gray-500">{formatDate(l.createdAt)}</td>
                   </tr>
                 ))}
                 {stats.recentListings.length === 0 && (
-                  <tr><td colSpan={3} className="px-6 py-4 text-center text-gray-400">No listings yet</td></tr>
+                  <tr><td colSpan={3} className="px-3 sm:px-6 py-4 text-center text-gray-400">No listings yet</td></tr>
                 )}
               </tbody>
             </table>
