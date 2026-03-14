@@ -34,7 +34,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50">
       {/* ── Top utility bar ── */}
-      <div className="hidden sm:block bg-elite-navy text-white/80 text-xs">
+      <div className="hidden sm:block bg-elite-navy text-white/80 text-xs header-spaced">
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-8">
           <div className="flex items-center gap-4">
             <Link href="/listings/create" className="hover:text-[#0EA5E9] transition-colors flex items-center gap-1">
@@ -72,14 +72,14 @@ export default function Header() {
 
       {/* ── Main header row ── */}
       <div
-        className={`transition-all duration-300 ${
+        className={`transition-all duration-300 header-spaced ${
           scrolled
             ? 'bg-white/95 backdrop-blur-md shadow-md border-b border-gray-100'
             : 'bg-elite-navy'
         }`}
       >
-        <div className="w-full px-3 sm:px-6 py-2.5">
-          <div className="flex items-center gap-2 sm:gap-3">
+        <div className="w-full">
+          <div className="flex items-center gap-3 sm:gap-5">
             {/* Hamburger – mobile only */}
             <button
               onClick={() => setMobileNavOpen(!mobileNavOpen)}
@@ -99,21 +99,21 @@ export default function Header() {
             </button>
 
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-1.5 shrink-0 group">
-              <div className={`w-7 h-7 rounded-lg flex items-center justify-center font-black text-sm transition-colors ${
+            <Link href="/" className="flex items-center gap-2 shrink-0 group transition-all duration-300 hover:scale-105 active:scale-95">
+              <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-base transition-colors ${
                 scrolled ? 'bg-elite-navy text-elite-gold' : 'bg-elite-gold/20 text-elite-gold'
               }`}>
                 3R
               </div>
-              <span className={`font-serif font-bold text-base sm:text-lg tracking-tight transition-colors whitespace-nowrap ${scrolled ? 'text-elite-navy' : 'text-white'}`}>
+              <span className={`font-serif font-bold text-lg sm:text-xl tracking-tight transition-colors whitespace-nowrap ${scrolled ? 'text-elite-navy' : 'text-white'}`}>
                 <span className="font-sans font-extrabold">3R</span>{' '}
                 <span className="italic">Elite</span>
               </span>
             </Link>
 
             {/* Search – visible from sm */}
-            <form onSubmit={handleSearch} className="hidden sm:flex flex-1 max-w-xl">
-              <div className={`flex flex-1 rounded-lg overflow-hidden ring-2 transition-all ${
+            <form onSubmit={handleSearch} className="hidden sm:flex flex-1 max-w-xl transition-all duration-300">
+              <div className={`flex flex-1 rounded-lg overflow-hidden ring-2 transition-all duration-300 ${
                 scrolled ? 'ring-gray-200 focus-within:ring-elite-gold/60' : 'ring-white/20 focus-within:ring-elite-gold/60'
               }`}>
                 <input
@@ -121,16 +121,16 @@ export default function Header() {
                   value={searchQ}
                   onChange={(e) => setSearchQ(e.target.value)}
                   placeholder="Search products, brands and categories"
-                  className={`flex-1 min-w-0 px-3 py-1.5 text-sm focus:outline-none transition-colors ${
+                  className={`flex-1 min-w-0 px-4 py-2 text-base focus:outline-none transition-colors duration-300 ${
                     scrolled ? 'bg-white text-gray-900 placeholder:text-gray-400' : 'bg-white/10 text-white placeholder:text-white/60'
                   }`}
                 />
                 <button
                   type="submit"
-                  className={`px-3 sm:px-4 py-1.5 text-sm font-semibold whitespace-nowrap transition-colors interactive ${
+                  className={`px-4 sm:px-5 py-2 text-base font-semibold whitespace-nowrap transition-colors interactive duration-300 ${
                     scrolled
-                      ? 'bg-elite-gold text-white hover:bg-elite-gold-dark'
-                      : 'bg-elite-gold/90 text-white hover:bg-elite-gold'
+                      ? 'bg-elite-gold text-white hover:bg-elite-gold-dark active:scale-95'
+                      : 'bg-elite-gold/90 text-white hover:bg-elite-gold active:scale-95'
                   }`}
                 >
                   Search
@@ -142,7 +142,7 @@ export default function Header() {
             <div className="flex-1 sm:hidden" />
 
             {/* Right nav icons */}
-            <nav className="flex items-center gap-0.5 sm:gap-1">
+            <nav className="flex items-center gap-2 sm:gap-3">
               {/* Sell button */}
               <Link
                 href="/listings/create"
