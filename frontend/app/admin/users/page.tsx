@@ -69,41 +69,42 @@ export default function AdminUsersPage() {
         />
       </div>
       <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead className="bg-gray-50 border-b">
             <tr>
-              <th className="text-left px-6 py-3 font-medium text-gray-600">Name</th>
-              <th className="text-left px-6 py-3 font-medium text-gray-600">Email</th>
-              <th className="text-left px-6 py-3 font-medium text-gray-600">Role</th>
-              <th className="text-left px-6 py-3 font-medium text-gray-600">Country</th>
-              <th className="text-left px-6 py-3 font-medium text-gray-600">Joined</th>
-              <th className="text-left px-6 py-3 font-medium text-gray-600">Status</th>
-              <th className="text-left px-6 py-3 font-medium text-gray-600">Actions</th>
+              <th className="text-left px-3 sm:px-6 py-3 font-medium text-gray-600">Name</th>
+              <th className="text-left px-3 sm:px-6 py-3 font-medium text-gray-600">Email</th>
+              <th className="text-left px-3 sm:px-6 py-3 font-medium text-gray-600">Role</th>
+              <th className="text-left px-3 sm:px-6 py-3 font-medium text-gray-600">Country</th>
+              <th className="text-left px-3 sm:px-6 py-3 font-medium text-gray-600">Joined</th>
+              <th className="text-left px-3 sm:px-6 py-3 font-medium text-gray-600">Status</th>
+              <th className="text-left px-3 sm:px-6 py-3 font-medium text-gray-600">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y">
             {users.map((u) => (
               <tr key={u.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 font-medium">{u.name}</td>
-                <td className="px-6 py-4 text-gray-500">{u.email}</td>
-                <td className="px-6 py-4">
+                <td className="px-3 sm:px-6 py-3 sm:py-4 font-medium">{u.name}</td>
+                <td className="px-3 sm:px-6 py-3 sm:py-4 text-gray-500">{u.email}</td>
+                <td className="px-3 sm:px-6 py-3 sm:py-4">
                   <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
                     u.role === 'ADMIN' ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-600'
                   }`}>{u.role}</span>
                 </td>
-                <td className="px-6 py-4">{u.country}</td>
-                <td className="px-6 py-4 text-gray-500">{formatDate(u.createdAt)}</td>
-                <td className="px-6 py-4">
+                <td className="px-3 sm:px-6 py-3 sm:py-4">{u.country}</td>
+                <td className="px-3 sm:px-6 py-3 sm:py-4 text-gray-500">{formatDate(u.createdAt)}</td>
+                <td className="px-3 sm:px-6 py-3 sm:py-4">
                   <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
                     u.isBanned ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'
                   }`}>{u.isBanned ? 'Banned' : 'Active'}</span>
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-3 sm:px-6 py-3 sm:py-4">
                   {u.role !== 'ADMIN' && (
                     <div className="flex gap-2">
                       <button
                         onClick={() => toggleBan(u.id, u.isBanned)}
-                        className={`text-xs px-3 py-1 rounded font-medium ${
+                        className={`text-xs px-3 py-1.5 rounded font-medium ${
                           u.isBanned ? 'bg-green-500 text-white hover:bg-green-600' : 'bg-red-500 text-white hover:bg-red-600'
                         } transition-colors`}
                       >
@@ -111,7 +112,7 @@ export default function AdminUsersPage() {
                       </button>
                       <button
                         onClick={() => deleteUser(u.id, u.name)}
-                        className="text-xs px-3 py-1 rounded font-medium bg-gray-700 text-white hover:bg-gray-800 transition-colors"
+                        className="text-xs px-3 py-1.5 rounded font-medium bg-gray-700 text-white hover:bg-gray-800 transition-colors"
                       >
                         Delete
                       </button>
@@ -122,6 +123,7 @@ export default function AdminUsersPage() {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
     </>
   );

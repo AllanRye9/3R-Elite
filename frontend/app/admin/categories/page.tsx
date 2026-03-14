@@ -211,15 +211,16 @@ export default function AdminCategoriesPage() {
       )}
 
       <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead className="bg-gray-50 border-b">
             <tr>
-              <th className="text-left px-6 py-3 font-medium text-gray-600">Name</th>
-              <th className="text-left px-6 py-3 font-medium text-gray-600">Slug</th>
-              <th className="text-left px-6 py-3 font-medium text-gray-600">Icon</th>
-              <th className="text-left px-6 py-3 font-medium text-gray-600">Parent</th>
-              <th className="text-left px-6 py-3 font-medium text-gray-600">Listings</th>
-              <th className="text-left px-6 py-3 font-medium text-gray-600">Actions</th>
+              <th className="text-left px-3 sm:px-6 py-3 font-medium text-gray-600">Name</th>
+              <th className="text-left px-3 sm:px-6 py-3 font-medium text-gray-600">Slug</th>
+              <th className="text-left px-3 sm:px-6 py-3 font-medium text-gray-600">Icon</th>
+              <th className="text-left px-3 sm:px-6 py-3 font-medium text-gray-600">Parent</th>
+              <th className="text-left px-3 sm:px-6 py-3 font-medium text-gray-600">Listings</th>
+              <th className="text-left px-3 sm:px-6 py-3 font-medium text-gray-600">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y">
@@ -233,35 +234,35 @@ export default function AdminCategoriesPage() {
             {categories.map((cat) =>
               editingId === cat.id ? (
                 <tr key={cat.id} className="bg-sky-50">
-                  <td className="px-6 py-3">
+                  <td className="px-3 sm:px-6 py-3">
                     <input
                       type="text"
                       value={editForm.name}
                       onChange={(e) => handleEditNameChange(e.target.value)}
-                      className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                      className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
                     />
                   </td>
-                  <td className="px-6 py-3">
+                  <td className="px-3 sm:px-6 py-3">
                     <input
                       type="text"
                       value={editForm.slug}
                       onChange={(e) => setEditForm((prev) => ({ ...prev, slug: e.target.value }))}
-                      className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                      className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
                     />
                   </td>
-                  <td className="px-6 py-3">
+                  <td className="px-3 sm:px-6 py-3">
                     <input
                       type="text"
                       value={editForm.icon}
                       onChange={(e) => setEditForm((prev) => ({ ...prev, icon: e.target.value }))}
-                      className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                      className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
                     />
                   </td>
-                  <td className="px-6 py-3">
+                  <td className="px-3 sm:px-6 py-3">
                     <select
                       value={editForm.parentId}
                       onChange={(e) => setEditForm((prev) => ({ ...prev, parentId: e.target.value }))}
-                      className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                      className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
                     >
                       <option value="">None</option>
                       {categories.filter((c) => c.id !== cat.id).map((c) => (
@@ -269,19 +270,19 @@ export default function AdminCategoriesPage() {
                       ))}
                     </select>
                   </td>
-                  <td className="px-6 py-3 text-gray-500">{cat._count.listings}</td>
-                  <td className="px-6 py-3">
+                  <td className="px-3 sm:px-6 py-3 text-gray-500">{cat._count.listings}</td>
+                  <td className="px-3 sm:px-6 py-3">
                     <div className="flex gap-2">
                       <button
                         onClick={handleEditSubmit}
                         disabled={editLoading || !editForm.name.trim()}
-                        className="text-xs px-3 py-1 rounded font-medium bg-green-500 text-white hover:bg-green-600 transition-colors disabled:opacity-50"
+                        className="text-xs px-3 py-1.5 rounded font-medium bg-green-500 text-white hover:bg-green-600 transition-colors disabled:opacity-50"
                       >
                         {editLoading ? 'Saving...' : 'Save'}
                       </button>
                       <button
                         onClick={() => setEditingId(null)}
-                        className="text-xs px-3 py-1 rounded font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors"
+                        className="text-xs px-3 py-1.5 rounded font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors"
                       >
                         Cancel
                       </button>
@@ -290,26 +291,26 @@ export default function AdminCategoriesPage() {
                 </tr>
               ) : (
                 <tr key={cat.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 font-medium">{cat.name}</td>
-                  <td className="px-6 py-4 text-gray-500">{cat.slug}</td>
-                  <td className="px-6 py-4">{cat.icon ?? '—'}</td>
-                  <td className="px-6 py-4 text-gray-500">{parentName(cat.parentId)}</td>
-                  <td className="px-6 py-4">
+                  <td className="px-3 sm:px-6 py-3 sm:py-4 font-medium">{cat.name}</td>
+                  <td className="px-3 sm:px-6 py-3 sm:py-4 text-gray-500">{cat.slug}</td>
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">{cat.icon ?? '—'}</td>
+                  <td className="px-3 sm:px-6 py-3 sm:py-4 text-gray-500">{parentName(cat.parentId)}</td>
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
                     <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
                       {cat._count.listings}
                     </span>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
                     <div className="flex gap-2">
                       <button
                         onClick={() => startEdit(cat)}
-                        className="text-xs px-3 py-1 rounded font-medium bg-sky-500 text-white hover:bg-sky-600 transition-colors"
+                        className="text-xs px-3 py-1.5 rounded font-medium bg-sky-500 text-white hover:bg-sky-600 transition-colors"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDelete(cat.id, cat.name)}
-                        className="text-xs px-3 py-1 rounded font-medium bg-red-500 text-white hover:bg-red-600 transition-colors"
+                        className="text-xs px-3 py-1.5 rounded font-medium bg-red-500 text-white hover:bg-red-600 transition-colors"
                       >
                         Delete
                       </button>
@@ -320,6 +321,7 @@ export default function AdminCategoriesPage() {
             )}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );

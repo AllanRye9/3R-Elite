@@ -89,30 +89,31 @@ export default function AdminListingsPage() {
         </select>
       </div>
       <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead className="bg-gray-50 border-b">
             <tr>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Title</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Seller</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Price</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Category</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Status</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Posted</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Actions</th>
+              <th className="text-left px-3 sm:px-4 py-3 font-medium text-gray-600">Title</th>
+              <th className="text-left px-3 sm:px-4 py-3 font-medium text-gray-600">Seller</th>
+              <th className="text-left px-3 sm:px-4 py-3 font-medium text-gray-600">Price</th>
+              <th className="text-left px-3 sm:px-4 py-3 font-medium text-gray-600">Category</th>
+              <th className="text-left px-3 sm:px-4 py-3 font-medium text-gray-600">Status</th>
+              <th className="text-left px-3 sm:px-4 py-3 font-medium text-gray-600">Posted</th>
+              <th className="text-left px-3 sm:px-4 py-3 font-medium text-gray-600">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y">
             {listings.map((l) => (
               <tr key={l.id} className="hover:bg-gray-50">
-                <td className="px-4 py-3">
+                <td className="px-3 sm:px-4 py-3">
                   <Link href={`/listings/${l.id}`} className="hover:text-sky-600 line-clamp-1 font-medium">
                     {l.title}
                   </Link>
                 </td>
-                <td className="px-4 py-3 text-gray-500">{l.user?.name}</td>
-                <td className="px-4 py-3"><CurrencyDisplay amount={l.price} currency={l.currency} /></td>
-                <td className="px-4 py-3 text-gray-500">{l.category?.name}</td>
-                <td className="px-4 py-3">
+                <td className="px-3 sm:px-4 py-3 text-gray-500">{l.user?.name}</td>
+                <td className="px-3 sm:px-4 py-3"><CurrencyDisplay amount={l.price} currency={l.currency} /></td>
+                <td className="px-3 sm:px-4 py-3 text-gray-500">{l.category?.name}</td>
+                <td className="px-3 sm:px-4 py-3">
                   <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
                     l.status === 'ACTIVE' ? 'bg-green-100 text-green-700' :
                     l.status === 'SOLD' ? 'bg-blue-100 text-blue-700' :
@@ -120,13 +121,13 @@ export default function AdminListingsPage() {
                     'bg-yellow-100 text-yellow-700'
                   }`}>{l.status}</span>
                 </td>
-                <td className="px-4 py-3 text-gray-500">{formatDate(l.createdAt)}</td>
-                <td className="px-4 py-3">
+                <td className="px-3 sm:px-4 py-3 text-gray-500">{formatDate(l.createdAt)}</td>
+                <td className="px-3 sm:px-4 py-3">
                   <div className="flex items-center gap-2">
                     <select
                       value={l.status}
                       onChange={(e) => updateStatus(l.id, e.target.value)}
-                      className="text-xs border border-gray-200 rounded px-2 py-1"
+                      className="text-xs border border-gray-200 rounded px-2 py-1.5"
                     >
                       <option value="ACTIVE">Active</option>
                       <option value="PENDING">Pending</option>
@@ -146,6 +147,7 @@ export default function AdminListingsPage() {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );

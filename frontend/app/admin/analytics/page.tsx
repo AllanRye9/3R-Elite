@@ -43,7 +43,7 @@ function BarChart({
     <div className="bg-white rounded-xl shadow-sm p-6">
       <h2 className="text-lg font-semibold text-gray-900 mb-4">{label}</h2>
       <div className="overflow-x-auto">
-        <div className="flex items-end gap-1 min-w-[600px] h-48">
+        <div className="flex items-end gap-1 min-w-[400px] h-48">
           {data.map((point, i) => (
             <div
               key={point.date}
@@ -176,7 +176,7 @@ export default function AdminAnalytics() {
           <h2 className="text-lg font-semibold text-gray-900 mb-4">
             Listings by Country
           </h2>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 xs:grid-cols-2 gap-3 sm:gap-4">
             {countryEntries.map(([country, count]) => (
               <div
                 key={country}

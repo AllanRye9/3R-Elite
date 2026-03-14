@@ -79,10 +79,10 @@ export default function ListingDetailPage() {
         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
         <Link href={`/listings?category=${listing.category.slug}`} className="hover:text-sky-600 transition-colors">{listing.category.name}</Link>
         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-        <span className="text-gray-600 line-clamp-1 max-w-[200px]">{listing.title}</span>
+        <span className="text-gray-600 line-clamp-1 max-w-[120px] sm:max-w-[200px]">{listing.title}</span>
       </nav>
 
-      <div className="grid md:grid-cols-[1fr_340px] gap-5 lg:gap-7">
+      <div className="grid md:grid-cols-[1fr_340px] gap-4 sm:gap-5 lg:gap-7">
         {/* Left: Images + Details */}
         <div className="space-y-4">
           {/* Main image */}

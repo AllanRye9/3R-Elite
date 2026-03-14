@@ -58,29 +58,30 @@ export default function AdminReportsPage() {
         </div>
       ) : (
         <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+          <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b">
               <tr>
-                <th className="text-left px-6 py-3 font-medium text-gray-600">Reporter</th>
-                <th className="text-left px-6 py-3 font-medium text-gray-600">Listing</th>
-                <th className="text-left px-6 py-3 font-medium text-gray-600">Reason</th>
-                <th className="text-left px-6 py-3 font-medium text-gray-600">Date</th>
-                <th className="text-left px-6 py-3 font-medium text-gray-600">Actions</th>
+                <th className="text-left px-3 sm:px-6 py-3 font-medium text-gray-600">Reporter</th>
+                <th className="text-left px-3 sm:px-6 py-3 font-medium text-gray-600">Listing</th>
+                <th className="text-left px-3 sm:px-6 py-3 font-medium text-gray-600">Reason</th>
+                <th className="text-left px-3 sm:px-6 py-3 font-medium text-gray-600">Date</th>
+                <th className="text-left px-3 sm:px-6 py-3 font-medium text-gray-600">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y">
               {reports.map((r) => (
                 <tr key={r.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4">{r.reporter.name} <span className="text-gray-400">({r.reporter.email})</span></td>
-                  <td className="px-6 py-4">
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">{r.reporter.name} <span className="text-gray-400">({r.reporter.email})</span></td>
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
                     <Link href={`/listings/${r.listing.id}`} className="hover:text-sky-600">{r.listing.title}</Link>
                   </td>
-                  <td className="px-6 py-4 text-gray-600 max-w-[300px] truncate">{r.reason}</td>
-                  <td className="px-6 py-4 text-gray-500">{formatDate(r.createdAt)}</td>
-                  <td className="px-6 py-4">
+                  <td className="px-3 sm:px-6 py-3 sm:py-4 text-gray-600 max-w-[150px] sm:max-w-[300px] truncate">{r.reason}</td>
+                  <td className="px-3 sm:px-6 py-3 sm:py-4 text-gray-500">{formatDate(r.createdAt)}</td>
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
                     <button
                       onClick={() => dismissReport(r.id)}
-                      className="text-xs px-3 py-1 rounded font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+                      className="text-xs px-3 py-1.5 rounded font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
                     >
                       Dismiss
                     </button>
@@ -89,6 +90,7 @@ export default function AdminReportsPage() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       )}
     </div>

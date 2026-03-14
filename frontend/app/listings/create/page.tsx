@@ -134,7 +134,7 @@ export default function CreateListingPage() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold text-gray-900 mb-8">Post a Listing</h1>
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm p-8 space-y-6">
+      <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm p-4 sm:p-8 space-y-6">
         {error && <div className="bg-red-50 border border-red-200 text-red-700 rounded p-3 text-sm">{error}</div>}
 
         <div>
@@ -160,7 +160,7 @@ export default function CreateListingPage() {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Price ({currency}) *</label>
             <input
@@ -239,7 +239,7 @@ export default function CreateListingPage() {
                   <button
                     type="button"
                     onClick={() => removeImage(i)}
-                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-80 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity"
                     aria-label="Remove image"
                   >
                     ×
@@ -251,7 +251,7 @@ export default function CreateListingPage() {
 
           {/* Upload area */}
           <div
-            className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-sky-400 transition-colors"
+            className="border-2 border-dashed border-gray-300 rounded-lg p-4 sm:p-6 text-center cursor-pointer hover:border-sky-400 transition-colors"
             onClick={() => fileInputRef.current?.click()}
           >
             {uploadingImages ? (

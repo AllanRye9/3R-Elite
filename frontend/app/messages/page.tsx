@@ -31,7 +31,7 @@ export default function MessagesPage() {
     <div className="max-w-3xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold text-gray-900 mb-8">Messages</h1>
       {conversations.length === 0 ? (
-        <div className="bg-white rounded-xl shadow-sm p-12 text-center text-gray-500">
+        <div className="bg-white rounded-xl shadow-sm p-8 sm:p-12 text-center text-gray-500">
           <p className="text-4xl mb-3">💬</p>
           <p className="font-medium">No conversations yet</p>
           <p className="text-sm mt-1">Start by contacting a seller on any listing</p>
@@ -44,7 +44,7 @@ export default function MessagesPage() {
               <a
                 key={conv.id}
                 href={`/messages/${conv.listingId}/${other.id}`}
-                className="flex items-center gap-4 bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition-shadow"
+                className="flex items-center gap-3 sm:gap-4 bg-white rounded-xl shadow-sm p-3 sm:p-4 hover:shadow-md transition-shadow"
               >
                 <UserAvatar user={other} size="md" />
                 <div className="flex-1 min-w-0">
@@ -65,7 +65,7 @@ export default function MessagesPage() {
                     alt=""
                     width={56}
                     height={56}
-                    className="w-14 h-14 rounded-lg object-cover shrink-0"
+                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg object-cover shrink-0"
                   />
                 )}
               </a>
