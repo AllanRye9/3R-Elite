@@ -51,17 +51,18 @@ export default function Header() {
                 className="flex items-center gap-1 border border-white/20 rounded px-2 py-0.5 hover:border-[#90D5FF] hover:text-[#90D5FF] transition-colors"
                 aria-label="Language and currency"
                 aria-haspopup="true"
+                aria-expanded="false"
               >
                 <span>English | {currency}</span>
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
               </button>
-              <div className="absolute right-0 top-full mt-1 w-40 bg-white rounded-lg shadow-lg border border-gray-100 py-1 hidden group-hover:block z-50">
-                <button className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#90D5FF]/10 hover:text-[#90D5FF] text-xs transition-colors">English</button>
-                <button className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#90D5FF]/10 hover:text-[#90D5FF] text-xs transition-colors">العربية</button>
+              <div className="absolute right-0 top-full mt-1 w-40 bg-white rounded-lg shadow-lg border border-gray-100 py-1 hidden group-hover:block z-50" role="menu">
+                <button role="menuitem" className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#90D5FF]/10 hover:text-[#90D5FF] text-xs transition-colors">English</button>
+                <button role="menuitem" className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#90D5FF]/10 hover:text-[#90D5FF] text-xs transition-colors">العربية</button>
                 <hr className="my-1 border-gray-100" />
-                <button className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#90D5FF]/10 hover:text-[#90D5FF] text-xs transition-colors">AED</button>
-                <button className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#90D5FF]/10 hover:text-[#90D5FF] text-xs transition-colors">UGX</button>
-                <button className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#90D5FF]/10 hover:text-[#90D5FF] text-xs transition-colors">USD</button>
+                <button role="menuitem" className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#90D5FF]/10 hover:text-[#90D5FF] text-xs transition-colors">AED</button>
+                <button role="menuitem" className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#90D5FF]/10 hover:text-[#90D5FF] text-xs transition-colors">UGX</button>
+                <button role="menuitem" className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#90D5FF]/10 hover:text-[#90D5FF] text-xs transition-colors">USD</button>
               </div>
             </div>
             <CountrySelector />

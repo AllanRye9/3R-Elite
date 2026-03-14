@@ -10,6 +10,8 @@ interface Props {
   listings: Listing[];
 }
 
+const discountTiers = ['-15%', '-25%', '-30%', '-40%', '-50%', '-60%'];
+
 function useCountdown() {
   const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
 
@@ -74,7 +76,7 @@ export default function FlashDeals({ listings }: Props) {
 
       {/* Flash sales discount circles */}
       <div className="bg-white flex gap-3 xs:gap-4 overflow-x-auto no-scrollbar px-3 xs:px-4 py-3 border-b border-gray-100">
-        {['-15%', '-25%', '-30%', '-40%', '-50%', '-60%'].map((discount) => (
+        {discountTiers.map((discount) => (
           <div key={discount} className="flex-shrink-0 flex flex-col items-center gap-1">
             <div className="w-12 h-12 xs:w-14 xs:h-14 rounded-full bg-[#90D5FF] flex items-center justify-center">
               <span className="text-white font-extrabold text-xs xs:text-sm">{discount}</span>

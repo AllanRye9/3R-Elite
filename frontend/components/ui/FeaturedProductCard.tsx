@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface FeaturedProductCardProps {
   storeName?: string;
@@ -23,11 +24,12 @@ export default function FeaturedProductCard({
     <Link href={href} className="block group">
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-lg transition-shadow">
         <div className="aspect-[4/3] relative overflow-hidden bg-gray-50">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src={imageUrl}
             alt={title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
+            sizes="(max-width: 640px) 100vw, 384px"
           />
           <div className="absolute top-2 left-2">
             <span className="bg-[#90D5FF] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">

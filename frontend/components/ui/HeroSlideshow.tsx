@@ -58,7 +58,7 @@ export default function HeroSlideshow({ slides = defaultSlides, interval = 4000 
   };
 
   return (
-    <div className="absolute inset-0 overflow-hidden" role="region" aria-label="Image slideshow" style={{ left: '3%', right: '3%', width: '94%' }}>
+    <div className="absolute inset-0 overflow-hidden mx-[3%] w-[94%]" role="region" aria-label="Image slideshow">
       {slides.map((slide, i) => (
         <div
           key={i}

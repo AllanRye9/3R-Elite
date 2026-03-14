@@ -11,7 +11,10 @@ interface AvatarCropperProps {
 
 async function getCroppedImg(imageSrc: string, pixelCrop: Area): Promise<Blob> {
   const image = new Image();
-  image.crossOrigin = 'anonymous';
+  // Only set crossOrigin for remote URLs, not for data URLs
+  if (!imageSrc.startsWith('data:')) {
+    image.crossOrigin = 'anonymous';
+  }
   await new Promise<void>((resolve, reject) => {
     image.onload = () => resolve();
     image.onerror = reject;
