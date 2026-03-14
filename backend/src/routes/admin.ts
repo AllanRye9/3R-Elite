@@ -2,36 +2,227 @@ import { Router, Request, Response, NextFunction } from 'express';
 import { prisma } from '../utils/prisma';
 import { authenticate, authorize } from '../middleware/auth';
 import { AuthRequest } from '../middleware/auth';
+import { createError } from '../middleware/errorHandler';
 
 const router = Router();
 
 router.use(authenticate, authorize('ADMIN'));
 
+// ─── In-memory site settings ───────────────────────────────────────────────────
+
+const defaultSettings: Record<string, unknown> = {
+  siteName: '3R Elite',
+  maintenanceMode: false,
+  allowRegistration: true,
+  defaultCountry: 'UAE',
+  itemsPerPage: 20,
+  maxImagesPerListing: 10,
+};
+
+let siteSettings: Record<string, unknown> = { ...defaultSettings };
+
+// ─── Stats ─────────────────────────────────────────────────────────────────────
+
 router.get('/stats', async (_req: Request, res: Response, next: NextFunction) => {
   try {
-    const [users, listings, reports, activeListings] = await Promise.all([
+    const startOfMonth = new Date();
+    startOfMonth.setDate(1);
+    startOfMonth.setHours(0, 0, 0, 0);
+
+    const [
+      users,
+      listings,
+      reports,
+      activeListings,
+      pendingListings,
+      newUsersThisMonth,
+      newListingsThisMonth,
+      recentUsers,
+      recentListings,
+      listingsByStatusRaw,
+      usersByCountryRaw,
+    ] = await Promise.all([
       prisma.user.count(),
       prisma.listing.count(),
       prisma.report.count(),
       prisma.listing.count({ where: { status: 'ACTIVE' } }),
+      prisma.listing.count({ where: { status: 'PENDING' } }),
+      prisma.user.count({ where: { createdAt: { gte: startOfMonth } } }),
+      prisma.listing.count({ where: { createdAt: { gte: startOfMonth } } }),
+      prisma.user.findMany({
+        select: { id: true, email: true, name: true, role: true, createdAt: true },
+        orderBy: { createdAt: 'desc' },
+        take: 5,
+      }),
+      prisma.listing.findMany({
+        select: { id: true, title: true, status: true, createdAt: true },
+        orderBy: { createdAt: 'desc' },
+        take: 5,
+      }),
+      prisma.listing.groupBy({ by: ['status'], _count: { status: true } }),
+      prisma.user.groupBy({ by: ['country'], _count: { country: true } }),
     ]);
-    res.json({ users, listings, reports, activeListings });
+
+    const listingsByStatus = listingsByStatusRaw.reduce(
+      (acc, row) => ({ ...acc, [row.status]: row._count.status }),
+      {} as Record<string, number>,
+    );
+
+    const usersByCountry = usersByCountryRaw.reduce(
+      (acc, row) => ({ ...acc, [row.country]: row._count.country }),
+      {} as Record<string, number>,
+    );
+
+    res.json({
+      users,
+      listings,
+      reports,
+      activeListings,
+      pendingListings,
+      newUsersThisMonth,
+      newListingsThisMonth,
+      recentUsers,
+      recentListings,
+      listingsByStatus,
+      usersByCountry,
+    });
   } catch (err) {
     next(err);
   }
 });
 
+// ─── Analytics ─────────────────────────────────────────────────────────────────
+
+router.get('/analytics', async (_req: Request, res: Response, next: NextFunction) => {
+  try {
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    thirtyDaysAgo.setHours(0, 0, 0, 0);
+
+    const [
+      recentUsers,
+      recentListings,
+      topCategoriesRaw,
+      listingsByCountryRaw,
+    ] = await Promise.all([
+      prisma.user.findMany({
+        where: { createdAt: { gte: thirtyDaysAgo } },
+        select: { createdAt: true },
+        orderBy: { createdAt: 'asc' },
+      }),
+      prisma.listing.findMany({
+        where: { createdAt: { gte: thirtyDaysAgo } },
+        select: { createdAt: true },
+        orderBy: { createdAt: 'asc' },
+      }),
+      prisma.listing.groupBy({
+        by: ['categoryId'],
+        _count: { categoryId: true },
+        orderBy: { _count: { categoryId: 'desc' } },
+        take: 10,
+      }),
+      prisma.listing.groupBy({
+        by: ['country'],
+        _count: { country: true },
+      }),
+    ]);
+
+    // Bucket users and listings by date
+    const bucketByDate = (records: { createdAt: Date }[]) => {
+      const counts: Record<string, number> = {};
+      for (let i = 0; i < 30; i++) {
+        const d = new Date(thirtyDaysAgo);
+        d.setDate(d.getDate() + i);
+        counts[d.toISOString().slice(0, 10)] = 0;
+      }
+      for (const record of records) {
+        const key = record.createdAt.toISOString().slice(0, 10);
+        if (key in counts) counts[key]++;
+      }
+      return Object.entries(counts).map(([date, count]) => ({ date, count }));
+    };
+
+    const userGrowth = bucketByDate(recentUsers);
+    const listingGrowth = bucketByDate(recentListings);
+
+    // Resolve category names for topCategories
+    const categoryIds = topCategoriesRaw.map((c) => c.categoryId);
+    const categories = await prisma.category.findMany({
+      where: { id: { in: categoryIds } },
+      select: { id: true, name: true },
+    });
+    const categoryMap = new Map(categories.map((c) => [c.id, c.name]));
+
+    const topCategories = topCategoriesRaw.map((row) => ({
+      name: categoryMap.get(row.categoryId) ?? 'Unknown',
+      count: row._count.categoryId,
+    }));
+
+    const listingsByCountry = listingsByCountryRaw.reduce(
+      (acc, row) => ({ ...acc, [row.country]: row._count.country }),
+      {} as Record<string, number>,
+    );
+
+    // Revenue by category (sum of prices, top 10)
+    const revenueByCategoryRaw = await prisma.listing.groupBy({
+      by: ['categoryId'],
+      _sum: { price: true },
+      orderBy: { _sum: { price: 'desc' } },
+      take: 10,
+    });
+
+    const revCategoryIds = revenueByCategoryRaw.map((r) => r.categoryId);
+    const revCategories = await prisma.category.findMany({
+      where: { id: { in: revCategoryIds } },
+      select: { id: true, name: true },
+    });
+    const revCategoryMap = new Map(revCategories.map((c) => [c.id, c.name]));
+
+    const revenueByCategory = revenueByCategoryRaw.map((row) => ({
+      name: revCategoryMap.get(row.categoryId) ?? 'Unknown',
+      total: row._sum.price ?? 0,
+    }));
+
+    res.json({
+      userGrowth,
+      listingGrowth,
+      topCategories,
+      listingsByCountry,
+      revenueByCategory,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ─── Users ─────────────────────────────────────────────────────────────────────
+
 router.get('/users', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const page = Math.max(1, parseInt(req.query.page as string || '1'));
     const limit = Math.min(100, parseInt(req.query.limit as string || '20'));
-    const users = await prisma.user.findMany({
-      select: { id: true, email: true, name: true, role: true, country: true, isBanned: true, isVerified: true, createdAt: true },
-      skip: (page - 1) * limit,
-      take: limit,
-      orderBy: { createdAt: 'desc' },
-    });
-    const total = await prisma.user.count();
+    const search = (req.query.search as string || '').trim();
+
+    const where = search
+      ? {
+          OR: [
+            { name: { contains: search, mode: 'insensitive' as const } },
+            { email: { contains: search, mode: 'insensitive' as const } },
+          ],
+        }
+      : {};
+
+    const [users, total] = await Promise.all([
+      prisma.user.findMany({
+        where,
+        select: { id: true, email: true, name: true, role: true, country: true, isBanned: true, isVerified: true, createdAt: true },
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+      }),
+      prisma.user.count({ where }),
+    ]);
+
     res.json({ users, pagination: { total, page, limit } });
   } catch (err) {
     next(err);
@@ -56,20 +247,55 @@ router.put('/users/:id', async (req: AuthRequest, res: Response, next: NextFunct
   }
 });
 
+router.delete('/users/:id', async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    if (req.user?.userId === req.params.id) {
+      throw createError('Cannot delete your own account', 400);
+    }
+
+    await prisma.user.delete({ where: { id: req.params.id } });
+    res.json({ message: 'User deleted successfully' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ─── Listings ──────────────────────────────────────────────────────────────────
+
 router.get('/listings', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const page = Math.max(1, parseInt(req.query.page as string || '1'));
     const limit = Math.min(100, parseInt(req.query.limit as string || '20'));
-    const listings = await prisma.listing.findMany({
-      include: {
-        user: { select: { id: true, name: true, email: true } },
-        category: { select: { name: true } },
-      },
-      skip: (page - 1) * limit,
-      take: limit,
-      orderBy: { createdAt: 'desc' },
-    });
-    const total = await prisma.listing.count();
+    const search = (req.query.search as string || '').trim();
+    const status = (req.query.status as string || '').trim();
+
+    const where: Record<string, unknown> = {};
+
+    if (search) {
+      where.OR = [
+        { title: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } },
+      ];
+    }
+
+    if (status) {
+      where.status = status;
+    }
+
+    const [listings, total] = await Promise.all([
+      prisma.listing.findMany({
+        where,
+        include: {
+          user: { select: { id: true, name: true, email: true } },
+          category: { select: { name: true } },
+        },
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+      }),
+      prisma.listing.count({ where }),
+    ]);
+
     res.json({ listings, pagination: { total, page, limit } });
   } catch (err) {
     next(err);
@@ -89,6 +315,79 @@ router.put('/listings/:id', async (req: Request, res: Response, next: NextFuncti
   }
 });
 
+router.delete('/listings/:id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    await prisma.listing.delete({ where: { id: req.params.id } });
+    res.json({ message: 'Listing deleted successfully' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ─── Categories ────────────────────────────────────────────────────────────────
+
+router.get('/categories', async (_req: Request, res: Response, next: NextFunction) => {
+  try {
+    const categories = await prisma.category.findMany({
+      include: { _count: { select: { listings: true } } },
+      orderBy: { name: 'asc' },
+    });
+    res.json(categories);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post('/categories', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { name, slug, icon, parentId } = req.body;
+    if (!name || !slug) {
+      throw createError('Name and slug are required', 400);
+    }
+
+    const category = await prisma.category.create({
+      data: {
+        name,
+        slug,
+        ...(icon && { icon }),
+        ...(parentId && { parentId }),
+      },
+    });
+    res.status(201).json(category);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put('/categories/:id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { name, slug, icon, parentId } = req.body;
+    const category = await prisma.category.update({
+      where: { id: req.params.id },
+      data: {
+        ...(name && { name }),
+        ...(slug && { slug }),
+        ...(icon !== undefined && { icon }),
+        ...(parentId !== undefined && { parentId }),
+      },
+    });
+    res.json(category);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete('/categories/:id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    await prisma.category.delete({ where: { id: req.params.id } });
+    res.json({ message: 'Category deleted successfully' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ─── Reports ───────────────────────────────────────────────────────────────────
+
 router.get('/reports', async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const reports = await prisma.report.findMany({
@@ -99,6 +398,39 @@ router.get('/reports', async (_req: Request, res: Response, next: NextFunction) 
       orderBy: { createdAt: 'desc' },
     });
     res.json(reports);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete('/reports/:id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    await prisma.report.delete({ where: { id: req.params.id } });
+    res.json({ message: 'Report dismissed successfully' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ─── Settings ──────────────────────────────────────────────────────────────────
+
+router.get('/settings', async (_req: Request, res: Response, next: NextFunction) => {
+  try {
+    res.json(siteSettings);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put('/settings', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const allowedKeys = Object.keys(defaultSettings);
+    for (const key of Object.keys(req.body)) {
+      if (allowedKeys.includes(key)) {
+        siteSettings[key] = req.body[key];
+      }
+    }
+    res.json(siteSettings);
   } catch (err) {
     next(err);
   }
