@@ -84,7 +84,7 @@ export default function ListingDetailPage() {
 
       <div className="grid md:grid-cols-[1fr_340px] gap-4 sm:gap-5 lg:gap-7">
         {/* Left: Images + Details */}
-        <div className="space-y-4">
+        <div className="space-y-4 order-2 md:order-1">
           {/* Main image */}
           <div className="relative aspect-[4/3] bg-gray-100 rounded-2xl overflow-hidden group cursor-zoom-in">
             <Image
@@ -154,7 +154,7 @@ export default function ListingDetailPage() {
         </div>
 
         {/* Right: Price, Seller, Contact */}
-        <div className="space-y-4">
+        <div className="space-y-4 order-1 md:order-2">
           {/* Price card */}
           <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
             <div className="flex items-start justify-between mb-2">

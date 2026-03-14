@@ -65,7 +65,7 @@ export default function AdminListingsPage() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-gray-900 mb-2">Listings</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Listings</h1>
       <p className="text-gray-500 mb-6">{total} total listings</p>
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
         <input

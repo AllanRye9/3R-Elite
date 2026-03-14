@@ -136,10 +136,10 @@ export default function AdminCategoriesPage() {
   if (loading || fetching) return <div className="p-8 text-center">Loading...</div>;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
+    <div className="max-w-7xl mx-auto px-4 py-6 sm:py-10">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Categories</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Categories</h1>
           <p className="text-gray-500">{categories.length} total categories</p>
         </div>
         <button
