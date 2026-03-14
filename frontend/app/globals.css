@@ -94,9 +94,24 @@
      containers. Prevents "long-face" / "wide-face" distortion on non-square
      user-uploaded photos. ──────────────────────────────────────────────── */
   [data-nimg="fill"] {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
+    object-fit: cover !important;
+    width: 100% !important;
+    height: 100% !important;
+    aspect-ratio: 1 / 1 !important;
+    border-radius: inherit;
+    display: block;
+    background: #f1f5f9;
+  }
+
+  /* Utility for circular image containers */
+  .avatar-crop {
+    border-radius: 50% !important;
+    overflow: hidden !important;
+    aspect-ratio: 1 / 1 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
   }
 
   /* Ensure images and videos never overflow containers */

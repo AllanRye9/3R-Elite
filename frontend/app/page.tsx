@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { SearchBar } from '@/components/listings/SearchBar';
+// import { SearchBar } from '@/components/listings/SearchBar';
+import { JumboInputBar } from '@/components/ui/JumboInputBar';
 import { CategoryNav } from '@/components/listings/CategoryNav';
 import { ListingGrid } from '@/components/listings/ListingGrid';
 import HeroSlideshow from '@/components/ui/HeroSlideshow';
@@ -103,9 +104,9 @@ export default async function HomePage() {
             Exclusive Member Price: UGX 1,500,000
           </p>
 
-          {/* Search */}
-          <div className="max-w-2xl mx-auto px-1 xs:px-0">
-            <SearchBar className="w-full" />
+          {/* Jumbo Input Bar */}
+          <div className="max-w-2xl mx-auto px-1 xs:px-0 mt-6 mb-2">
+            <JumboInputBar className="w-full" />
           </div>
 
           {/* Quick links */}

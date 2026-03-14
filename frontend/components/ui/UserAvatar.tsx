@@ -13,7 +13,7 @@ export function UserAvatar({ user, size = 'md' }: Props) {
   if (user.avatar) {
     return (
       <div
-        className="relative overflow-hidden rounded-full shrink-0"
+        className="relative avatar-crop shrink-0"
         style={{ width: px, height: px }}
       >
         <Image
@@ -21,7 +21,6 @@ export function UserAvatar({ user, size = 'md' }: Props) {
           alt={user.name || 'User'}
           fill
           sizes={`${px}px`}
-          className="object-cover"
         />
       </div>
     );
