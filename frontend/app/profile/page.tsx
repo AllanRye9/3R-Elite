@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { api } from '@/lib/api';
 import { UserAvatar } from '@/components/ui/UserAvatar';
+import AvatarCropper from '@/components/ui/AvatarCropper';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -14,6 +15,7 @@ export default function ProfilePage() {
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [cropSrc, setCropSrc] = useState<string | null>(null);
   const avatarInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -49,10 +51,22 @@ export default function ProfilePage() {
       setAvatarError('Image must be under 5 MB');
       return;
     }
+    // Show cropper with the selected image
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        setCropSrc(reader.result);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleCroppedUpload = async (blob: Blob) => {
+    setCropSrc(null);
     setUploadingAvatar(true);
     try {
       const formData = new FormData();
-      formData.append('images', file);
+      formData.append('images', blob, 'avatar.jpg');
       const { data: uploadData } = await api.post('/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
@@ -68,6 +82,7 @@ export default function ProfilePage() {
   };
 
   const handleAvatarDelete = async () => {
+    if (!window.confirm('Are you sure you want to remove your profile photo?')) return;
     setAvatarError('');
     setUploadingAvatar(true);
     try {
@@ -101,29 +116,25 @@ export default function ProfilePage() {
     <div className="max-w-2xl mx-auto px-4 py-8 animate-fade-in">
       <h1 className="text-2xl font-extrabold text-gray-900 mb-6">My Profile</h1>
 
+      {/* Avatar cropper modal */}
+      {cropSrc && (
+        <AvatarCropper
+          imageSrc={cropSrc}
+          onCropComplete={handleCroppedUpload}
+          onCancel={() => setCropSrc(null)}
+        />
+      )}
+
       {/* Profile header */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-4">
         {/* Banner */}
-        <div className="h-20 bg-gradient-to-r from-brand-600 to-sky-400" />
+        <div className="h-20 bg-gradient-to-r from-[#90D5FF] to-[#60C0FF]" />
         <div className="px-4 sm:px-6 pb-4 sm:pb-6 -mt-10">
           <div className="flex flex-col sm:flex-row items-start sm:items-end gap-3 sm:gap-4">
             <div className="relative group">
-              <div className="ring-4 ring-white rounded-full shadow-lg overflow-hidden">
+              <div className="ring-4 ring-white rounded-full shadow-lg overflow-hidden w-24 h-24">
                 <UserAvatar user={user} size="lg" />
               </div>
-              <button
-                type="button"
-                onClick={() => avatarInputRef.current?.click()}
-                disabled={uploadingAvatar}
-                className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-                aria-label="Upload profile photo"
-              >
-                {uploadingAvatar ? (
-                  <svg className="animate-spin w-6 h-6 text-white" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
-                ) : (
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                )}
-              </button>
               <input
                 ref={avatarInputRef}
                 type="file"
@@ -131,22 +142,38 @@ export default function ProfilePage() {
                 className="hidden"
                 onChange={(e) => handleAvatarUpload(e.target.files)}
               />
-              {user.avatar && (
-                <button
-                  type="button"
-                  onClick={handleAvatarDelete}
-                  disabled={uploadingAvatar}
-                  className="absolute -bottom-1 -right-1 w-6 h-6 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center shadow-md transition-colors disabled:opacity-50"
-                  aria-label="Remove profile photo"
-                  title="Remove photo"
-                >
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-                </button>
-              )}
             </div>
-            <div className="pb-1">
+            <div className="pb-1 flex-1 min-w-0">
               <p className="text-xl font-extrabold text-gray-900">{user.name}</p>
               <p className="text-sm text-gray-500">{user.email}</p>
+              <div className="flex gap-2 mt-2">
+                <button
+                  type="button"
+                  onClick={() => avatarInputRef.current?.click()}
+                  disabled={uploadingAvatar}
+                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#90D5FF] text-white text-xs font-semibold hover:bg-[#60C0FF] transition-colors disabled:opacity-50"
+                  aria-label="Upload profile photo"
+                >
+                  {uploadingAvatar ? (
+                    <svg className="animate-spin w-3.5 h-3.5" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                  ) : (
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                  )}
+                  Upload Photo
+                </button>
+                {user.avatar && (
+                  <button
+                    type="button"
+                    onClick={handleAvatarDelete}
+                    disabled={uploadingAvatar}
+                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-red-200 text-red-500 text-xs font-semibold hover:bg-red-50 transition-colors disabled:opacity-50"
+                    aria-label="Remove profile photo"
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                    Delete
+                  </button>
+                )}
+              </div>
             </div>
             <div className="sm:ml-auto pb-1">
               <span className={`badge text-xs ${user.isVerified ? 'badge-new' : 'bg-amber-100 text-amber-700'}`}>

@@ -37,16 +37,34 @@ export default function Header() {
       <div className="hidden sm:block bg-elite-navy text-white/80 text-xs">
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-8">
           <div className="flex items-center gap-4">
-            <Link href="/listings/create" className="hover:text-elite-gold transition-colors flex items-center gap-1">
+            <Link href="/listings/create" className="hover:text-[#90D5FF] transition-colors flex items-center gap-1">
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
               </svg>
               Sell on Our Site
             </Link>
-            <Link href="/help" className="hover:text-elite-gold transition-colors">Help / FAQ</Link>
+            <Link href="/help" className="hover:text-[#90D5FF] transition-colors">Help / FAQ</Link>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="text-white/60">English | {currency}</span>
+          <div className="relative flex items-center gap-3">
+            <div className="relative group">
+              <button
+                className="flex items-center gap-1 border border-white/20 rounded px-2 py-0.5 hover:border-[#90D5FF] hover:text-[#90D5FF] transition-colors"
+                aria-label="Language and currency"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <span>English | {currency}</span>
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+              </button>
+              <div className="absolute right-0 top-full mt-1 w-40 bg-white rounded-lg shadow-lg border border-gray-100 py-1 hidden group-hover:block z-50" role="menu">
+                <button role="menuitem" className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#90D5FF]/10 hover:text-[#90D5FF] text-xs transition-colors">English</button>
+                <button role="menuitem" className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#90D5FF]/10 hover:text-[#90D5FF] text-xs transition-colors">العربية</button>
+                <hr className="my-1 border-gray-100" />
+                <button role="menuitem" className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#90D5FF]/10 hover:text-[#90D5FF] text-xs transition-colors">AED</button>
+                <button role="menuitem" className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#90D5FF]/10 hover:text-[#90D5FF] text-xs transition-colors">UGX</button>
+                <button role="menuitem" className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#90D5FF]/10 hover:text-[#90D5FF] text-xs transition-colors">USD</button>
+              </div>
+            </div>
             <CountrySelector />
           </div>
         </div>
@@ -102,7 +120,7 @@ export default function Header() {
                   type="text"
                   value={searchQ}
                   onChange={(e) => setSearchQ(e.target.value)}
-                  placeholder="Search for premium collections..."
+                  placeholder="Search products, brands and categories"
                   className={`flex-1 min-w-0 px-3 py-1.5 text-sm focus:outline-none transition-colors ${
                     scrolled ? 'bg-white text-gray-900 placeholder:text-gray-400' : 'bg-white/10 text-white placeholder:text-white/60'
                   }`}
@@ -156,6 +174,19 @@ export default function Header() {
                 )}
               </Link>
 
+              {/* Help icon */}
+              <Link
+                href="/help"
+                className={`relative p-2 rounded-lg transition-all interactive hidden sm:flex items-center justify-center ${
+                  scrolled ? 'text-gray-600 hover:bg-gray-100' : 'text-white hover:bg-white/20'
+                }`}
+                aria-label="Help"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </Link>
+
               {/* Saved items icon with badge */}
               <Link
                 href="/profile/favorites"
@@ -166,6 +197,19 @@ export default function Header() {
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </Link>
+
+              {/* Cart icon */}
+              <Link
+                href="/listings"
+                className={`relative p-2 rounded-lg transition-all interactive hidden sm:flex items-center justify-center ${
+                  scrolled ? 'text-gray-600 hover:bg-gray-100' : 'text-white hover:bg-white/20'
+                }`}
+                aria-label="Cart"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
                 </svg>
               </Link>
 
@@ -264,7 +308,7 @@ export default function Header() {
               type="text"
               value={searchQ}
               onChange={(e) => setSearchQ(e.target.value)}
-              placeholder="Search for premium collections..."
+              placeholder="Search products, brands and categories"
               className={`flex-1 min-w-0 px-3 py-2 text-sm focus:outline-none transition-colors ${
                 scrolled ? 'bg-white text-gray-900 placeholder:text-gray-400' : 'bg-white/10 text-white placeholder:text-white/60'
               }`}

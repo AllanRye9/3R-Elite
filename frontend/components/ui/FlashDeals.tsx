@@ -10,6 +10,8 @@ interface Props {
   listings: Listing[];
 }
 
+const discountTiers = ['-15%', '-25%', '-30%', '-40%', '-50%', '-60%'];
+
 function useCountdown() {
   const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
 
@@ -50,26 +52,37 @@ export default function FlashDeals({ listings }: Props) {
   if (listings.length === 0) return null;
 
   return (
-    <section className="rounded-lg xs:rounded-xl overflow-hidden border border-elite-red/20 shadow-md">
+    <section className="rounded-lg xs:rounded-xl overflow-hidden border border-[#90D5FF]/20 shadow-md">
       {/* Header */}
-      <div className="flex items-center justify-between px-3 xs:px-4 py-2.5 xs:py-3 bg-gradient-to-r from-[#721C24] via-[#8B2131] to-[#721C24]">
+      <div className="flex items-center justify-between px-3 xs:px-4 py-2.5 xs:py-3 bg-gradient-to-r from-[#90D5FF] via-[#60C0FF] to-[#90D5FF]">
         <div className="flex items-center gap-1.5 xs:gap-2">
-          <span className="text-lg xs:text-xl" aria-hidden="true">✦</span>
+          <span className="text-lg xs:text-xl" aria-hidden="true">⚡</span>
           <div>
-            <h2 className="text-sm xs:text-base font-extrabold text-white leading-tight">The 24-Hour Drop</h2>
-            <p className="text-[9px] xs:text-[10px] text-white/60 leading-tight">Exclusive limited editions</p>
+            <h2 className="text-sm xs:text-base font-extrabold text-white leading-tight">Flash Sales</h2>
+            <p className="text-[9px] xs:text-[10px] text-white/80 leading-tight">Limited time deals</p>
           </div>
         </div>
 
         {/* Countdown */}
         <div className="flex items-center gap-1 xs:gap-1.5">
-          <span className="text-[8px] xs:text-[9px] text-white/60 font-semibold mr-0.5 xs:mr-1 hidden xs:block">Elite Access Ends In</span>
+          <span className="text-[8px] xs:text-[9px] text-white/80 font-semibold mr-0.5 xs:mr-1 hidden xs:block">Ends In</span>
           <TimeUnit value={hours} label="hrs" />
           <span className="text-white font-bold text-xs pb-3.5" aria-hidden="true">:</span>
           <TimeUnit value={minutes} label="min" />
           <span className="text-white font-bold text-xs pb-3.5" aria-hidden="true">:</span>
           <TimeUnit value={seconds} label="sec" />
         </div>
+      </div>
+
+      {/* Flash sales discount circles */}
+      <div className="bg-white flex gap-3 xs:gap-4 overflow-x-auto no-scrollbar px-3 xs:px-4 py-3 border-b border-gray-100">
+        {discountTiers.map((discount) => (
+          <div key={discount} className="flex-shrink-0 flex flex-col items-center gap-1">
+            <div className="w-12 h-12 xs:w-14 xs:h-14 rounded-full bg-[#90D5FF] flex items-center justify-center">
+              <span className="text-white font-extrabold text-xs xs:text-sm">{discount}</span>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Listing strip */}
@@ -91,13 +104,13 @@ export default function FlashDeals({ listings }: Props) {
                   sizes="128px"
                 />
                 <div className="absolute top-1 left-1">
-                  <span className="bg-elite-navy text-elite-gold text-[7px] xs:text-[8px] font-bold px-1 xs:px-1.5 py-0.5 rounded-sm leading-none">
-                    Limited Edition
+                  <span className="bg-[#90D5FF] text-white text-[7px] xs:text-[8px] font-bold px-1 xs:px-1.5 py-0.5 rounded-sm leading-none">
+                    Limited time offer
                   </span>
                 </div>
                 {listing.condition === 'NEW' && (
                   <div className="absolute bottom-1 right-1">
-                    <span className="bg-elite-gold text-white text-[7px] xs:text-[8px] font-bold px-1 xs:px-1.5 py-0.5 rounded-sm leading-none">
+                    <span className="bg-[#90D5FF] text-white text-[7px] xs:text-[8px] font-bold px-1 xs:px-1.5 py-0.5 rounded-sm leading-none">
                       NEW
                     </span>
                   </div>
@@ -109,7 +122,7 @@ export default function FlashDeals({ listings }: Props) {
               <CurrencyDisplay
                 amount={listing.price}
                 currency={listing.currency}
-                className="text-elite-red font-extrabold text-[10px] xs:text-xs"
+                className="text-[#90D5FF] font-extrabold text-[10px] xs:text-xs"
               />
             </Link>
           );
@@ -120,9 +133,9 @@ export default function FlashDeals({ listings }: Props) {
       <div className="bg-white px-2.5 xs:px-3 pb-2.5 xs:pb-3 border-t border-gray-50">
         <Link
           href="/listings"
-          className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg bg-elite-cream hover:bg-elite-gold/10 border border-elite-gold/20 text-elite-navy hover:text-elite-navy text-xs font-semibold transition-colors interactive"
+          className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg bg-[#90D5FF]/10 hover:bg-[#90D5FF]/20 border border-[#90D5FF]/20 text-[#0B132B] hover:text-[#0B132B] text-xs font-semibold transition-colors interactive"
         >
-          View All Elite Drops
+          View All Flash Sales
           <svg className="w-3 h-3 xs:w-3.5 xs:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
