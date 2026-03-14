@@ -86,12 +86,12 @@ export default function ListingDetailPage() {
         {/* Left: Images + Details */}
         <div className="space-y-4">
           {/* Main image */}
-          <div className="relative aspect-[4/3] bg-gray-100 rounded-2xl overflow-hidden group">
+          <div className="relative aspect-[4/3] bg-gray-100 rounded-2xl overflow-hidden group cursor-zoom-in">
             <Image
               src={images[activeImage]}
               alt={listing.title}
               fill
-              className="object-contain transition-opacity duration-300"
+              className="object-contain transition-all duration-300 group-hover:scale-110"
               sizes="(max-width: 768px) 100vw, 60vw"
               priority
             />
@@ -188,7 +188,17 @@ export default function ListingDetailPage() {
             <div className="flex items-center gap-3">
               <UserAvatar user={listing.user} size="md" />
               <div className="min-w-0">
-                <p className="font-semibold text-gray-900 text-sm truncate">{listing.user.name}</p>
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <p className="font-semibold text-gray-900 text-sm truncate">{listing.user.name}</p>
+                  {listing.user.isVerified && (
+                    <span className="inline-flex items-center gap-1 bg-sky-100 text-sky-700 text-[10px] font-bold px-2 py-0.5 rounded-full">
+                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      Verified Seller
+                    </span>
+                  )}
+                </div>
                 <p className="text-xs text-gray-400">Member since {formatDate(listing.createdAt)}</p>
               </div>
             </div>
@@ -206,6 +216,27 @@ export default function ListingDetailPage() {
             <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
               <h2 className="font-bold text-gray-900 mb-3 text-sm">Contact Seller</h2>
               <ContactSellerModal listing={listing} />
+              <div className="flex gap-2 mt-3">
+                <button
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-semibold border-2 border-brand-600 text-brand-600 hover:bg-brand-50 transition-colors interactive"
+                  onClick={() => alert('Make Offer feature coming soon!')}
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                  </svg>
+                  Make Offer
+                </button>
+                <button
+                  className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold border border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-rose-300 hover:text-rose-500 transition-colors interactive"
+                  onClick={() => alert('Add to Wishlist feature coming soon!')}
+                  aria-label="Add to Wishlist"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
+                  Save
+                </button>
+              </div>
             </div>
           )}
 

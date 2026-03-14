@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="bg-gray-900 text-gray-400">
       {/* Main footer content - hidden on mobile, shown on md+ */}
       <div className="hidden md:block">
-        <div className="max-w-7xl mx-auto px-4 py-10">
+        <div className="max-w-7xl mx-auto px-4 py-12">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
             {/* Brand column */}
             <div className="lg:col-span-2">
@@ -16,13 +16,15 @@ export default function Footer() {
               <p className="text-sm leading-relaxed mb-4 max-w-xs">
                 The premier online marketplace connecting buyers and sellers across UAE and Uganda. Safe, fast, and free to list.
               </p>
-              {/* Social links */}
+              {/* Get Social */}
+              <h4 className="text-white font-bold mb-3 text-sm">Get Social</h4>
               <div className="flex gap-2">
                 {[
                   { label: 'Facebook', icon: 'f', href: '#' },
-                  { label: 'Twitter', icon: 'X', href: '#' },
+                  { label: 'Twitter / X', icon: 'X', href: '#' },
                   { label: 'Instagram', icon: '📷', href: '#' },
                   { label: 'WhatsApp', icon: '💬', href: '#' },
+                  { label: 'YouTube', icon: '▶', href: '#' },
                 ].map((s) => (
                   <a
                     key={s.label}
@@ -36,27 +38,28 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Browse */}
+            {/* Company */}
             <div>
-              <h4 className="text-white font-bold mb-3 text-sm">Browse</h4>
+              <h4 className="text-white font-bold mb-3 text-sm">Company</h4>
               <ul className="space-y-2 text-sm">
-                <li><Link href="/listings?country=UAE" className="hover:text-sky-400 transition-colors">🇦🇪 UAE Listings</Link></li>
-                <li><Link href="/listings?country=UGANDA" className="hover:text-sky-400 transition-colors">🇺🇬 Uganda Listings</Link></li>
-                <li><Link href="/listings?category=electronics" className="hover:text-sky-400 transition-colors">Electronics</Link></li>
-                <li><Link href="/listings?category=vehicles" className="hover:text-sky-400 transition-colors">Vehicles</Link></li>
-                <li><Link href="/listings?category=real-estate" className="hover:text-sky-400 transition-colors">Real Estate</Link></li>
+                <li><Link href="/about" className="hover:text-sky-400 transition-colors">About Us</Link></li>
+                <li><Link href="/advertising" className="hover:text-sky-400 transition-colors">Advertising</Link></li>
+                <li><Link href="/blog" className="hover:text-sky-400 transition-colors">Blog</Link></li>
+                <li><Link href="/careers" className="hover:text-sky-400 transition-colors">Careers</Link></li>
+                <li><Link href="/press" className="hover:text-sky-400 transition-colors">Press</Link></li>
               </ul>
             </div>
 
-            {/* Account */}
+            {/* Our Locations */}
             <div>
-              <h4 className="text-white font-bold mb-3 text-sm">Account</h4>
+              <h4 className="text-white font-bold mb-3 text-sm">Our Locations</h4>
               <ul className="space-y-2 text-sm">
-                <li><Link href="/auth/login" className="hover:text-sky-400 transition-colors">Login</Link></li>
-                <li><Link href="/auth/register" className="hover:text-sky-400 transition-colors">Register</Link></li>
-                <li><Link href="/profile" className="hover:text-sky-400 transition-colors">My Profile</Link></li>
-                <li><Link href="/listings/create" className="hover:text-sky-400 transition-colors">Post Free Ad</Link></li>
-                <li><Link href="/profile/favorites" className="hover:text-sky-400 transition-colors">Favorites</Link></li>
+                <li><Link href="/listings?country=UAE" className="hover:text-sky-400 transition-colors">🇦🇪 UAE</Link></li>
+                <li><Link href="/listings?country=UAE&location=Dubai" className="hover:text-sky-400 transition-colors">Dubai</Link></li>
+                <li><Link href="/listings?country=UAE&location=Abu+Dhabi" className="hover:text-sky-400 transition-colors">Abu Dhabi</Link></li>
+                <li><Link href="/listings?country=UGANDA" className="hover:text-sky-400 transition-colors">🇺🇬 Uganda</Link></li>
+                <li><Link href="/listings?country=UGANDA&location=Kampala" className="hover:text-sky-400 transition-colors">Kampala</Link></li>
+                <li><Link href="/listings?country=UGANDA&location=Wakiso" className="hover:text-sky-400 transition-colors">Wakiso</Link></li>
               </ul>
             </div>
 
@@ -64,9 +67,11 @@ export default function Footer() {
             <div>
               <h4 className="text-white font-bold mb-3 text-sm">Support</h4>
               <ul className="space-y-2 text-sm">
+                <li><Link href="/help" className="hover:text-sky-400 transition-colors">Help Center</Link></li>
                 <li><a href="mailto:support@3relite.com" className="hover:text-sky-400 transition-colors">Contact Us</a></li>
-                <li><Link href="/about" className="hover:text-sky-400 transition-colors">About Us</Link></li>
                 <li><Link href="/safety" className="hover:text-sky-400 transition-colors">Safety Tips</Link></li>
+                <li><Link href="/privacy" className="hover:text-sky-400 transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/terms" className="hover:text-sky-400 transition-colors">Terms of Service</Link></li>
               </ul>
               {/* App download hint */}
               <div className="mt-4 p-3 bg-gray-800 rounded-xl">
@@ -93,7 +98,9 @@ export default function Footer() {
         </div>
         <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs mb-4">
           <Link href="/about" className="hover:text-sky-400 transition-colors">About</Link>
+          <Link href="/blog" className="hover:text-sky-400 transition-colors">Blog</Link>
           <Link href="/safety" className="hover:text-sky-400 transition-colors">Safety Tips</Link>
+          <Link href="/help" className="hover:text-sky-400 transition-colors">Help Center</Link>
           <a href="mailto:support@3relite.com" className="hover:text-sky-400 transition-colors">Contact</a>
           <Link href="/privacy" className="hover:text-sky-400 transition-colors">Privacy</Link>
           <Link href="/terms" className="hover:text-sky-400 transition-colors">Terms</Link>
