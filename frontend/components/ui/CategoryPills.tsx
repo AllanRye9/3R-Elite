@@ -26,7 +26,7 @@ export default function CategoryPills() {
             <Link
               key={cat}
               href={`/listings?q=${encodeURIComponent(cat.toLowerCase())}`}
-              className="flex-shrink-0 px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium bg-white text-gray-700 border border-gray-200 hover:bg-[#90D5FF] hover:text-white hover:border-[#90D5FF] transition-all interactive"
+              className="flex-shrink-0 px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium bg-white text-gray-700 border border-gray-200 hover:bg-[#0EA5E9] hover:text-white hover:border-[#0EA5E9] transition-all interactive"
             >
               {cat}
             </Link>

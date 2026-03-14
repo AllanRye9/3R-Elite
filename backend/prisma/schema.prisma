@@ -35,6 +35,13 @@ enum ListingStatus {
   SOLD
   EXPIRED
   HIDDEN
+  REJECTED
+}
+
+enum Placement {
+  NONE
+  LATEST_COLLECTIONS
+  FEATURED_DEAL
 }
 
 model User {
@@ -88,6 +95,8 @@ model Listing {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   expiresAt   DateTime?
+  placement          Placement     @default(NONE)
+  placementExpiresAt DateTime?
 
   userId      String
   user        User          @relation(fields: [userId], references: [id])

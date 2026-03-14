@@ -38,9 +38,9 @@ const config: Config = {
           charcoal: '#1C2541',
         },
         theme: {
-          DEFAULT: '#90D5FF',
-          light: '#B0E2FF',
-          dark: '#60C0FF',
+          DEFAULT: '#0EA5E9',
+          light: '#E0F2FE',
+          dark: '#0284c7',
         },
       },
       animation: {

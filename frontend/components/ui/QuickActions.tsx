@@ -19,7 +19,7 @@ export default function QuickActions() {
       </a>
       <Link
         href="/listings?q=electronics"
-        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#90D5FF] text-white font-semibold text-sm hover:bg-[#60C0FF] transition-colors shadow-sm interactive"
+        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0EA5E9] text-white font-semibold text-sm hover:bg-[#0284c7] transition-colors shadow-sm interactive"
         aria-label="Browse tech sale"
       >
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

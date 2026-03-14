@@ -93,7 +93,7 @@ export default function HeroSlideshow({ slides = defaultSlides, interval = 4000 
       {/* Navigation arrows */}
       <button
         onClick={goBack}
-        className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/30 hover:bg-[#90D5FF]/80 text-white flex items-center justify-center transition-colors backdrop-blur-sm"
+        className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/30 hover:bg-[#0EA5E9]/80 text-white flex items-center justify-center transition-colors backdrop-blur-sm"
         aria-label="Previous slide"
       >
         <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -102,7 +102,7 @@ export default function HeroSlideshow({ slides = defaultSlides, interval = 4000 
       </button>
       <button
         onClick={advance}
-        className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/30 hover:bg-[#90D5FF]/80 text-white flex items-center justify-center transition-colors backdrop-blur-sm"
+        className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/30 hover:bg-[#0EA5E9]/80 text-white flex items-center justify-center transition-colors backdrop-blur-sm"
         aria-label="Next slide"
       >
         <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -119,7 +119,7 @@ export default function HeroSlideshow({ slides = defaultSlides, interval = 4000 
             aria-label={`Go to slide ${i + 1}`}
             className={`h-1.5 rounded-full transition-all duration-300 ${
               i === current
-                ? 'w-6 bg-[#90D5FF]'
+                ? 'w-6 bg-[#0EA5E9]'
                 : 'w-1.5 bg-white/30 hover:bg-white/50'
             }`}
           />

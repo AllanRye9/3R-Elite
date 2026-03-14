@@ -63,12 +63,22 @@
   body {
     font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Arial, sans-serif;
     color: var(--text-primary);
-    background-color: var(--surface-1);
+    background-color: #E0F2FE;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.6;
     overflow-wrap: break-word;
     word-break: break-word;
+  }
+
+  /* ── Circular Profile Optimization ─────────────────────────────────────
+     Center-crop logic for Next.js data-nimg="fill" images inside circular
+     containers. Prevents "long-face" / "wide-face" distortion on non-square
+     user-uploaded photos. ──────────────────────────────────────────────── */
+  [data-nimg="fill"] {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
   }
 
   /* Ensure images and videos never overflow containers */
@@ -101,13 +111,13 @@
 
   /* Focus styles */
   *:focus-visible {
-    outline: 2px solid #90D5FF;
+    outline: 2px solid #0EA5E9;
     outline-offset: 2px;
   }
 
   /* Selection */
   ::selection {
-    background: rgb(144 213 255 / 0.3);
+    background: rgb(14 165 233 / 0.3);
     color: #0B132B;
   }
 }
@@ -181,8 +191,8 @@
   }
 
   .badge-new {
-    background: #90D5FF;
-    color: #0B132B;
+    background: #0EA5E9;
+    color: #ffffff;
   }
 
   .badge-hot {
@@ -202,8 +212,8 @@
     justify-content: center;
     gap: 8px;
     padding: 10px 20px;
-    background: #90D5FF;
-    color: #0B132B;
+    background: #0EA5E9;
+    color: #ffffff;
     border-radius: var(--radius-sm);
     font-weight: 600;
     font-size: 0.875rem;
@@ -212,11 +222,12 @@
     cursor: pointer;
   }
   .btn-primary:hover {
-    background: #60C0FF;
-    box-shadow: 0 4px 12px rgb(144 213 255 / 0.4);
+    background: #0284c7;
+    box-shadow: 0 4px 12px rgb(14 165 233 / 0.4);
     transform: translateY(-1px);
   }
   .btn-primary:active {
+    background: #0369a1;
     transform: translateY(0);
     box-shadow: 0 1px 2px rgb(0 0 0 / 0.1);
   }
@@ -229,7 +240,7 @@
     padding: 10px 20px;
     background: white;
     color: #0B132B;
-    border: 1.5px solid #90D5FF;
+    border: 1.5px solid #0EA5E9;
     border-radius: var(--radius-sm);
     font-weight: 600;
     font-size: 0.875rem;
@@ -237,8 +248,8 @@
     cursor: pointer;
   }
   .btn-secondary:hover {
-    background: #f0faff;
-    border-color: #60C0FF;
+    background: #E0F2FE;
+    border-color: #0284c7;
     box-shadow: var(--shadow-sm);
   }
 
@@ -293,8 +304,8 @@
     outline: none;
   }
   .input-premium:focus {
-    border-color: #90D5FF;
-    box-shadow: 0 0 0 3px rgb(144 213 255 / 0.2);
+    border-color: #0EA5E9;
+    box-shadow: 0 0 0 3px rgb(14 165 233 / 0.2);
   }
   .input-premium::placeholder {
     color: var(--text-muted);

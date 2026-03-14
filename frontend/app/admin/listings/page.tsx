@@ -86,6 +86,7 @@ export default function AdminListingsPage() {
           <option value="SOLD">Sold</option>
           <option value="HIDDEN">Hidden</option>
           <option value="EXPIRED">Expired</option>
+          <option value="REJECTED">Rejected</option>
         </select>
       </div>
       <div className="bg-white rounded-xl shadow-sm overflow-hidden">
@@ -118,6 +119,7 @@ export default function AdminListingsPage() {
                     l.status === 'ACTIVE' ? 'bg-green-100 text-green-700' :
                     l.status === 'SOLD' ? 'bg-blue-100 text-blue-700' :
                     l.status === 'HIDDEN' ? 'bg-gray-100 text-gray-600' :
+                    l.status === 'REJECTED' ? 'bg-red-100 text-red-700' :
                     'bg-yellow-100 text-yellow-700'
                   }`}>{l.status}</span>
                 </td>
@@ -133,6 +135,7 @@ export default function AdminListingsPage() {
                       <option value="PENDING">Pending</option>
                       <option value="HIDDEN">Hidden</option>
                       <option value="EXPIRED">Expired</option>
+                      <option value="REJECTED">Rejected</option>
                     </select>
                     <button
                       onClick={() => deleteListing(l.id, l.title)}

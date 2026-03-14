@@ -2,7 +2,8 @@ export type Role = 'BUYER' | 'SELLER' | 'ADMIN';
 export type Country = 'UAE' | 'UGANDA';
 export type Currency = 'AED' | 'UGX';
 export type Condition = 'NEW' | 'USED';
-export type ListingStatus = 'ACTIVE' | 'PENDING' | 'SOLD' | 'EXPIRED' | 'HIDDEN';
+export type ListingStatus = 'ACTIVE' | 'PENDING' | 'SOLD' | 'EXPIRED' | 'HIDDEN' | 'REJECTED';
+export type Placement = 'NONE' | 'LATEST_COLLECTIONS' | 'FEATURED_DEAL';
 
 export interface User {
   id: string;
@@ -40,6 +41,8 @@ export interface Listing {
   views: number;
   createdAt: string;
   expiresAt?: string;
+  placement?: Placement;
+  placementExpiresAt?: string;
   userId: string;
   user: { id: string; name: string; avatar?: string; phone?: string; isVerified?: boolean };
   category: Category;

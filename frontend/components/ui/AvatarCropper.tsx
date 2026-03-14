@@ -96,7 +96,7 @@ export default function AvatarCropper({ imageSrc, onCropComplete, onCancel }: Av
             step={0.1}
             value={zoom}
             onChange={(e) => setZoom(Number(e.target.value))}
-            className="w-full accent-[#90D5FF]"
+            className="w-full accent-[#0EA5E9]"
           />
         </div>
         <div className="flex gap-2 px-4 pb-4">
@@ -110,7 +110,7 @@ export default function AvatarCropper({ imageSrc, onCropComplete, onCancel }: Av
           <button
             type="button"
             onClick={handleConfirm}
-            className="flex-1 py-2 rounded-lg bg-[#90D5FF] text-white font-semibold text-sm hover:bg-[#60C0FF] transition-colors"
+            className="flex-1 py-2 rounded-lg bg-[#0EA5E9] text-white font-semibold text-sm hover:bg-[#0284c7] transition-colors"
           >
             Save
           </button>
