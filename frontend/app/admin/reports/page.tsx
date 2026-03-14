@@ -31,13 +31,31 @@ export default function AdminReportsPage() {
     }
   }, [user, loading, router]);
 
+  const dismissReport = async (reportId: string) => {
+    if (!confirm('Are you sure you want to dismiss this report?')) return;
+    try {
+      await api.delete(`/admin/reports/${reportId}`);
+      setReports((prev) => prev.filter((r) => r.id !== reportId));
+    } catch {
+      // silently ignore
+    }
+  };
+
   if (loading || fetching) return <div className="p-8 text-center">Loading...</div>;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-gray-900 mb-6">Reports</h1>
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Reports</h1>
+          <p className="text-sm text-gray-500 mt-1">{reports.length} total reports</p>
+        </div>
+      </div>
       {reports.length === 0 ? (
-        <p className="text-gray-500">No reports yet.</p>
+        <div className="bg-white rounded-xl shadow-sm p-12 text-center">
+          <p className="text-3xl mb-3">✅</p>
+          <p className="text-gray-500">No reports to review.</p>
+        </div>
       ) : (
         <div className="bg-white rounded-xl shadow-sm overflow-hidden">
           <table className="w-full text-sm">
@@ -47,6 +65,7 @@ export default function AdminReportsPage() {
                 <th className="text-left px-6 py-3 font-medium text-gray-600">Listing</th>
                 <th className="text-left px-6 py-3 font-medium text-gray-600">Reason</th>
                 <th className="text-left px-6 py-3 font-medium text-gray-600">Date</th>
+                <th className="text-left px-6 py-3 font-medium text-gray-600">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y">
@@ -56,8 +75,16 @@ export default function AdminReportsPage() {
                   <td className="px-6 py-4">
                     <Link href={`/listings/${r.listing.id}`} className="hover:text-sky-600">{r.listing.title}</Link>
                   </td>
-                  <td className="px-6 py-4 text-gray-600">{r.reason}</td>
+                  <td className="px-6 py-4 text-gray-600 max-w-[300px] truncate">{r.reason}</td>
                   <td className="px-6 py-4 text-gray-500">{formatDate(r.createdAt)}</td>
+                  <td className="px-6 py-4">
+                    <button
+                      onClick={() => dismissReport(r.id)}
+                      className="text-xs px-3 py-1 rounded font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+                    >
+                      Dismiss
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
