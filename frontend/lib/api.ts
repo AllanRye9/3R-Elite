@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+// Strip trailing slashes so that template literals like `${API_URL}/api`
+// never produce a double-slash (e.g. "https://example.com//api").
+const API_URL = (process.env.NEXT_PUBLIC_API_URL || '').replace(/\/+$/, '');
 
 export const api = axios.create({
   baseURL: `${API_URL}/api`,
