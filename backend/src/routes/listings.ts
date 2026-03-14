@@ -6,6 +6,57 @@ import { Prisma } from '@prisma/client';
 
 const router = Router();
 
+// ─── Featured Deal ──────────────────────────────────────────────────────────
+
+router.get('/featured-deal', async (_req: Request, res: Response, next: NextFunction) => {
+  try {
+    const now = new Date();
+    const listing = await prisma.listing.findFirst({
+      where: {
+        status: 'ACTIVE',
+        placement: 'FEATURED_DEAL',
+        placementExpiresAt: { gt: now },
+      },
+      include: {
+        category: { select: { id: true, name: true, slug: true } },
+        user: { select: { id: true, name: true, avatar: true } },
+      },
+      orderBy: { updatedAt: 'desc' },
+    });
+
+    res.json(listing);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ─── Latest Collections ─────────────────────────────────────────────────────
+
+router.get('/latest-collections', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const now = new Date();
+    const limit = Math.min(12, Math.max(1, parseInt(req.query.limit as string || '8')));
+
+    const listings = await prisma.listing.findMany({
+      where: {
+        status: 'ACTIVE',
+        placement: 'LATEST_COLLECTIONS',
+        placementExpiresAt: { gt: now },
+      },
+      include: {
+        category: { select: { id: true, name: true, slug: true } },
+        user: { select: { id: true, name: true, avatar: true } },
+      },
+      orderBy: { updatedAt: 'desc' },
+      take: limit,
+    });
+
+    res.json({ listings });
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const {

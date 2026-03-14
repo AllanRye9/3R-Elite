@@ -15,21 +15,27 @@ import type { Category } from '@/lib/types';
 
 async function getHomeData() {
   try {
-    const [catRes, listingRes, flashRes] = await Promise.all([
+    const [catRes, listingRes, flashRes, featuredRes, latestCollRes] = await Promise.all([
       fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/categories`, { next: { revalidate: 3600 } }),
       fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/listings?limit=8&sort=createdAt`, { next: { revalidate: 60 } }),
       fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/listings?limit=8&sort=views`, { next: { revalidate: 120 } }),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/listings/featured-deal`, { next: { revalidate: 30 } }),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/listings/latest-collections`, { next: { revalidate: 30 } }),
     ]);
     const categories: Category[] = catRes.ok ? await catRes.json() : [];
     const listingData = listingRes.ok ? await listingRes.json() : { listings: [] };
     const flashData = flashRes.ok ? await flashRes.json() : { listings: [] };
+    const featuredDeal = featuredRes.ok ? await featuredRes.json() : null;
+    const latestCollData = latestCollRes.ok ? await latestCollRes.json() : { listings: [] };
     return {
       categories,
       listings: listingData.listings || [],
       flashListings: flashData.listings || [],
+      featuredDeal,
+      latestCollections: latestCollData.listings || [],
     };
   } catch {
-    return { categories: [], listings: [], flashListings: [] };
+    return { categories: [], listings: [], flashListings: [], featuredDeal: null, latestCollections: [] };
   }
 }
 
@@ -63,7 +69,7 @@ const features = [
 const heroQuickLinks = ['Fine Timepieces', 'Designer Apparel', 'Tech Innovations', 'Bespoke Home', 'Luxury Vehicles'] as const;
 
 export default async function HomePage() {
-  const { categories, listings, flashListings } = await getHomeData();
+  const { categories, listings, flashListings, featuredDeal, latestCollections } = await getHomeData();
 
   return (
     <div className="animate-fade-in">
@@ -143,7 +149,18 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="max-w-sm">
-            <FeaturedProductCard />
+            {featuredDeal && featuredDeal.id ? (
+              <FeaturedProductCard
+                storeName={featuredDeal.user?.name || '3R Elite Store'}
+                title={featuredDeal.title}
+                discountedPrice={`${featuredDeal.currency} ${featuredDeal.price?.toLocaleString()}`}
+                imageUrl={featuredDeal.images?.[0] || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop'}
+                href={`/listings/${featuredDeal.id}`}
+                isHandpicked
+              />
+            ) : (
+              <FeaturedProductCard />
+            )}
           </div>
         </section>
 
@@ -179,8 +196,8 @@ export default async function HomePage() {
               <svg className="w-3.5 h-3.5 xs:w-4 xs:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
             </Link>
           </div>
-          {listings.length > 0 ? (
-            <ListingGrid listings={listings} />
+          {(latestCollections.length > 0 ? latestCollections : listings).length > 0 ? (
+            <ListingGrid listings={latestCollections.length > 0 ? latestCollections : listings} />
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
               {Array.from({ length: 8 }).map((_, i) => (

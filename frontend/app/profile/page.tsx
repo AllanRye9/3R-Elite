@@ -128,7 +128,7 @@ export default function ProfilePage() {
       {/* Profile header */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-4">
         {/* Banner */}
-        <div className="h-20 bg-gradient-to-r from-[#90D5FF] to-[#60C0FF]" />
+        <div className="h-20 bg-gradient-to-r from-[#0EA5E9] to-[#0284c7]" />
         <div className="px-4 sm:px-6 pb-4 sm:pb-6 -mt-10">
           <div className="flex flex-col sm:flex-row items-start sm:items-end gap-3 sm:gap-4">
             <div className="relative group">
@@ -151,7 +151,7 @@ export default function ProfilePage() {
                   type="button"
                   onClick={() => avatarInputRef.current?.click()}
                   disabled={uploadingAvatar}
-                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#90D5FF] text-white text-xs font-semibold hover:bg-[#60C0FF] transition-colors disabled:opacity-50"
+                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#0EA5E9] text-white text-xs font-semibold hover:bg-[#0284c7] transition-colors disabled:opacity-50"
                   aria-label="Upload profile photo"
                 >
                   {uploadingAvatar ? (

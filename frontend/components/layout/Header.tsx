@@ -37,18 +37,18 @@ export default function Header() {
       <div className="hidden sm:block bg-elite-navy text-white/80 text-xs">
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-8">
           <div className="flex items-center gap-4">
-            <Link href="/listings/create" className="hover:text-[#90D5FF] transition-colors flex items-center gap-1">
+            <Link href="/listings/create" className="hover:text-[#0EA5E9] transition-colors flex items-center gap-1">
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
               </svg>
               Sell on Our Site
             </Link>
-            <Link href="/help" className="hover:text-[#90D5FF] transition-colors">Help / FAQ</Link>
+            <Link href="/help" className="hover:text-[#0EA5E9] transition-colors">Help / FAQ</Link>
           </div>
           <div className="relative flex items-center gap-3">
             <div className="relative group">
               <button
-                className="flex items-center gap-1 border border-white/20 rounded px-2 py-0.5 hover:border-[#90D5FF] hover:text-[#90D5FF] transition-colors"
+                className="flex items-center gap-1 border border-white/20 rounded px-2 py-0.5 hover:border-[#0EA5E9] hover:text-[#0EA5E9] transition-colors"
                 aria-label="Language and currency"
                 aria-haspopup="true"
                 aria-expanded="false"
@@ -57,12 +57,12 @@ export default function Header() {
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
               </button>
               <div className="absolute right-0 top-full mt-1 w-40 bg-white rounded-lg shadow-lg border border-gray-100 py-1 hidden group-hover:block z-50" role="menu">
-                <button role="menuitem" className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#90D5FF]/10 hover:text-[#90D5FF] text-xs transition-colors">English</button>
-                <button role="menuitem" className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#90D5FF]/10 hover:text-[#90D5FF] text-xs transition-colors">العربية</button>
+                <button role="menuitem" className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#0EA5E9]/10 hover:text-[#0EA5E9] text-xs transition-colors">English</button>
+                <button role="menuitem" className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#0EA5E9]/10 hover:text-[#0EA5E9] text-xs transition-colors">العربية</button>
                 <hr className="my-1 border-gray-100" />
-                <button role="menuitem" className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#90D5FF]/10 hover:text-[#90D5FF] text-xs transition-colors">AED</button>
-                <button role="menuitem" className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#90D5FF]/10 hover:text-[#90D5FF] text-xs transition-colors">UGX</button>
-                <button role="menuitem" className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#90D5FF]/10 hover:text-[#90D5FF] text-xs transition-colors">USD</button>
+                <button role="menuitem" className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#0EA5E9]/10 hover:text-[#0EA5E9] text-xs transition-colors">AED</button>
+                <button role="menuitem" className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#0EA5E9]/10 hover:text-[#0EA5E9] text-xs transition-colors">UGX</button>
+                <button role="menuitem" className="w-full text-left px-3 py-1.5 text-gray-700 hover:bg-[#0EA5E9]/10 hover:text-[#0EA5E9] text-xs transition-colors">USD</button>
               </div>
             </div>
             <CountrySelector />

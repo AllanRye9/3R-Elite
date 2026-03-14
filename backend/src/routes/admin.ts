@@ -304,10 +304,68 @@ router.get('/listings', async (req: Request, res: Response, next: NextFunction) 
 
 router.put('/listings/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { status } = req.body;
+    const { status, placement, placementExpiresAt } = req.body;
     const listing = await prisma.listing.update({
       where: { id: req.params.id },
-      data: { ...(status && { status }) },
+      data: {
+        ...(status && { status }),
+        ...(placement !== undefined && { placement }),
+        ...(placementExpiresAt !== undefined && { placementExpiresAt: placementExpiresAt ? new Date(placementExpiresAt) : null }),
+      },
+    });
+    res.json(listing);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ─── Approve listing with placement & duration ─────────────────────────────────
+
+router.put('/listings/:id/approve', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { placement, durationHours, customExpiry } = req.body;
+
+    if (!placement || !['LATEST_COLLECTIONS', 'FEATURED_DEAL'].includes(placement)) {
+      throw createError('placement must be LATEST_COLLECTIONS or FEATURED_DEAL', 400);
+    }
+
+    let placementExpiresAt: Date;
+    if (customExpiry) {
+      placementExpiresAt = new Date(customExpiry);
+      if (isNaN(placementExpiresAt.getTime())) {
+        throw createError('Invalid customExpiry date', 400);
+      }
+    } else {
+      const hours = parseInt(durationHours) || 48;
+      placementExpiresAt = new Date(Date.now() + hours * 60 * 60 * 1000);
+    }
+
+    const listing = await prisma.listing.update({
+      where: { id: req.params.id },
+      data: {
+        status: 'ACTIVE',
+        placement,
+        placementExpiresAt,
+      },
+      include: {
+        user: { select: { id: true, name: true, email: true } },
+        category: { select: { name: true } },
+      },
+    });
+
+    res.json(listing);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ─── Reject listing ────────────────────────────────────────────────────────────
+
+router.put('/listings/:id/reject', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const listing = await prisma.listing.update({
+      where: { id: req.params.id },
+      data: { status: 'REJECTED', placement: 'NONE', placementExpiresAt: null },
     });
     res.json(listing);
   } catch (err) {
