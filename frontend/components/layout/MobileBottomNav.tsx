@@ -80,10 +80,10 @@ export function MobileBottomNav() {
                   className="flex flex-col items-center justify-center py-1.5 flex-1 interactive group"
                   aria-label={item.label}
                 >
-                  <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-sky-400 to-brand-600 flex items-center justify-center text-white shadow-glow -mt-5 group-active:scale-95 transition-transform">
+                  <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-elite-gold to-elite-gold-dark flex items-center justify-center text-white shadow-lg -mt-5 group-active:scale-95 transition-transform">
                     {item.icon(false)}
                   </div>
-                  <span className="text-[10px] font-medium text-sky-600 mt-0.5">{item.label}</span>
+                  <span className="text-[10px] font-medium text-elite-gold mt-0.5">{item.label}</span>
                 </Link>
               );
             }
@@ -93,12 +93,12 @@ export function MobileBottomNav() {
                 key={item.href}
                 href={href}
                 className={`flex flex-col items-center justify-center py-2 flex-1 gap-0.5 interactive transition-colors ${
-                  isActive ? 'text-sky-600' : 'text-gray-400 hover:text-gray-600'
+                  isActive ? 'text-elite-gold' : 'text-gray-400 hover:text-gray-600'
                 }`}
                 aria-label={item.label}
                 aria-current={isActive ? 'page' : undefined}
               >
-                <div className={`relative p-1 rounded-xl transition-all ${isActive ? 'bg-sky-50' : ''}`}>
+                <div className={`relative p-1 rounded-xl transition-all ${isActive ? 'bg-elite-gold/10' : ''}`}>
                   {item.icon(isActive)}
                 </div>
                 <span className={`text-[10px] font-medium ${isActive ? 'font-semibold' : ''}`}>{item.label}</span>
