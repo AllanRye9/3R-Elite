@@ -75,14 +75,15 @@ export default async function HomePage() {
   return (
     <div className="animate-fade-in">
       {/* ═══ HERO ═══ */}
-      <section className="relative overflow-hidden bg-hero-gradient min-h-[320px] xs:min-h-[360px] sm:min-h-[400px]">
-        {/* Slideshow background */}
-        <HeroSlideshow />
+      <section className="relative overflow-hidden bg-hero-gradient min-h-[320px] xs:min-h-[360px] sm:min-h-[400px] flex flex-col items-center justify-center">
+        <div className="relative max-w-7xl mx-auto px-3 xs:px-4 lg:px-[22%] pt-8 xs:pt-10 pb-10 xs:pb-12 sm:pt-14 sm:pb-16 text-center z-10 flex flex-col items-center w-full">
+          {/* Slideshow - compact and centered */}
+          <div className="relative w-full max-w-3xl mx-auto aspect-[2.5/1] rounded-2xl overflow-hidden shadow-lg mb-6">
+            <HeroSlideshow />
+          </div>
 
-        {/* Side cards - 20% width on each side */}
-        <HeroSideCards />
-
-        <div className="relative max-w-7xl mx-auto px-3 xs:px-4 lg:px-[22%] pt-8 xs:pt-10 pb-10 xs:pb-12 sm:pt-14 sm:pb-16 text-center z-10">
+          {/* Side cards - 20% width on each side, optional: can be moved below slideshow if needed */}
+          {/* <HeroSideCards /> */}
           {/* Badge */}
           <div className="inline-flex items-center gap-1.5 bg-elite-gold/20 backdrop-blur-sm text-elite-gold text-[10px] xs:text-xs font-semibold px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full mb-3 xs:mb-4 border border-elite-gold/30">
             <span className="w-1.5 h-1.5 bg-elite-gold rounded-full animate-pulse" />
