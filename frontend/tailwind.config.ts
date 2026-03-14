@@ -9,8 +9,9 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'Plus Jakarta Sans', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
-        display: ['Plus Jakarta Sans', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['Montserrat', 'Inter', 'Plus Jakarta Sans', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
+        display: ['Montserrat', 'Plus Jakarta Sans', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        serif: ['Georgia', 'Playfair Display', 'Times New Roman', 'serif'],
       },
       colors: {
         background: "var(--background)",
@@ -26,6 +27,15 @@ const config: Config = {
           700: '#0369a1',
           800: '#075985',
           900: '#0c4a6e',
+        },
+        elite: {
+          navy: '#0B132B',
+          gold: '#C5A059',
+          'gold-light': '#D4B87A',
+          'gold-dark': '#A8863D',
+          red: '#721C24',
+          cream: '#FAF8F5',
+          charcoal: '#1C2541',
         },
       },
       animation: {
@@ -84,8 +94,9 @@ const config: Config = {
         'card-hover': '0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.04)',
       },
       backgroundImage: {
-        'hero-gradient': 'linear-gradient(135deg, #0c4a6e 0%, #075985 35%, #0369a1 65%, #1d4ed8 100%)',
+        'hero-gradient': 'linear-gradient(135deg, #0B132B 0%, #1C2541 40%, #0B132B 100%)',
         'brand-gradient': 'linear-gradient(135deg, #0ea5e9, #0284c7)',
+        'elite-gradient': 'linear-gradient(135deg, #0B132B 0%, #1C2541 50%, #0B132B 100%)',
       },
       screens: {
         'xs': '375px',
