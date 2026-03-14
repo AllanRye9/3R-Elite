@@ -10,24 +10,24 @@ interface Slide {
 
 const defaultSlides: Slide[] = [
   {
-    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=600&fit=crop',
-    alt: 'Online shopping marketplace',
+    image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1200&h=600&fit=crop',
+    alt: 'Luxury watch collection',
   },
   {
     image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=600&fit=crop',
-    alt: 'Shop storefront',
+    alt: 'Premium boutique storefront',
   },
   {
-    image: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=1200&h=600&fit=crop',
-    alt: 'Marketplace trading',
+    image: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=1200&h=600&fit=crop',
+    alt: 'Designer footwear',
   },
   {
-    image: 'https://images.unsplash.com/photo-1607082349566-187342175e2f?w=1200&h=600&fit=crop',
-    alt: 'Ecommerce deals',
+    image: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=1200&h=600&fit=crop',
+    alt: 'Premium technology products',
   },
   {
-    image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200&h=600&fit=crop',
-    alt: 'Shopping bags and products',
+    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&h=600&fit=crop',
+    alt: 'Luxury living spaces',
   },
 ];
 
@@ -62,7 +62,7 @@ export default function HeroSlideshow({ slides = defaultSlides, interval = 4000 
           style={{ opacity: i === current ? 1 : 0 }}
         >
           {failedImages.has(i) ? (
-            <div className="absolute inset-0 bg-gradient-to-br from-brand-900 via-brand-700 to-sky-600" />
+            <div className="absolute inset-0 bg-gradient-to-br from-elite-navy via-elite-charcoal to-black" />
           ) : (
             <Image
               src={slide.image}
@@ -76,8 +76,8 @@ export default function HeroSlideshow({ slides = defaultSlides, interval = 4000 
           )}
         </div>
       ))}
-      {/* Dark overlay for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" />
+      {/* Dark overlay for moody gradient feel */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0B132B]/70 via-[#0B132B]/50 to-[#0B132B]/80" />
 
       {/* Decorative pattern overlay */}
       <div className="absolute inset-0 opacity-5" style={{
@@ -94,8 +94,8 @@ export default function HeroSlideshow({ slides = defaultSlides, interval = 4000 
             aria-label={`Go to slide ${i + 1}`}
             className={`h-1.5 rounded-full transition-all duration-300 ${
               i === current
-                ? 'w-6 bg-white'
-                : 'w-1.5 bg-white/40 hover:bg-white/60'
+                ? 'w-6 bg-elite-gold'
+                : 'w-1.5 bg-white/30 hover:bg-white/50'
             }`}
           />
         ))}

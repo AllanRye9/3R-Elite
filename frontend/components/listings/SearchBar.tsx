@@ -91,9 +91,9 @@ export function SearchBar({ initialQ = '', initialLocation = '', className = '' 
           onFocus={() => setShowSuggestions(true)}
           onBlur={() => setTimeout(() => setShowSuggestions(false), BLUR_DELAY_MS)}
           onKeyDown={handleKeyDown}
-          placeholder="Search for anything..."
+          placeholder="Search for premium collections..."
           autoComplete="off"
-          className="w-full border-0 rounded-lg sm:rounded-l-md sm:rounded-r-none px-3 py-2.5 xs:py-2 text-sm focus:outline-none focus:ring-1 focus:ring-sky-300"
+          className="w-full border-0 rounded-lg sm:rounded-l-md sm:rounded-r-none px-3 py-2.5 xs:py-2 text-sm focus:outline-none focus:ring-1 focus:ring-elite-gold/40"
         />
         {showSuggestions && suggestions.length > 0 && (
           <ul className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden mt-1">
@@ -103,7 +103,7 @@ export function SearchBar({ initialQ = '', initialLocation = '', className = '' 
                   type="button"
                   onMouseDown={() => selectSuggestion(s)}
                   className={`w-full text-left px-4 py-2.5 text-sm flex items-center gap-2 transition-colors ${
-                    i === activeSuggestion ? 'bg-sky-50 text-sky-700' : 'text-gray-700 hover:bg-gray-50'
+                    i === activeSuggestion ? 'bg-elite-cream text-elite-navy' : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
                   <svg className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -119,7 +119,7 @@ export function SearchBar({ initialQ = '', initialLocation = '', className = '' 
       <select
         value={location}
         onChange={(e) => setLocation(e.target.value)}
-        className="border-0 border-l border-gray-200 rounded-lg sm:rounded-none px-3 py-2.5 xs:py-2 bg-white text-sm focus:outline-none focus:ring-1 focus:ring-sky-300"
+        className="border-0 border-l border-gray-200 rounded-lg sm:rounded-none px-3 py-2.5 xs:py-2 bg-white text-sm focus:outline-none focus:ring-1 focus:ring-elite-gold/40"
       >
         <option value="">All Locations</option>
         {locations.map((loc) => (
@@ -128,7 +128,7 @@ export function SearchBar({ initialQ = '', initialLocation = '', className = '' 
       </select>
       <button
         type="submit"
-        className="bg-sky-700 text-white px-6 py-2.5 xs:py-2 rounded-lg sm:rounded-l-none sm:rounded-r-md text-sm font-semibold hover:bg-sky-800 transition-colors min-h-[44px] sm:min-h-0"
+        className="bg-elite-gold text-white px-6 py-2.5 xs:py-2 rounded-lg sm:rounded-l-none sm:rounded-r-md text-sm font-semibold hover:bg-elite-gold-dark transition-colors min-h-[44px] sm:min-h-0"
       >
         Search
       </button>

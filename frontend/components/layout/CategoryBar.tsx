@@ -185,7 +185,7 @@ function CategoryBarInner() {
                           <li key={link.label}>
                             <Link
                               href={link.href}
-                              className="text-sm text-gray-600 hover:text-sky-600 hover:font-medium transition-colors block"
+                              className="text-sm text-gray-600 hover:text-elite-gold hover:font-medium transition-colors block"
                               onClick={() => setOpenMenu(null)}
                             >
                               {link.label}
@@ -207,7 +207,7 @@ function CategoryBarInner() {
 
 export default function CategoryBar() {
   return (
-    <div className="w-full border-t border-white/10 bg-brand-800/30 backdrop-blur-sm">
+    <div className="w-full border-t border-white/5 bg-elite-charcoal/50 backdrop-blur-sm">
       <div className="w-full px-3 sm:px-6 py-1">
         <Suspense
           fallback={

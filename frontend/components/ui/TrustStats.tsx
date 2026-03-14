@@ -27,9 +27,9 @@ export default function TrustStats() {
 
   const items = [
     { value: stats ? formatNumber(stats.activeListings) : '50K+', label: 'Active Listings', icon: '📋' },
-    { value: stats ? formatNumber(stats.totalUsers) : '20K+', label: 'Happy Buyers', icon: '😊' },
+    { value: stats ? formatNumber(stats.totalUsers) : '20K+', label: 'Elite Members', icon: '✦' },
     { value: stats ? String(stats.countries) : '2', label: 'Countries', icon: '🌍' },
-    { value: '100%', label: 'Free to List', icon: '🎁' },
+    { value: '100%', label: 'Authenticated', icon: '🔒' },
   ];
 
   return (
@@ -40,7 +40,7 @@ export default function TrustStats() {
             <div key={stat.label} className="flex items-center gap-1.5 xs:gap-2 shrink-0">
               <span className="text-lg xs:text-xl">{stat.icon}</span>
               <div className="flex items-baseline gap-1">
-                <span className="text-base xs:text-lg sm:text-xl font-extrabold text-gray-900">{stat.value}</span>
+                <span className="text-base xs:text-lg sm:text-xl font-extrabold text-elite-navy">{stat.value}</span>
                 <span className="text-[10px] xs:text-xs text-gray-500 font-medium whitespace-nowrap">{stat.label}</span>
               </div>
             </div>
