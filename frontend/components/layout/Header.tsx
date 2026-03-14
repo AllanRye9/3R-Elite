@@ -7,6 +7,7 @@ import { useCountry } from '@/context/CountryContext';
 import { CountrySelector } from '@/components/ui/CountrySelector';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { useRouter } from 'next/navigation';
+import CategoryBar from '@/components/layout/CategoryBar';
 
 export default function Header() {
   const { user, logout } = useAuth();
@@ -237,6 +238,13 @@ export default function Header() {
           </button>
         </form>
       </div>
+
+      {/* Category bar – only when not scrolled (gradient state) */}
+      {!scrolled && (
+        <div className="hidden sm:block">
+          <CategoryBar />
+        </div>
+      )}
 
       {/* Mobile nav drawer */}
       {mobileNavOpen && (
