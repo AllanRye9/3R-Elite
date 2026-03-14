@@ -84,8 +84,8 @@ export default function AdminSettingsPage() {
   if (!settings) return <div className="p-8 text-center text-red-500">{error || 'Failed to load settings.'}</div>;
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-gray-900 mb-2">Settings</h1>
+    <div className="max-w-3xl mx-auto px-4 py-6 sm:py-10">
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Settings</h1>
       <p className="text-gray-500 mb-8">Manage your site configuration</p>
 
       {success && (

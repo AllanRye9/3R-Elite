@@ -28,8 +28,8 @@ export default function MessagesPage() {
   if (loading || fetching) return <div className="p-8 text-center">Loading...</div>;
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Messages</h1>
+    <div className="max-w-3xl mx-auto px-4 py-6 sm:py-10">
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-5 sm:mb-8">Messages</h1>
       {conversations.length === 0 ? (
         <div className="bg-white rounded-xl shadow-sm p-8 sm:p-12 text-center text-gray-500">
           <p className="text-4xl mb-3">💬</p>

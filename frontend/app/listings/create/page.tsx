@@ -132,8 +132,8 @@ export default function CreateListingPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Post a Listing</h1>
+    <div className="max-w-2xl mx-auto px-4 py-6 sm:py-10">
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-5 sm:mb-8">Post a Listing</h1>
       <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm p-4 sm:p-8 space-y-6">
         {error && <div className="bg-red-50 border border-red-200 text-red-700 rounded p-3 text-sm">{error}</div>}
 

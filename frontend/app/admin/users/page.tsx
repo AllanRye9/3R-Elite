@@ -57,7 +57,7 @@ export default function AdminUsersPage() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold text-gray-900 mb-2">Users</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Users</h1>
       <p className="text-gray-500 mb-6">{total} total users</p>
       <div className="mb-6">
         <input

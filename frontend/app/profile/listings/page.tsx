@@ -27,7 +27,7 @@ export default function MyListingsPage() {
   if (loading || fetching) return <div className="p-8 text-center">Loading...</div>;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
+    <div className="max-w-7xl mx-auto px-4 py-6 sm:py-10">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">My Listings</h1>
         <Link href="/listings/create" className="bg-sky-500 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-sky-600 transition-colors">
