@@ -36,10 +36,10 @@ function useCountdown() {
 function TimeUnit({ value, label }: { value: number; label: string }) {
   return (
     <div className="flex flex-col items-center">
-      <div className="bg-white/20 backdrop-blur-sm text-white text-xs xs:text-sm font-mono font-bold px-2 xs:px-2.5 py-0.5 xs:py-1 rounded min-w-[1.75rem] xs:min-w-[2rem] text-center border border-white/30">
+      <div className="bg-white/10 backdrop-blur-sm text-white text-xs xs:text-sm font-mono font-bold px-2 xs:px-2.5 py-0.5 xs:py-1 rounded min-w-[1.75rem] xs:min-w-[2rem] text-center border border-white/20">
         {String(value).padStart(2, '0')}
       </div>
-      <span className="text-[7px] xs:text-[8px] text-red-100 mt-0.5 uppercase tracking-wide">{label}</span>
+      <span className="text-[7px] xs:text-[8px] text-white/60 mt-0.5 uppercase tracking-wide">{label}</span>
     </div>
   );
 }
@@ -50,20 +50,20 @@ export default function FlashDeals({ listings }: Props) {
   if (listings.length === 0) return null;
 
   return (
-    <section className="rounded-lg xs:rounded-xl overflow-hidden border border-red-100 shadow-sm">
+    <section className="rounded-lg xs:rounded-xl overflow-hidden border border-elite-red/20 shadow-md">
       {/* Header */}
-      <div className="flex items-center justify-between px-3 xs:px-4 py-2.5 xs:py-3 bg-gradient-to-r from-red-500 via-rose-500 to-orange-500">
+      <div className="flex items-center justify-between px-3 xs:px-4 py-2.5 xs:py-3 bg-gradient-to-r from-[#721C24] via-[#8B2131] to-[#721C24]">
         <div className="flex items-center gap-1.5 xs:gap-2">
-          <span className="text-lg xs:text-xl animate-bounce-subtle" aria-hidden="true">⚡</span>
+          <span className="text-lg xs:text-xl" aria-hidden="true">✦</span>
           <div>
-            <h2 className="text-sm xs:text-base font-extrabold text-white leading-tight">Flash Deals</h2>
-            <p className="text-[9px] xs:text-[10px] text-red-100 leading-tight">Hottest listings right now</p>
+            <h2 className="text-sm xs:text-base font-extrabold text-white leading-tight">The 24-Hour Drop</h2>
+            <p className="text-[9px] xs:text-[10px] text-white/60 leading-tight">Exclusive limited editions</p>
           </div>
         </div>
 
         {/* Countdown */}
         <div className="flex items-center gap-1 xs:gap-1.5">
-          <span className="text-[8px] xs:text-[9px] text-red-100 font-semibold mr-0.5 xs:mr-1 hidden xs:block">Ends in</span>
+          <span className="text-[8px] xs:text-[9px] text-white/60 font-semibold mr-0.5 xs:mr-1 hidden xs:block">Elite Access Ends In</span>
           <TimeUnit value={hours} label="hrs" />
           <span className="text-white font-bold text-xs pb-3.5" aria-hidden="true">:</span>
           <TimeUnit value={minutes} label="min" />
@@ -82,7 +82,7 @@ export default function FlashDeals({ listings }: Props) {
               href={`/listings/${listing.id}`}
               className="flex-shrink-0 w-24 xs:w-28 sm:w-32 group"
             >
-              <div className="relative rounded-lg overflow-hidden bg-gray-50 aspect-square mb-1.5">
+              <div className="relative rounded-lg overflow-hidden bg-gray-50 aspect-square mb-1.5 shadow-md hover:shadow-lg transition-shadow duration-300">
                 <Image
                   src={imageUrl}
                   alt={listing.title}
@@ -91,13 +91,13 @@ export default function FlashDeals({ listings }: Props) {
                   sizes="128px"
                 />
                 <div className="absolute top-1 left-1">
-                  <span className="bg-red-500 text-white text-[7px] xs:text-[8px] font-bold px-1 xs:px-1.5 py-0.5 rounded-sm leading-none">
-                    🔥 HOT
+                  <span className="bg-elite-navy text-elite-gold text-[7px] xs:text-[8px] font-bold px-1 xs:px-1.5 py-0.5 rounded-sm leading-none">
+                    Limited Edition
                   </span>
                 </div>
                 {listing.condition === 'NEW' && (
                   <div className="absolute bottom-1 right-1">
-                    <span className="bg-emerald-500 text-white text-[7px] xs:text-[8px] font-bold px-1 xs:px-1.5 py-0.5 rounded-sm leading-none">
+                    <span className="bg-elite-gold text-white text-[7px] xs:text-[8px] font-bold px-1 xs:px-1.5 py-0.5 rounded-sm leading-none">
                       NEW
                     </span>
                   </div>
@@ -109,7 +109,7 @@ export default function FlashDeals({ listings }: Props) {
               <CurrencyDisplay
                 amount={listing.price}
                 currency={listing.currency}
-                className="text-red-500 font-extrabold text-[10px] xs:text-xs"
+                className="text-elite-red font-extrabold text-[10px] xs:text-xs"
               />
             </Link>
           );
@@ -120,9 +120,9 @@ export default function FlashDeals({ listings }: Props) {
       <div className="bg-white px-2.5 xs:px-3 pb-2.5 xs:pb-3 border-t border-gray-50">
         <Link
           href="/listings"
-          className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg bg-red-50 hover:bg-red-100 border border-red-100 text-red-600 hover:text-red-700 text-xs font-semibold transition-colors interactive"
+          className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg bg-elite-cream hover:bg-elite-gold/10 border border-elite-gold/20 text-elite-navy hover:text-elite-navy text-xs font-semibold transition-colors interactive"
         >
-          See All Deals
+          View All Elite Drops
           <svg className="w-3 h-3 xs:w-3.5 xs:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>

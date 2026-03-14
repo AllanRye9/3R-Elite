@@ -34,16 +34,16 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50">
       {/* ── Top utility bar ── */}
-      <div className="hidden sm:block bg-brand-900 text-white/80 text-xs">
+      <div className="hidden sm:block bg-elite-navy text-white/80 text-xs">
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-8">
           <div className="flex items-center gap-4">
-            <Link href="/listings/create" className="hover:text-white transition-colors flex items-center gap-1">
+            <Link href="/listings/create" className="hover:text-elite-gold transition-colors flex items-center gap-1">
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
               </svg>
               Sell on Our Site
             </Link>
-            <Link href="/help" className="hover:text-white transition-colors">Help / FAQ</Link>
+            <Link href="/help" className="hover:text-elite-gold transition-colors">Help / FAQ</Link>
           </div>
           <div className="flex items-center gap-3">
             <span className="text-white/60">English | {currency}</span>
@@ -57,7 +57,7 @@ export default function Header() {
         className={`transition-all duration-300 ${
           scrolled
             ? 'bg-white/95 backdrop-blur-md shadow-md border-b border-gray-100'
-            : 'bg-gradient-to-r from-brand-700 via-brand-600 to-sky-500'
+            : 'bg-elite-navy'
         }`}
       >
         <div className="w-full px-3 sm:px-6 py-2.5">
@@ -83,35 +83,36 @@ export default function Header() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-1.5 shrink-0 group">
               <div className={`w-7 h-7 rounded-lg flex items-center justify-center font-black text-sm transition-colors ${
-                scrolled ? 'bg-brand-600 text-white' : 'bg-white/20 text-white'
+                scrolled ? 'bg-elite-navy text-elite-gold' : 'bg-elite-gold/20 text-elite-gold'
               }`}>
                 3R
               </div>
-              <span className={`font-extrabold text-base sm:text-lg tracking-tight transition-colors whitespace-nowrap ${scrolled ? 'text-brand-700' : 'text-white'}`}>
-                Elite
+              <span className={`font-serif font-bold text-base sm:text-lg tracking-tight transition-colors whitespace-nowrap ${scrolled ? 'text-elite-navy' : 'text-white'}`}>
+                <span className="font-sans font-extrabold">3R</span>{' '}
+                <span className="italic">Elite</span>
               </span>
             </Link>
 
             {/* Search – visible from sm */}
             <form onSubmit={handleSearch} className="hidden sm:flex flex-1 max-w-xl">
               <div className={`flex flex-1 rounded-lg overflow-hidden ring-2 transition-all ${
-                scrolled ? 'ring-gray-200 focus-within:ring-brand-400' : 'ring-white/30 focus-within:ring-white/80'
+                scrolled ? 'ring-gray-200 focus-within:ring-elite-gold/60' : 'ring-white/20 focus-within:ring-elite-gold/60'
               }`}>
                 <input
                   type="text"
                   value={searchQ}
                   onChange={(e) => setSearchQ(e.target.value)}
-                  placeholder="Search for anything..."
+                  placeholder="Search for premium collections..."
                   className={`flex-1 min-w-0 px-3 py-1.5 text-sm focus:outline-none transition-colors ${
-                    scrolled ? 'bg-white text-gray-900 placeholder:text-gray-400' : 'bg-white/15 text-white placeholder:text-white/70'
+                    scrolled ? 'bg-white text-gray-900 placeholder:text-gray-400' : 'bg-white/10 text-white placeholder:text-white/60'
                   }`}
                 />
                 <button
                   type="submit"
                   className={`px-3 sm:px-4 py-1.5 text-sm font-semibold whitespace-nowrap transition-colors interactive ${
                     scrolled
-                      ? 'bg-brand-600 text-white hover:bg-brand-700'
-                      : 'bg-white/20 text-white hover:bg-white/30'
+                      ? 'bg-elite-gold text-white hover:bg-elite-gold-dark'
+                      : 'bg-elite-gold/90 text-white hover:bg-elite-gold'
                   }`}
                 >
                   Search
@@ -129,8 +130,8 @@ export default function Header() {
                 href="/listings/create"
                 className={`hidden sm:flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all interactive ${
                   scrolled
-                    ? 'bg-brand-600 text-white hover:bg-brand-700 shadow-sm hover:shadow-glow'
-                    : 'bg-white text-brand-700 hover:bg-white/90'
+                    ? 'bg-elite-navy text-elite-gold hover:bg-elite-charcoal shadow-sm'
+                    : 'bg-elite-gold text-elite-navy hover:bg-elite-gold-light'
                 }`}
               >
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
@@ -231,7 +232,7 @@ export default function Header() {
                   <Link
                     href="/auth/login"
                     className={`text-xs sm:text-sm font-medium px-2 sm:px-3 py-1.5 rounded-lg transition-colors interactive ${
-                      scrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-white hover:bg-white/20'
+                      scrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-white/90 hover:text-elite-gold'
                     }`}
                   >
                     Login
@@ -240,8 +241,8 @@ export default function Header() {
                     href="/auth/register"
                     className={`hidden sm:flex text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg transition-all interactive ${
                       scrolled
-                        ? 'bg-brand-600 text-white hover:bg-brand-700'
-                        : 'bg-white/20 text-white hover:bg-white/30 border border-white/40'
+                        ? 'bg-elite-navy text-elite-gold hover:bg-elite-charcoal'
+                        : 'bg-elite-gold/20 text-elite-gold hover:bg-elite-gold/30 border border-elite-gold/40'
                     }`}
                   >
                     Register
@@ -254,24 +255,24 @@ export default function Header() {
 
         {/* Mobile search bar */}
         <div className={`sm:hidden border-t px-3 py-2 transition-colors ${
-          scrolled ? 'border-gray-100 bg-white' : 'border-white/20 bg-transparent'
+          scrolled ? 'border-gray-100 bg-white' : 'border-white/10 bg-elite-charcoal'
         }`}>
           <form onSubmit={handleSearch} className={`flex rounded-lg overflow-hidden ring-2 transition-colors ${
-            scrolled ? 'ring-gray-200' : 'ring-white/30'
+            scrolled ? 'ring-gray-200' : 'ring-white/20'
           }`}>
             <input
               type="text"
               value={searchQ}
               onChange={(e) => setSearchQ(e.target.value)}
-              placeholder="Search for anything..."
+              placeholder="Search for premium collections..."
               className={`flex-1 min-w-0 px-3 py-2 text-sm focus:outline-none transition-colors ${
-                scrolled ? 'bg-white text-gray-900 placeholder:text-gray-400' : 'bg-white/15 text-white placeholder:text-white/70'
+                scrolled ? 'bg-white text-gray-900 placeholder:text-gray-400' : 'bg-white/10 text-white placeholder:text-white/60'
               }`}
             />
             <button
               type="submit"
               className={`px-4 py-2 text-sm font-semibold whitespace-nowrap interactive transition-colors ${
-                scrolled ? 'bg-brand-600 text-white hover:bg-brand-700' : 'bg-white/20 text-white hover:bg-white/30'
+                scrolled ? 'bg-elite-gold text-white hover:bg-elite-gold-dark' : 'bg-elite-gold/90 text-white hover:bg-elite-gold'
               }`}
             >
               Search

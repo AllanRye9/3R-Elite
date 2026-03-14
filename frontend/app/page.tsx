@@ -57,7 +57,7 @@ const features = [
   },
 ];
 
-const heroQuickLinks = ['Electronics', 'Vehicles', 'Property', 'Fashion', 'Jobs'] as const;
+const heroQuickLinks = ['Fine Timepieces', 'Designer Apparel', 'Tech Innovations', 'Bespoke Home', 'Luxury Vehicles'] as const;
 
 export default async function HomePage() {
   const { categories, listings, flashListings } = await getHomeData();
@@ -74,22 +74,24 @@ export default async function HomePage() {
 
         <div className="relative max-w-7xl mx-auto px-3 xs:px-4 lg:px-[22%] pt-8 xs:pt-10 pb-10 xs:pb-12 sm:pt-14 sm:pb-16 text-center z-10">
           {/* Badge */}
-          <div className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm text-white text-[10px] xs:text-xs font-semibold px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full mb-3 xs:mb-4 border border-white/20">
-            <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-            🌍 UAE &amp; Uganda&apos;s Premier Marketplace
+          <div className="inline-flex items-center gap-1.5 bg-elite-gold/20 backdrop-blur-sm text-elite-gold text-[10px] xs:text-xs font-semibold px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full mb-3 xs:mb-4 border border-elite-gold/30">
+            <span className="w-1.5 h-1.5 bg-elite-gold rounded-full animate-pulse" />
+            Refined. Rare. Remarkable.
           </div>
 
           <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-2 xs:mb-3 leading-tight text-balance">
-            The best place to buy your home,{' '}
+            The 3R{' '}
             <span className="relative inline-block">
-              <span className="relative z-10">sell your car</span>
-              <span className="absolute inset-x-0 bottom-0 h-2 xs:h-3 bg-sky-400/30 rounded-full -rotate-1" aria-hidden="true" />
+              <span className="relative z-10 font-serif italic text-elite-gold">Signature</span>
+              <span className="absolute inset-x-0 bottom-0 h-2 xs:h-3 bg-elite-gold/20 rounded-full -rotate-1" aria-hidden="true" />
             </span>
-            {' '}or find a job
+            {' '}Series
           </h1>
-          <p className="text-sky-100 text-xs xs:text-sm sm:text-base mb-4 xs:mb-6 max-w-lg mx-auto px-2">
-            Millions of listings. Verified sellers. Zero hidden fees.
-            Find the best deals near you today.
+          <p className="text-white/70 text-xs xs:text-sm sm:text-base mb-2 xs:mb-3 max-w-lg mx-auto px-2">
+            Curated collections of premium products. Exclusive member pricing.
+          </p>
+          <p className="text-elite-gold text-xs xs:text-sm font-semibold mb-4 xs:mb-6">
+            Exclusive Member Price: UGX 1,500,000
           </p>
 
           {/* Search */}
@@ -103,16 +105,16 @@ export default async function HomePage() {
               <Link
                 key={cat}
                 href={`/listings?q=${cat.toLowerCase()}`}
-                className="text-[10px] xs:text-xs text-sky-100 hover:text-white bg-white/10 hover:bg-white/20 border border-white/20 px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full transition-all interactive"
+                className="text-[10px] xs:text-xs text-white/70 hover:text-elite-gold bg-white/5 hover:bg-elite-gold/10 border border-white/10 hover:border-elite-gold/30 px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full transition-all interactive"
               >
                 {cat}
               </Link>
             ))}
             <Link
               href="/listings/create"
-              className="text-[10px] xs:text-xs font-bold text-brand-700 bg-white hover:bg-sky-50 px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full transition-all interactive shadow-sm"
+              className="text-[10px] xs:text-xs font-bold text-elite-navy bg-elite-gold hover:bg-elite-gold-light px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full transition-all interactive shadow-sm"
             >
-              Get Started →
+              Discover More →
             </Link>
           </div>
         </div>
@@ -126,7 +128,7 @@ export default async function HomePage() {
         {/* ═══ FEATURED CATEGORIES (Dubizzle-inspired large tiles) ═══ */}
         <FeaturedCategories />
 
-        {/* ═══ FLASH DEALS (Jumia-inspired countdown section) ═══ */}
+        {/* ═══ ELITE DROPS (Premium countdown section) ═══ */}
         <FlashDeals listings={flashListings} />
 
         {/* ═══ BROWSE ALL CATEGORIES ═══ */}
