@@ -5,19 +5,28 @@ import { ListingGrid } from '@/components/listings/ListingGrid';
 import HeroSlideshow from '@/components/ui/HeroSlideshow';
 import HeroSideCards from '@/components/ui/HeroSideCards';
 import TrustStats from '@/components/ui/TrustStats';
+import FeaturedCategories from '@/components/ui/FeaturedCategories';
+import FlashDeals from '@/components/ui/FlashDeals';
+import PromoBanners from '@/components/ui/PromoBanners';
 import type { Category } from '@/lib/types';
 
 async function getHomeData() {
   try {
-    const [catRes, listingRes] = await Promise.all([
+    const [catRes, listingRes, flashRes] = await Promise.all([
       fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/categories`, { next: { revalidate: 3600 } }),
       fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/listings?limit=8&sort=createdAt`, { next: { revalidate: 60 } }),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/listings?limit=8&sort=views`, { next: { revalidate: 120 } }),
     ]);
     const categories: Category[] = catRes.ok ? await catRes.json() : [];
     const listingData = listingRes.ok ? await listingRes.json() : { listings: [] };
-    return { categories, listings: listingData.listings || [] };
+    const flashData = flashRes.ok ? await flashRes.json() : { listings: [] };
+    return {
+      categories,
+      listings: listingData.listings || [],
+      flashListings: flashData.listings || [],
+    };
   } catch {
-    return { categories: [], listings: [] };
+    return { categories: [], listings: [], flashListings: [] };
   }
 }
 
@@ -49,7 +58,7 @@ const features = [
 ];
 
 export default async function HomePage() {
-  const { categories, listings } = await getHomeData();
+  const { categories, listings, flashListings } = await getHomeData();
 
   return (
     <div className="animate-fade-in">
@@ -106,38 +115,35 @@ export default async function HomePage() {
 
       <div className="max-w-7xl mx-auto px-3 xs:px-4 py-4 xs:py-6 space-y-6 xs:space-y-8 sm:space-y-10">
 
-        {/* ═══ CATEGORIES ═══ */}
-        <section className="animate-fade-up">
-          <div className="flex items-center justify-between mb-3 xs:mb-4">
-            <div>
-              <h2 className="text-lg xs:text-xl font-extrabold text-gray-900">Browse Categories</h2>
-              <p className="text-xs xs:text-sm text-gray-500 mt-0.5">Explore what&apos;s available near you</p>
-            </div>
-            <Link href="/listings" className="text-xs xs:text-sm font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1 interactive">
-              All categories
-              <svg className="w-3.5 h-3.5 xs:w-4 xs:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-            </Link>
-          </div>
-          {categories.length > 0 ? (
-            <CategoryNav categories={categories} />
-          ) : (
-            <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="flex-shrink-0 w-28 h-28 bg-white border border-gray-100 rounded-xl flex flex-col items-center justify-center gap-2">
-                  <div className="w-10 h-10 bg-gray-100 rounded-lg shimmer" />
-                  <div className="w-16 h-2.5 bg-gray-100 rounded-full shimmer" />
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
+        {/* ═══ FEATURED CATEGORIES (Dubizzle-inspired large tiles) ═══ */}
+        <FeaturedCategories />
 
-        {/* ═══ LATEST LISTINGS ═══ */}
+        {/* ═══ FLASH DEALS (Jumia-inspired countdown section) ═══ */}
+        <FlashDeals listings={flashListings} />
+
+        {/* ═══ BROWSE ALL CATEGORIES ═══ */}
+        {categories.length > 0 && (
+          <section className="animate-fade-up">
+            <div className="flex items-center justify-between mb-3 xs:mb-4">
+              <div>
+                <h2 className="text-lg xs:text-xl font-extrabold text-gray-900">Browse Categories</h2>
+                <p className="text-xs xs:text-sm text-gray-500 mt-0.5">Explore what&apos;s available near you</p>
+              </div>
+              <Link href="/listings" className="text-xs xs:text-sm font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1 interactive">
+                All categories
+                <svg className="w-3.5 h-3.5 xs:w-4 xs:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+              </Link>
+            </div>
+            <CategoryNav categories={categories} />
+          </section>
+        )}
+
+        {/* ═══ LATEST LISTINGS (Jiji-style trending feed) ═══ */}
         <section>
           <div className="flex items-center justify-between mb-3 xs:mb-4">
             <div>
-              <h2 className="text-lg xs:text-xl font-extrabold text-gray-900">Latest Listings</h2>
-              <p className="text-xs xs:text-sm text-gray-500 mt-0.5">Fresh deals just posted</p>
+              <h2 className="text-lg xs:text-xl font-extrabold text-gray-900">Trending Listings</h2>
+              <p className="text-xs xs:text-sm text-gray-500 mt-0.5">Most viewed deals near you</p>
             </div>
             <Link href="/listings" className="text-xs xs:text-sm font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1 interactive">
               View all
@@ -162,40 +168,8 @@ export default async function HomePage() {
           )}
         </section>
 
-        {/* ═══ MARKET CTAs ═══ */}
-        <section className="grid grid-cols-1 xs:grid-cols-2 gap-3 xs:gap-4">
-          <Link
-            href="/listings?country=UAE"
-            className="group relative overflow-hidden rounded-lg p-4 xs:p-6 sm:p-8 bg-gradient-to-br from-green-500 to-emerald-600 text-white hover:shadow-xl transition-all duration-300 interactive"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/10 group-hover:to-black/20 transition-all" />
-            <div className="absolute -top-10 -right-10 w-28 xs:w-40 h-28 xs:h-40 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
-            <div className="relative">
-              <div className="text-3xl xs:text-4xl mb-2 xs:mb-3 group-hover:scale-110 transition-transform inline-block">🇦🇪</div>
-              <h3 className="text-lg xs:text-xl font-extrabold mb-0.5 xs:mb-1">UAE Market</h3>
-              <p className="text-emerald-100 text-xs xs:text-sm">Dubai · Abu Dhabi · Sharjah · Ajman</p>
-              <div className="mt-3 xs:mt-4 inline-flex items-center gap-1.5 text-xs xs:text-sm font-semibold bg-white/20 px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full group-hover:bg-white/30 transition-colors">
-                Explore →
-              </div>
-            </div>
-          </Link>
-
-          <Link
-            href="/listings?country=UGANDA"
-            className="group relative overflow-hidden rounded-lg p-4 xs:p-6 sm:p-8 bg-gradient-to-br from-yellow-500 to-amber-600 text-white hover:shadow-xl transition-all duration-300 interactive"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/10 group-hover:to-black/20 transition-all" />
-            <div className="absolute -top-10 -right-10 w-28 xs:w-40 h-28 xs:h-40 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
-            <div className="relative">
-              <div className="text-3xl xs:text-4xl mb-2 xs:mb-3 group-hover:scale-110 transition-transform inline-block">🇺🇬</div>
-              <h3 className="text-lg xs:text-xl font-extrabold mb-0.5 xs:mb-1">Uganda Market</h3>
-              <p className="text-amber-100 text-xs xs:text-sm">Kampala · Jinja · Gulu · Mbarara</p>
-              <div className="mt-3 xs:mt-4 inline-flex items-center gap-1.5 text-xs xs:text-sm font-semibold bg-white/20 px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full group-hover:bg-white/30 transition-colors">
-                Explore →
-              </div>
-            </div>
-          </Link>
-        </section>
+        {/* ═══ MARKET CTAs (Promo banners) ═══ */}
+        <PromoBanners />
 
         {/* ═══ WHY 3R-ELITE ═══ */}
         <section className="bg-white rounded-lg border border-gray-100 shadow-sm p-4 xs:p-6 sm:p-8">

@@ -41,7 +41,7 @@ export interface Listing {
   createdAt: string;
   expiresAt?: string;
   userId: string;
-  user: { id: string; name: string; avatar?: string; phone?: string };
+  user: { id: string; name: string; avatar?: string; phone?: string; isVerified?: boolean };
   category: Category;
   categoryId: string;
 }
