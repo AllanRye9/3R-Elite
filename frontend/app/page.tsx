@@ -57,6 +57,8 @@ const features = [
   },
 ];
 
+const heroQuickLinks = ['Electronics', 'Vehicles', 'Property', 'Fashion', 'Jobs'] as const;
+
 export default async function HomePage() {
   const { categories, listings, flashListings } = await getHomeData();
 
@@ -97,7 +99,7 @@ export default async function HomePage() {
 
           {/* Quick links */}
           <div className="flex flex-wrap justify-center gap-1.5 xs:gap-2 mt-4 xs:mt-5 px-2">
-            {['Electronics', 'Vehicles', 'Property', 'Fashion', 'Jobs'].map((cat) => (
+            {heroQuickLinks.map((cat) => (
               <Link
                 key={cat}
                 href={`/listings?q=${cat.toLowerCase()}`}

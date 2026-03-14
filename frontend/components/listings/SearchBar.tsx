@@ -10,6 +10,9 @@ interface Props {
   className?: string;
 }
 
+const SUGGESTION_DEBOUNCE_MS = 180;
+const BLUR_DELAY_MS = 150;
+
 const popularSuggestions = [
   'iPhone 12', 'Toyota Corolla', '2 bedroom apartment', 'Samsung Galaxy',
   'MacBook Pro', 'Honda CRV', 'Web Developer', 'Sofa', 'Refrigerator',
@@ -38,7 +41,7 @@ export function SearchBar({ initialQ = '', initialLocation = '', className = '' 
         s.toLowerCase().includes(lower)
       );
       setSuggestions(filtered.slice(0, 6));
-    }, 180);
+    }, SUGGESTION_DEBOUNCE_MS);
   }, [q]);
 
   const handleSearch = (e: React.FormEvent) => {
@@ -86,7 +89,7 @@ export function SearchBar({ initialQ = '', initialLocation = '', className = '' 
           value={q}
           onChange={(e) => { setQ(e.target.value); setShowSuggestions(true); setActiveSuggestion(-1); }}
           onFocus={() => setShowSuggestions(true)}
-          onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+          onBlur={() => setTimeout(() => setShowSuggestions(false), BLUR_DELAY_MS)}
           onKeyDown={handleKeyDown}
           placeholder="Search for anything..."
           autoComplete="off"

@@ -94,7 +94,7 @@ export function FilterSidebar({ categories, isOpen = false, onClose }: Props) {
             Verified Sellers Only
           </span>
         </label>
-        <p className="text-[10px] text-gray-400 mt-1.5 ml-0">
+        <p className="text-[10px] text-gray-400 mt-1.5">
           See only listings from identity-verified sellers
         </p>
       </div>

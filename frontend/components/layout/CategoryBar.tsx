@@ -5,6 +5,8 @@ import { useSearchParams } from 'next/navigation';
 import { useState, useRef } from 'react';
 import { Suspense } from 'react';
 
+const MENU_CLOSE_DELAY_MS = 150;
+
 interface MegaMenuColumn {
   heading: string;
   links: { label: string; href: string }[];
@@ -122,7 +124,7 @@ function CategoryBarInner() {
   };
 
   const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => setOpenMenu(null), 150);
+    timeoutRef.current = setTimeout(() => setOpenMenu(null), MENU_CLOSE_DELAY_MS);
   };
 
   return (
