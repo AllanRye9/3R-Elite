@@ -33,27 +33,27 @@ async function getHomeData() {
 const features = [
   {
     icon: '🔒',
-    title: 'Safe & Secure',
-    desc: 'Verified sellers and secure messaging to protect every transaction.',
-    color: 'from-emerald-400 to-teal-500',
+    title: 'Trusted & Verified',
+    desc: 'Every seller is vetted. Secure transactions and verified authenticity.',
+    color: 'from-[#0B132B] to-[#1C2541]',
   },
   {
-    icon: '⚡',
-    title: 'Lightning Fast',
-    desc: 'Post your listing in under 2 minutes. Reach thousands instantly.',
-    color: 'from-amber-400 to-orange-500',
+    icon: '✦',
+    title: 'Curated Selection',
+    desc: 'Only the finest listings. Quality over quantity, always.',
+    color: 'from-[#0B132B] to-[#1C2541]',
   },
   {
-    icon: '💰',
-    title: 'Best Prices',
-    desc: 'Compare thousands of listings to find unbeatable deals near you.',
-    color: 'from-violet-400 to-purple-600',
+    icon: '💎',
+    title: 'Exclusive Pricing',
+    desc: 'Member-only deals and exclusive access to premium collections.',
+    color: 'from-[#0B132B] to-[#1C2541]',
   },
   {
-    icon: '📱',
-    title: 'Mobile First',
-    desc: 'Fully optimised for mobile. Buy and sell on the go, anywhere.',
-    color: 'from-sky-400 to-blue-600',
+    icon: '🌍',
+    title: 'Global Reach',
+    desc: 'Connect with elite buyers and sellers across UAE and Uganda.',
+    color: 'from-[#0B132B] to-[#1C2541]',
   },
 ];
 
@@ -136,10 +136,10 @@ export default async function HomePage() {
           <section className="animate-fade-up">
             <div className="flex items-center justify-between mb-3 xs:mb-4">
               <div>
-                <h2 className="text-lg xs:text-xl font-extrabold text-gray-900">Browse Categories</h2>
-                <p className="text-xs xs:text-sm text-gray-500 mt-0.5">Explore what&apos;s available near you</p>
+                <h2 className="text-lg xs:text-xl font-extrabold text-elite-navy">Browse Categories</h2>
+                <p className="text-xs xs:text-sm text-gray-500 mt-0.5">Explore curated collections</p>
               </div>
-              <Link href="/listings" className="text-xs xs:text-sm font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1 interactive">
+              <Link href="/listings" className="text-xs xs:text-sm font-semibold text-elite-gold hover:text-elite-gold-dark flex items-center gap-1 interactive">
                 All categories
                 <svg className="w-3.5 h-3.5 xs:w-4 xs:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
               </Link>
@@ -152,10 +152,10 @@ export default async function HomePage() {
         <section>
           <div className="flex items-center justify-between mb-3 xs:mb-4">
             <div>
-              <h2 className="text-lg xs:text-xl font-extrabold text-gray-900">Trending Listings</h2>
-              <p className="text-xs xs:text-sm text-gray-500 mt-0.5">Most viewed deals near you</p>
+              <h2 className="text-lg xs:text-xl font-extrabold text-elite-navy">Latest Collections</h2>
+              <p className="text-xs xs:text-sm text-gray-500 mt-0.5">Recently curated premium items</p>
             </div>
-            <Link href="/listings" className="text-xs xs:text-sm font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1 interactive">
+            <Link href="/listings" className="text-xs xs:text-sm font-semibold text-elite-gold hover:text-elite-gold-dark flex items-center gap-1 interactive">
               View all
               <svg className="w-3.5 h-3.5 xs:w-4 xs:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
             </Link>
@@ -182,52 +182,52 @@ export default async function HomePage() {
         <PromoBanners />
 
         {/* ═══ SAFETY BANNER ═══ */}
-        <section className="bg-amber-50 border border-amber-100 rounded-xl p-4 xs:p-5 flex flex-col sm:flex-row items-start sm:items-center gap-3 xs:gap-4">
-          <div className="shrink-0 w-10 h-10 xs:w-12 xs:h-12 rounded-xl bg-amber-100 flex items-center justify-center text-2xl">
+        <section className="bg-elite-cream border border-elite-gold/15 rounded-xl p-4 xs:p-5 flex flex-col sm:flex-row items-start sm:items-center gap-3 xs:gap-4">
+          <div className="shrink-0 w-10 h-10 xs:w-12 xs:h-12 rounded-xl bg-elite-gold/10 flex items-center justify-center text-2xl">
             🛡️
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="font-bold text-amber-900 text-sm xs:text-base mb-0.5">Community Safety Comes First</h3>
-            <p className="text-amber-800 text-xs xs:text-sm">
+            <h3 className="font-bold text-elite-navy text-sm xs:text-base mb-0.5">Community Safety Comes First</h3>
+            <p className="text-gray-600 text-xs xs:text-sm">
               Always meet in a public place, never pay in advance without inspecting, and report suspicious listings.
               Together, we build a safer marketplace.
             </p>
           </div>
           <Link
             href="/safety"
-            className="shrink-0 text-xs font-semibold text-amber-900 bg-amber-100 hover:bg-amber-200 border border-amber-200 px-3 py-1.5 rounded-lg transition-colors interactive"
+            className="shrink-0 text-xs font-semibold text-elite-navy bg-elite-gold/10 hover:bg-elite-gold/20 border border-elite-gold/20 px-3 py-1.5 rounded-lg transition-colors interactive"
           >
             Safety Tips →
           </Link>
         </section>
 
-        {/* ═══ GET VERIFIED CTA (Dubizzle inspired) ═══ */}
-        <section className="relative overflow-hidden bg-gradient-to-r from-sky-600 to-brand-700 rounded-xl px-4 xs:px-6 py-6 xs:py-8 text-white">
+        {/* ═══ GET VERIFIED CTA ═══ */}
+        <section className="relative overflow-hidden bg-gradient-to-r from-elite-navy to-elite-charcoal rounded-xl px-4 xs:px-6 py-6 xs:py-8 text-white">
           <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-            <div className="absolute -top-8 -right-8 w-40 h-40 bg-white/5 rounded-full blur-2xl" />
-            <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-sky-400/10 rounded-full blur-2xl" />
+            <div className="absolute -top-8 -right-8 w-40 h-40 bg-elite-gold/5 rounded-full blur-2xl" />
+            <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-elite-gold/5 rounded-full blur-2xl" />
           </div>
           <div className="relative flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
-            <div className="shrink-0 w-14 h-14 xs:w-16 xs:h-16 bg-white/15 rounded-2xl flex items-center justify-center text-3xl">
+            <div className="shrink-0 w-14 h-14 xs:w-16 xs:h-16 bg-elite-gold/15 rounded-2xl flex items-center justify-center text-3xl">
               ✅
             </div>
             <div className="text-center sm:text-left flex-1">
-              <h2 className="text-lg xs:text-xl font-extrabold mb-1">Get Verified — Build Trust &amp; Sell More</h2>
-              <p className="text-sky-100 text-xs xs:text-sm max-w-md">
-                Join us in building a safer community. Verified sellers get more views,
-                higher response rates, and a trust badge on every listing.
+              <h2 className="text-lg xs:text-xl font-extrabold mb-1">Join the Inner Circle — Unlock Exclusive Access</h2>
+              <p className="text-white/60 text-xs xs:text-sm max-w-md">
+                Verified members get early access to limited drops,
+                exclusive pricing, and a trust badge on every listing.
               </p>
-              <div className="flex flex-wrap justify-center sm:justify-start gap-2 mt-2 xs:mt-3 text-xs text-sky-100">
-                <span className="flex items-center gap-1"><span className="text-emerald-300">✓</span> Increased visibility</span>
-                <span className="flex items-center gap-1"><span className="text-emerald-300">✓</span> Verified badge on all ads</span>
-                <span className="flex items-center gap-1"><span className="text-emerald-300">✓</span> Buyer confidence boost</span>
+              <div className="flex flex-wrap justify-center sm:justify-start gap-2 mt-2 xs:mt-3 text-xs text-white/60">
+                <span className="flex items-center gap-1"><span className="text-elite-gold">✓</span> Priority access</span>
+                <span className="flex items-center gap-1"><span className="text-elite-gold">✓</span> Verified badge</span>
+                <span className="flex items-center gap-1"><span className="text-elite-gold">✓</span> Member pricing</span>
               </div>
             </div>
             <Link
               href="/auth/register"
-              className="shrink-0 bg-white text-brand-700 font-bold px-5 py-2.5 rounded-xl hover:bg-sky-50 transition-all interactive shadow-lg hover:shadow-xl hover:-translate-y-0.5 text-sm whitespace-nowrap"
+              className="shrink-0 bg-elite-gold text-elite-navy font-bold px-5 py-2.5 rounded-xl hover:bg-elite-gold-light transition-all interactive shadow-lg hover:shadow-xl hover:-translate-y-0.5 text-sm whitespace-nowrap"
             >
-              Get Started
+              Join Now
             </Link>
           </div>
         </section>
@@ -235,16 +235,16 @@ export default async function HomePage() {
         {/* ═══ WHY 3R-ELITE ═══ */}
         <section className="bg-white rounded-lg border border-gray-100 shadow-sm p-4 xs:p-6 sm:p-8">
           <div className="text-center mb-4 xs:mb-6">
-            <h2 className="text-lg xs:text-xl font-extrabold text-gray-900">Why Choose 3R-Elite?</h2>
-            <p className="text-gray-500 text-xs xs:text-sm mt-1">The smart way to buy and sell</p>
+            <h2 className="text-lg xs:text-xl font-extrabold text-elite-navy">Why Choose 3R-Elite?</h2>
+            <p className="text-gray-500 text-xs xs:text-sm mt-1">The refined way to buy and sell</p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4 stagger-children">
             {features.map((f) => (
               <div key={f.title} className="text-center group">
-                <div className={`w-10 h-10 xs:w-12 xs:h-12 mx-auto mb-2 xs:mb-3 rounded-lg bg-gradient-to-br ${f.color} flex items-center justify-center text-xl xs:text-2xl shadow-md group-hover:scale-110 transition-transform duration-300`}>
-                  {f.icon}
+                <div className={`w-10 h-10 xs:w-12 xs:h-12 mx-auto mb-2 xs:mb-3 rounded-lg bg-gradient-to-br ${f.color} flex items-center justify-center text-xl xs:text-2xl shadow-md group-hover:scale-110 transition-transform duration-300 border border-elite-gold/20`}>
+                  <span className="text-elite-gold">{f.icon}</span>
                 </div>
-                <h3 className="font-bold text-gray-900 text-xs xs:text-sm mb-0.5 xs:mb-1">{f.title}</h3>
+                <h3 className="font-bold text-elite-navy text-xs xs:text-sm mb-0.5 xs:mb-1">{f.title}</h3>
                 <p className="text-[10px] xs:text-xs text-gray-500 leading-relaxed">{f.desc}</p>
               </div>
             ))}
@@ -252,23 +252,23 @@ export default async function HomePage() {
         </section>
 
         {/* ═══ POST AD CTA ═══ */}
-        <section className="relative overflow-hidden bg-gradient-to-r from-brand-700 to-indigo-700 rounded-lg px-4 xs:px-6 py-6 xs:py-8 sm:px-10 text-white text-center">
+        <section className="relative overflow-hidden bg-gradient-to-r from-elite-navy to-elite-charcoal rounded-lg px-4 xs:px-6 py-6 xs:py-8 sm:px-10 text-white text-center">
           <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-            <div className="absolute top-0 left-1/4 w-24 xs:w-32 h-24 xs:h-32 bg-white/5 rounded-full blur-xl" />
-            <div className="absolute bottom-0 right-1/4 w-32 xs:w-40 h-32 xs:h-40 bg-sky-400/10 rounded-full blur-xl" />
+            <div className="absolute top-0 left-1/4 w-24 xs:w-32 h-24 xs:h-32 bg-elite-gold/5 rounded-full blur-xl" />
+            <div className="absolute bottom-0 right-1/4 w-32 xs:w-40 h-32 xs:h-40 bg-elite-gold/5 rounded-full blur-xl" />
           </div>
           <div className="relative">
-            <p className="text-3xl xs:text-4xl mb-2 xs:mb-3">🚀</p>
-            <h2 className="text-xl xs:text-2xl font-extrabold mb-1.5 xs:mb-2">Ready to Sell?</h2>
-            <p className="text-sky-200 text-xs xs:text-sm mb-4 xs:mb-5 max-w-sm mx-auto">
-              List your item for free and reach thousands of buyers in UAE and Uganda today.
+            <p className="text-3xl xs:text-4xl mb-2 xs:mb-3">✦</p>
+            <h2 className="text-xl xs:text-2xl font-extrabold mb-1.5 xs:mb-2">Ready to List?</h2>
+            <p className="text-white/50 text-xs xs:text-sm mb-4 xs:mb-5 max-w-sm mx-auto">
+              Showcase your premium items to discerning buyers across UAE and Uganda.
             </p>
             <Link
               href="/listings/create"
-              className="inline-flex items-center gap-2 bg-white text-brand-700 font-bold px-6 py-3 rounded-lg hover:bg-sky-50 transition-all interactive shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 bg-elite-gold text-elite-navy font-bold px-6 py-3 rounded-lg hover:bg-elite-gold-light transition-all interactive shadow-lg hover:shadow-xl hover:-translate-y-0.5 border border-elite-gold"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
-              Post Free Ad
+              Create Listing
             </Link>
           </div>
         </section>
