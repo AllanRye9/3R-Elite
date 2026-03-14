@@ -12,19 +12,23 @@ export function UserAvatar({ user, size = 'md' }: Props) {
   const px = sizes[size];
   if (user.avatar) {
     return (
-      <Image
-        src={user.avatar}
-        alt={user.name || 'User'}
-        width={px}
-        height={px}
-        className="rounded-full object-cover"
+      <div
+        className="relative overflow-hidden rounded-full shrink-0"
         style={{ width: px, height: px }}
-      />
+      >
+        <Image
+          src={user.avatar}
+          alt={user.name || 'User'}
+          fill
+          sizes={`${px}px`}
+          className="object-cover"
+        />
+      </div>
     );
   }
   return (
     <div
-      className="rounded-full bg-sky-500 flex items-center justify-center text-white font-bold"
+      className="rounded-full bg-sky-500 flex items-center justify-center text-white font-bold shrink-0"
       style={{ width: px, height: px, fontSize: px * 0.4 }}
     >
       {(user.name || 'U').charAt(0).toUpperCase()}

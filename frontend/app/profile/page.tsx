@@ -40,6 +40,11 @@ export default function ProfilePage() {
     if (!files || files.length === 0) return;
     setAvatarError('');
     const file = files[0];
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    if (!allowedTypes.includes(file.type)) {
+      setAvatarError('Only JPG, PNG, WEBP, or GIF images are allowed');
+      return;
+    }
     if (file.size > 5 * 1024 * 1024) {
       setAvatarError('Image must be under 5 MB');
       return;
@@ -103,7 +108,7 @@ export default function ProfilePage() {
         <div className="px-6 pb-6 -mt-10">
           <div className="flex items-end gap-4">
             <div className="relative group">
-              <div className="ring-4 ring-white rounded-full shadow-lg">
+              <div className="ring-4 ring-white rounded-full shadow-lg overflow-hidden">
                 <UserAvatar user={user} size="lg" />
               </div>
               <button
@@ -122,7 +127,7 @@ export default function ProfilePage() {
               <input
                 ref={avatarInputRef}
                 type="file"
-                accept="image/*"
+                accept="image/jpeg,image/png,image/webp,image/gif"
                 className="hidden"
                 onChange={(e) => handleAvatarUpload(e.target.files)}
               />
