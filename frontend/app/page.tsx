@@ -57,6 +57,8 @@ const features = [
   },
 ];
 
+const heroQuickLinks = ['Electronics', 'Vehicles', 'Property', 'Fashion', 'Jobs'] as const;
+
 export default async function HomePage() {
   const { categories, listings, flashListings } = await getHomeData();
 
@@ -78,12 +80,12 @@ export default async function HomePage() {
           </div>
 
           <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-2 xs:mb-3 leading-tight text-balance">
-            Buy &amp; Sell{' '}
+            The best place to buy your home,{' '}
             <span className="relative inline-block">
-              <span className="relative z-10">Anything</span>
+              <span className="relative z-10">sell your car</span>
               <span className="absolute inset-x-0 bottom-0 h-2 xs:h-3 bg-sky-400/30 rounded-full -rotate-1" aria-hidden="true" />
             </span>
-            {' '}in UAE &amp; Uganda
+            {' '}or find a job
           </h1>
           <p className="text-sky-100 text-xs xs:text-sm sm:text-base mb-4 xs:mb-6 max-w-lg mx-auto px-2">
             Millions of listings. Verified sellers. Zero hidden fees.
@@ -97,7 +99,7 @@ export default async function HomePage() {
 
           {/* Quick links */}
           <div className="flex flex-wrap justify-center gap-1.5 xs:gap-2 mt-4 xs:mt-5 px-2">
-            {['Electronics', 'Vehicles', 'Real Estate', 'Fashion', 'Jobs'].map((cat) => (
+            {heroQuickLinks.map((cat) => (
               <Link
                 key={cat}
                 href={`/listings?q=${cat.toLowerCase()}`}
@@ -106,6 +108,12 @@ export default async function HomePage() {
                 {cat}
               </Link>
             ))}
+            <Link
+              href="/listings/create"
+              className="text-[10px] xs:text-xs font-bold text-brand-700 bg-white hover:bg-sky-50 px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full transition-all interactive shadow-sm"
+            >
+              Get Started →
+            </Link>
           </div>
         </div>
       </section>
@@ -170,6 +178,57 @@ export default async function HomePage() {
 
         {/* ═══ MARKET CTAs (Promo banners) ═══ */}
         <PromoBanners />
+
+        {/* ═══ SAFETY BANNER ═══ */}
+        <section className="bg-amber-50 border border-amber-100 rounded-xl p-4 xs:p-5 flex flex-col sm:flex-row items-start sm:items-center gap-3 xs:gap-4">
+          <div className="shrink-0 w-10 h-10 xs:w-12 xs:h-12 rounded-xl bg-amber-100 flex items-center justify-center text-2xl">
+            🛡️
+          </div>
+          <div className="flex-1 min-w-0">
+            <h3 className="font-bold text-amber-900 text-sm xs:text-base mb-0.5">Community Safety Comes First</h3>
+            <p className="text-amber-800 text-xs xs:text-sm">
+              Always meet in a public place, never pay in advance without inspecting, and report suspicious listings.
+              Together, we build a safer marketplace.
+            </p>
+          </div>
+          <Link
+            href="/safety"
+            className="shrink-0 text-xs font-semibold text-amber-900 bg-amber-100 hover:bg-amber-200 border border-amber-200 px-3 py-1.5 rounded-lg transition-colors interactive"
+          >
+            Safety Tips →
+          </Link>
+        </section>
+
+        {/* ═══ GET VERIFIED CTA (Dubizzle inspired) ═══ */}
+        <section className="relative overflow-hidden bg-gradient-to-r from-sky-600 to-brand-700 rounded-xl px-4 xs:px-6 py-6 xs:py-8 text-white">
+          <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+            <div className="absolute -top-8 -right-8 w-40 h-40 bg-white/5 rounded-full blur-2xl" />
+            <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-sky-400/10 rounded-full blur-2xl" />
+          </div>
+          <div className="relative flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+            <div className="shrink-0 w-14 h-14 xs:w-16 xs:h-16 bg-white/15 rounded-2xl flex items-center justify-center text-3xl">
+              ✅
+            </div>
+            <div className="text-center sm:text-left flex-1">
+              <h2 className="text-lg xs:text-xl font-extrabold mb-1">Get Verified — Build Trust &amp; Sell More</h2>
+              <p className="text-sky-100 text-xs xs:text-sm max-w-md">
+                Join us in building a safer community. Verified sellers get more views,
+                higher response rates, and a trust badge on every listing.
+              </p>
+              <div className="flex flex-wrap justify-center sm:justify-start gap-2 mt-2 xs:mt-3 text-xs text-sky-100">
+                <span className="flex items-center gap-1"><span className="text-emerald-300">✓</span> Increased visibility</span>
+                <span className="flex items-center gap-1"><span className="text-emerald-300">✓</span> Verified badge on all ads</span>
+                <span className="flex items-center gap-1"><span className="text-emerald-300">✓</span> Buyer confidence boost</span>
+              </div>
+            </div>
+            <Link
+              href="/auth/register"
+              className="shrink-0 bg-white text-brand-700 font-bold px-5 py-2.5 rounded-xl hover:bg-sky-50 transition-all interactive shadow-lg hover:shadow-xl hover:-translate-y-0.5 text-sm whitespace-nowrap"
+            >
+              Get Started
+            </Link>
+          </div>
+        </section>
 
         {/* ═══ WHY 3R-ELITE ═══ */}
         <section className="bg-white rounded-lg border border-gray-100 shadow-sm p-4 xs:p-6 sm:p-8">

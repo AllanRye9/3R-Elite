@@ -81,6 +81,25 @@ function ListingsContent() {
             <p className="text-gray-500 text-sm">
               <span className="text-gray-900 font-bold">{total}</span> listings found
             </p>
+            <div className="flex items-center gap-2">
+              <label htmlFor="sort-top" className="text-xs text-gray-500 whitespace-nowrap">Sort by:</label>
+              <select
+                id="sort-top"
+                value={params.get('sort') || 'createdAt'}
+                onChange={(e) => {
+                  const newParams = new URLSearchParams(params.toString());
+                  newParams.set('sort', e.target.value);
+                  newParams.set('page', '1');
+                  router.push(`/listings?${newParams.toString()}`);
+                }}
+                className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-sky-300 bg-white text-gray-700"
+              >
+                <option value="createdAt">Most Recent</option>
+                <option value="price_asc">Lowest Price</option>
+                <option value="price_desc">Highest Price</option>
+                <option value="views">Most Popular</option>
+              </select>
+            </div>
           </div>
 
           <ListingGrid listings={listings} loading={loading} />

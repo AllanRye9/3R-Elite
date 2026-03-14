@@ -10,6 +10,13 @@ interface Props {
   onClose?: () => void;
 }
 
+const pricePresets = [
+  { label: 'Under 65K', min: '', max: '65000' },
+  { label: '65K – 270K', min: '65000', max: '270000' },
+  { label: '270K – 1M', min: '270000', max: '1000000' },
+  { label: 'Over 1M', min: '1000000', max: '' },
+];
+
 export function FilterSidebar({ categories, isOpen = false, onClose }: Props) {
   const router = useRouter();
   const params = useSearchParams();
@@ -22,6 +29,23 @@ export function FilterSidebar({ categories, isOpen = false, onClose }: Props) {
     newParams.set('page', '1');
     router.push(`/listings?${newParams.toString()}`);
   };
+
+  const updateMultiple = (updates: Record<string, string>) => {
+    const newParams = new URLSearchParams(params.toString());
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value) newParams.set(key, value);
+      else newParams.delete(key);
+    });
+    newParams.set('page', '1');
+    router.push(`/listings?${newParams.toString()}`);
+  };
+
+  const currentMin = params.get('priceMin') || '';
+  const currentMax = params.get('priceMax') || '';
+
+  const activePricePreset = pricePresets.find(
+    (p) => p.min === currentMin && p.max === currentMax
+  );
 
   const content = (
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 sm:p-5 space-y-5">
@@ -50,6 +74,29 @@ export function FilterSidebar({ categories, isOpen = false, onClose }: Props) {
         >
           Clear all
         </button>
+      </div>
+
+      {/* ── Verified Sellers filter ── */}
+      <div>
+        <h3 className="font-bold text-gray-800 text-xs uppercase tracking-wider mb-2.5">Trust & Safety</h3>
+        <label className="flex items-center gap-2.5 cursor-pointer group">
+          <div className="relative">
+            <input
+              type="checkbox"
+              checked={params.get('verified') === 'true'}
+              onChange={(e) => update('verified', e.target.checked ? 'true' : '')}
+              className="sr-only peer"
+            />
+            <div className="w-9 h-5 bg-gray-200 peer-checked:bg-sky-500 rounded-full transition-colors" />
+            <div className="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform peer-checked:translate-x-4" />
+          </div>
+          <span className="text-sm text-gray-700 group-hover:text-gray-900 transition-colors">
+            Verified Sellers Only
+          </span>
+        </label>
+        <p className="text-[10px] text-gray-400 mt-1.5">
+          See only listings from identity-verified sellers
+        </p>
       </div>
 
       <div>
@@ -105,12 +152,31 @@ export function FilterSidebar({ categories, isOpen = false, onClose }: Props) {
 
       <div>
         <h3 className="font-bold text-gray-800 text-xs uppercase tracking-wider mb-2">Price Range</h3>
+
+        {/* Preset ranges */}
+        <div className="grid grid-cols-2 gap-1.5 mb-3">
+          {pricePresets.map((preset) => (
+            <button
+              key={preset.label}
+              onClick={() => updateMultiple({ priceMin: preset.min, priceMax: preset.max })}
+              className={`py-1.5 px-2 rounded-lg text-xs font-medium transition-all interactive border ${
+                activePricePreset?.label === preset.label
+                  ? 'bg-sky-500 text-white border-sky-500 shadow-sm'
+                  : 'bg-white text-gray-600 border-gray-200 hover:border-sky-200 hover:text-sky-600'
+              }`}
+            >
+              {preset.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Custom range */}
         <div className="flex gap-2">
           <div className="relative flex-1">
             <input
               type="number"
               placeholder="Min"
-              value={params.get('priceMin') || ''}
+              value={currentMin}
               onChange={(e) => update('priceMin', e.target.value)}
               className="input-premium text-sm pl-2 pr-2"
             />
@@ -120,7 +186,7 @@ export function FilterSidebar({ categories, isOpen = false, onClose }: Props) {
             <input
               type="number"
               placeholder="Max"
-              value={params.get('priceMax') || ''}
+              value={currentMax}
               onChange={(e) => update('priceMax', e.target.value)}
               className="input-premium text-sm pl-2 pr-2"
             />
@@ -135,9 +201,9 @@ export function FilterSidebar({ categories, isOpen = false, onClose }: Props) {
           onChange={(e) => update('sort', e.target.value)}
           className="input-premium text-sm"
         >
-          <option value="createdAt">Newest First</option>
-          <option value="price_asc">Price: Low to High</option>
-          <option value="price_desc">Price: High to Low</option>
+          <option value="createdAt">Most Recent</option>
+          <option value="price_asc">Lowest Price</option>
+          <option value="price_desc">Highest Price</option>
           <option value="views">Most Popular</option>
         </select>
       </div>
