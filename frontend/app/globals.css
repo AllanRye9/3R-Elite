@@ -62,8 +62,8 @@
     word-break: break-word;
   }
 
-  /* Ensure images never overflow containers */
-  img, video, svg {
+  /* Ensure images and videos never overflow containers */
+  img, video {
     max-width: 100%;
     height: auto;
   }
@@ -85,7 +85,7 @@
   }
 
   /* Custom scrollbar — Firefox */
-  * {
+  html {
     scrollbar-width: thin;
     scrollbar-color: #cbd5e1 transparent;
   }
