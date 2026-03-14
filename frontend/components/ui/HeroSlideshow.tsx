@@ -44,6 +44,10 @@ export default function HeroSlideshow({ slides = defaultSlides, interval = 4000 
     setCurrent((prev) => (prev + 1) % slides.length);
   }, [slides.length]);
 
+  const goBack = useCallback(() => {
+    setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
+  }, [slides.length]);
+
   useEffect(() => {
     const timer = setInterval(advance, interval);
     return () => clearInterval(timer);
@@ -54,12 +58,13 @@ export default function HeroSlideshow({ slides = defaultSlides, interval = 4000 
   };
 
   return (
-    <div className="absolute inset-0 overflow-hidden" role="presentation">
+    <div className="absolute inset-0 overflow-hidden" role="region" aria-label="Image slideshow" style={{ left: '3%', right: '3%', width: '94%' }}>
       {slides.map((slide, i) => (
         <div
           key={i}
           className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
           style={{ opacity: i === current ? 1 : 0 }}
+          aria-hidden={i !== current}
         >
           {failedImages.has(i) ? (
             <div className="absolute inset-0 bg-gradient-to-br from-elite-navy via-elite-charcoal to-black" />
@@ -70,7 +75,7 @@ export default function HeroSlideshow({ slides = defaultSlides, interval = 4000 
               fill
               className="object-cover"
               priority={i === 0}
-              sizes="100vw"
+              sizes="94vw"
               onError={() => handleImageError(i)}
             />
           )}
@@ -85,6 +90,26 @@ export default function HeroSlideshow({ slides = defaultSlides, interval = 4000 
         backgroundSize: '40px 40px',
       }} />
 
+      {/* Navigation arrows */}
+      <button
+        onClick={goBack}
+        className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/30 hover:bg-[#90D5FF]/80 text-white flex items-center justify-center transition-colors backdrop-blur-sm"
+        aria-label="Previous slide"
+      >
+        <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      <button
+        onClick={advance}
+        className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/30 hover:bg-[#90D5FF]/80 text-white flex items-center justify-center transition-colors backdrop-blur-sm"
+        aria-label="Next slide"
+      >
+        <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+
       {/* Slide indicators */}
       <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
         {slides.map((_, i) => (
@@ -94,7 +119,7 @@ export default function HeroSlideshow({ slides = defaultSlides, interval = 4000 
             aria-label={`Go to slide ${i + 1}`}
             className={`h-1.5 rounded-full transition-all duration-300 ${
               i === current
-                ? 'w-6 bg-elite-gold'
+                ? 'w-6 bg-[#90D5FF]'
                 : 'w-1.5 bg-white/30 hover:bg-white/50'
             }`}
           />

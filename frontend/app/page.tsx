@@ -8,6 +8,9 @@ import TrustStats from '@/components/ui/TrustStats';
 import FeaturedCategories from '@/components/ui/FeaturedCategories';
 import FlashDeals from '@/components/ui/FlashDeals';
 import PromoBanners from '@/components/ui/PromoBanners';
+import CategoryPills from '@/components/ui/CategoryPills';
+import FeaturedProductCard from '@/components/ui/FeaturedProductCard';
+import QuickActions from '@/components/ui/QuickActions';
 import type { Category } from '@/lib/types';
 
 async function getHomeData() {
@@ -123,10 +126,26 @@ export default async function HomePage() {
       {/* ═══ TRUST STATS ═══ */}
       <TrustStats />
 
+      {/* ═══ CATEGORY PILLS ═══ */}
+      <CategoryPills />
+
       <div className="max-w-7xl mx-auto px-3 xs:px-4 py-4 xs:py-6 space-y-6 xs:space-y-8 sm:space-y-10">
 
         {/* ═══ FEATURED CATEGORIES (Dubizzle-inspired large tiles) ═══ */}
         <FeaturedCategories />
+
+        {/* ═══ FEATURED PRODUCT CARD ═══ */}
+        <section className="animate-fade-up">
+          <div className="flex items-center justify-between mb-3 xs:mb-4">
+            <div>
+              <h2 className="text-lg xs:text-xl font-extrabold text-elite-navy">Featured Deal</h2>
+              <p className="text-xs xs:text-sm text-gray-500 mt-0.5">Handpicked for you</p>
+            </div>
+          </div>
+          <div className="max-w-sm">
+            <FeaturedProductCard />
+          </div>
+        </section>
 
         {/* ═══ ELITE DROPS (Premium countdown section) ═══ */}
         <FlashDeals listings={flashListings} />
@@ -180,6 +199,9 @@ export default async function HomePage() {
 
         {/* ═══ MARKET CTAs (Promo banners) ═══ */}
         <PromoBanners />
+
+        {/* ═══ QUICK ACTIONS ═══ */}
+        <QuickActions />
 
         {/* ═══ SAFETY BANNER ═══ */}
         <section className="bg-elite-cream border border-elite-gold/15 rounded-xl p-4 xs:p-5 flex flex-col sm:flex-row items-start sm:items-center gap-3 xs:gap-4">

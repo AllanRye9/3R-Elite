@@ -61,7 +61,7 @@
   }
 
   body {
-    font-family: 'Montserrat', 'Inter', 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Arial, sans-serif;
     color: var(--text-primary);
     background-color: var(--surface-1);
     -webkit-font-smoothing: antialiased;
@@ -101,14 +101,14 @@
 
   /* Focus styles */
   *:focus-visible {
-    outline: 2px solid var(--brand-500);
+    outline: 2px solid #90D5FF;
     outline-offset: 2px;
   }
 
   /* Selection */
   ::selection {
-    background: rgb(14 165 233 / 0.2);
-    color: var(--brand-700);
+    background: rgb(144 213 255 / 0.3);
+    color: #0B132B;
   }
 }
 
@@ -181,8 +181,8 @@
   }
 
   .badge-new {
-    background: linear-gradient(135deg, #10b981, #059669);
-    color: white;
+    background: #90D5FF;
+    color: #0B132B;
   }
 
   .badge-hot {
@@ -202,8 +202,8 @@
     justify-content: center;
     gap: 8px;
     padding: 10px 20px;
-    background: linear-gradient(135deg, #0ea5e9, #0284c7);
-    color: white;
+    background: #90D5FF;
+    color: #0B132B;
     border-radius: var(--radius-sm);
     font-weight: 600;
     font-size: 0.875rem;
@@ -212,8 +212,8 @@
     cursor: pointer;
   }
   .btn-primary:hover {
-    background: linear-gradient(135deg, #0284c7, #0369a1);
-    box-shadow: 0 4px 12px rgb(14 165 233 / 0.4);
+    background: #60C0FF;
+    box-shadow: 0 4px 12px rgb(144 213 255 / 0.4);
     transform: translateY(-1px);
   }
   .btn-primary:active {
@@ -228,8 +228,8 @@
     gap: 8px;
     padding: 10px 20px;
     background: white;
-    color: #0284c7;
-    border: 1.5px solid #bae6fd;
+    color: #0B132B;
+    border: 1.5px solid #90D5FF;
     border-radius: var(--radius-sm);
     font-weight: 600;
     font-size: 0.875rem;
@@ -237,8 +237,8 @@
     cursor: pointer;
   }
   .btn-secondary:hover {
-    background: #f0f9ff;
-    border-color: #7dd3fc;
+    background: #f0faff;
+    border-color: #60C0FF;
     box-shadow: var(--shadow-sm);
   }
 
@@ -293,8 +293,8 @@
     outline: none;
   }
   .input-premium:focus {
-    border-color: #38bdf8;
-    box-shadow: 0 0 0 3px rgb(56 189 248 / 0.15);
+    border-color: #90D5FF;
+    box-shadow: 0 0 0 3px rgb(144 213 255 / 0.2);
   }
   .input-premium::placeholder {
     color: var(--text-muted);

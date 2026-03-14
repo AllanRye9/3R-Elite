@@ -9,8 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Montserrat', 'Inter', 'Plus Jakarta Sans', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
-        display: ['Montserrat', 'Plus Jakarta Sans', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['Roboto', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        display: ['Roboto', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
         serif: ['Georgia', 'Playfair Display', 'Times New Roman', 'serif'],
       },
       colors: {
@@ -36,6 +36,11 @@ const config: Config = {
           red: '#721C24',
           cream: '#FAF8F5',
           charcoal: '#1C2541',
+        },
+        theme: {
+          DEFAULT: '#90D5FF',
+          light: '#B0E2FF',
+          dark: '#60C0FF',
         },
       },
       animation: {
