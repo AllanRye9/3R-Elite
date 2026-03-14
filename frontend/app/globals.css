@@ -431,32 +431,39 @@
   to { width: 0%; }
 }
 
-/* Responsive mobile improvements */
-@media (max-width: 640px) {
+/* Mobile-first base styles (< 375px, smallest phones) */
+body {
+  font-size: 13px;
+}
+
+/*
+ * Prevent iOS Safari from auto-zooming when an input is focused.
+ * iOS zooms in whenever an input's font-size is below 16px.
+ * Setting 16px as the default prevents that behaviour on all mobile sizes.
+ * Tailwind text-* utility classes will still override this where explicitly set.
+ */
+input, select, textarea {
+  font-size: 16px;
+}
+
+/* Bottom nav safe area — mobile default */
+.has-bottom-nav {
+  padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+}
+
+/* xs: 375px and up */
+@media (min-width: 375px) {
   body {
     font-size: 14px;
   }
+}
 
-  /* Prevent iOS zoom on input focus */
-  input, select, textarea {
+/* sm: 641px and up — tablet/desktop */
+@media (min-width: 641px) {
+  body {
     font-size: 16px;
   }
 
-  /* Bottom nav safe area */
-  .has-bottom-nav {
-    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
-  }
-}
-
-/* Extra-small phone improvements */
-@media (max-width: 374px) {
-  body {
-    font-size: 13px;
-  }
-}
-
-/* Tablet improvements */
-@media (min-width: 641px) and (max-width: 1023px) {
   .has-bottom-nav {
     padding-bottom: 0;
   }
