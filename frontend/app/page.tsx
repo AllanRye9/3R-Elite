@@ -1,6 +1,6 @@
 import Link from 'next/link';
 // import { SearchBar } from '@/components/listings/SearchBar';
-import { JumboInputBar } from '@/components/ui/JumboInputBar';
+
 import { ProgressCarousel } from '@/components/ui/ProgressCarousel';
 import { CategoryNav } from '@/components/listings/CategoryNav';
 import { ListingGrid } from '@/components/listings/ListingGrid';
@@ -109,10 +109,6 @@ export default async function HomePage() {
             <p className="text-elite-gold text-xs xs:text-sm font-semibold mb-2 xs:mb-3">
               Exclusive Member Price: UGX 1,500,000
             </p>
-            {/* Jumbo Input Bar */}
-            <div className="max-w-2xl mx-auto px-1 xs:px-0 mt-3 mb-1">
-              <JumboInputBar className="w-full" />
-            </div>
             {/* Quick links */}
             <div className="flex flex-wrap justify-center gap-1.5 xs:gap-2 mt-2 xs:mt-3 px-2">
               {heroQuickLinks.map((cat) => (
@@ -151,52 +147,6 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-          {/* Badge */}
-          <div className="inline-flex items-center gap-1.5 bg-elite-gold/20 backdrop-blur-sm text-elite-gold text-[10px] xs:text-xs font-semibold px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full mb-3 xs:mb-4 border border-elite-gold/30">
-            <span className="w-1.5 h-1.5 bg-elite-gold rounded-full animate-pulse" />
-            Refined. Rare. Remarkable.
-          </div>
-
-          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-2 xs:mb-3 leading-tight text-balance">
-            The 3R{' '}
-            <span className="relative inline-block">
-              <span className="relative z-10 font-serif italic text-elite-gold">Signature</span>
-              <span className="absolute inset-x-0 bottom-0 h-2 xs:h-3 bg-elite-gold/20 rounded-full -rotate-1" aria-hidden="true" />
-            </span>
-            {' '}Series
-          </h1>
-          <p className="text-white/70 text-xs xs:text-sm sm:text-base mb-2 xs:mb-3 max-w-lg mx-auto px-2">
-            Curated collections of premium products. Exclusive member pricing.
-          </p>
-          <p className="text-elite-gold text-xs xs:text-sm font-semibold mb-4 xs:mb-6">
-            Exclusive Member Price: UGX 1,500,000
-          </p>
-
-          {/* Jumbo Input Bar */}
-          <div className="max-w-2xl mx-auto px-1 xs:px-0 mt-6 mb-2">
-            <JumboInputBar className="w-full" />
-          </div>
-
-          {/* Quick links */}
-          <div className="flex flex-wrap justify-center gap-1.5 xs:gap-2 mt-4 xs:mt-5 px-2">
-            {heroQuickLinks.map((cat) => (
-              <Link
-                key={cat}
-                href={`/listings?q=${cat.toLowerCase()}`}
-                className="text-[10px] xs:text-xs text-white/70 hover:text-elite-gold bg-white/5 hover:bg-elite-gold/10 border border-white/10 hover:border-elite-gold/30 px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full transition-all interactive"
-              >
-                {cat}
-              </Link>
-            ))}
-            <Link
-              href="/listings/create"
-              className="text-[10px] xs:text-xs font-bold text-elite-navy bg-elite-gold hover:bg-elite-gold-light px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full transition-all interactive shadow-sm"
-            >
-              Discover More →
-            </Link>
-          </div>
-        </div>
-
       </section>
 
       {/* ═══ PROGRESS CAROUSEL (Elite Downloads) ═══ */}
