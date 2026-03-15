@@ -1,7 +1,7 @@
 import Link from 'next/link';
 // import { SearchBar } from '@/components/listings/SearchBar';
 
-import { ProgressCarousel } from '@/components/ui/ProgressCarousel';
+// ProgressCarousel import removed (unused)
 import { CategoryNav } from '@/components/listings/CategoryNav';
 import { ListingGrid } from '@/components/listings/ListingGrid';
 import HeroSlideshow from '@/components/ui/HeroSlideshow';
@@ -216,9 +216,9 @@ export default async function HomePage() {
                   <svg width="40" height="40" viewBox="0 0 48 48" className="block">
                     <circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none" />
                     <circle cx="24" cy="24" r="21.5" stroke="#0EA5E9" strokeWidth="5" fill="none"
-                            strokeDasharray="135.088" strokeDashoffset="13.5088" strokeLinecap="round" />
+                      strokeDasharray="135.088" strokeDashoffset="13.5088" strokeLinecap="round" />
                     <text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0EA5E9"
-                          fontFamily="JetBrains Mono, monospace" fontWeight="700">90%</text>
+                      fontFamily="JetBrains Mono, monospace" fontWeight="700">90%</text>
                   </svg>
                   <div className="mt-1 w-full text-center">
                     <div className="font-mono text-elite-navy text-xs font-semibold truncate">TOTAL VISITORS</div>
@@ -232,9 +232,9 @@ export default async function HomePage() {
                   <svg width="40" height="40" viewBox="0 0 48 48" className="block">
                     <circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none" />
                     <circle cx="24" cy="24" r="21.5" stroke="#0EA5E9" strokeWidth="5" fill="none"
-                            strokeDasharray="135.088" strokeDashoffset="27.0176" strokeLinecap="round" />
+                      strokeDasharray="135.088" strokeDashoffset="27.0176" strokeLinecap="round" />
                     <text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0EA5E9"
-                          fontFamily="JetBrains Mono, monospace" fontWeight="700">80%</text>
+                      fontFamily="JetBrains Mono, monospace" fontWeight="700">80%</text>
                   </svg>
                   <div className="mt-1 w-full text-center">
                     <div className="font-mono text-elite-navy text-xs font-semibold truncate">UNIQUE VISITORS</div>
@@ -248,12 +248,14 @@ export default async function HomePage() {
                   <svg width="40" height="40" viewBox="0 0 48 48" className="block">
                     <circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none" />
                     <circle cx="24" cy="24" r="21.5" stroke="#0EA5E9" strokeWidth="5" fill="none"
-                            strokeDasharray="135.088" strokeDashoffset="54.0352" strokeLinecap="round" />
+                      strokeDasharray="135.088" strokeDashoffset="54.0352" strokeLinecap="round" />
                     <text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0EA5E9"
-                          fontFamily="JetBrains Mono, monospace" fontWeight="700">60%</text>
+                      fontFamily="JetBrains Mono, monospace" fontWeight="700">60%</text>
                   </svg>
                   <div className="mt-1 w-full text-center">
-                    <div className="font-mono text-elite-navy text-xs font-semibold truncate">TODAY'S VISITORS</div>
+                    <div className="font-mono text-elite-navy text-xs font-semibold truncate">
+                      TODAY&#39;S VISITORS
+                    </div>
                     <div className="stat-main-value animate-pulse-glow">8,432</div>
                     <div className="stat-label">so far today</div>
                   </div>
@@ -261,16 +263,22 @@ export default async function HomePage() {
 
                 {/* DUPLICATES FOR SEAMLESS LOOP */}
                 <div className="stat-card bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm overflow-hidden hover:shadow-lg transition-shadow flex flex-col items-center p-2 mx-1 animate-circular animate-float card-pattern">
-                  <svg width="40" height="40" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none"/><circle cx="24" cy="24" r="21.5" stroke="#0EA5E9" strokeWidth="5" fill="none" strokeDasharray="135.088" strokeDashoffset="13.5088"/><text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0EA5E9" fontWeight="700">90%</text></svg>
+                  <svg width="40" height="40" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none" /><circle cx="24" cy="24" r="21.5" stroke="#0EA5E9" strokeWidth="5" fill="none" strokeDasharray="135.088" strokeDashoffset="13.5088" /><text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0EA5E9" fontWeight="700">90%</text></svg>
                   <div className="mt-1 w-full text-center"><div className="font-mono text-elite-navy text-xs font-semibold truncate">TOTAL VISITORS</div><div className="stat-main-value animate-pulse-glow">1.28M</div><div className="stat-label">all time</div></div>
                 </div>
                 <div className="stat-card bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm overflow-hidden hover:shadow-lg transition-shadow flex flex-col items-center p-2 mx-1 animate-circular animate-float card-pattern">
-                  <svg width="40" height="40" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none"/><circle cx="24" cy="24" r="21.5" stroke="#0EA5E9" strokeWidth="5" fill="none" strokeDasharray="135.088" strokeDashoffset="27.0176"/><text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0EA5E9" fontWeight="700">80%</text></svg>
+                  <svg width="40" height="40" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none" /><circle cx="24" cy="24" r="21.5" stroke="#0EA5E9" strokeWidth="5" fill="none" strokeDasharray="135.088" strokeDashoffset="27.0176" /><text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0EA5E9" fontWeight="700">80%</text></svg>
                   <div className="mt-1 w-full text-center"><div className="font-mono text-elite-navy text-xs font-semibold truncate">UNIQUE VISITORS</div><div className="stat-main-value animate-pulse-glow">468K</div><div className="stat-label">this month</div></div>
                 </div>
                 <div className="stat-card bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm overflow-hidden hover:shadow-lg transition-shadow flex flex-col items-center p-2 mx-1 animate-circular animate-float card-pattern">
-                  <svg width="40" height="40" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none"/><circle cx="24" cy="24" r="21.5" stroke="#0EA5E9" strokeWidth="5" fill="none" strokeDasharray="135.088" strokeDashoffset="54.0352"/><text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0EA5E9" fontWeight="700">60%</text></svg>
-                  <div className="mt-1 w-full text-center"><div className="font-mono text-elite-navy text-xs font-semibold truncate">TODAY'S VISITORS</div><div className="stat-main-value animate-pulse-glow">8,432</div><div className="stat-label">so far today</div></div>
+                  <svg width="40" height="40" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none" /><circle cx="24" cy="24" r="21.5" stroke="#0EA5E9" strokeWidth="5" fill="none" strokeDasharray="135.088" strokeDashoffset="54.0352" /><text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0EA5E9" fontWeight="700">60%</text></svg>
+                  <div className="mt-1 w-full text-center">
+                    <div className="font-mono text-elite-navy text-xs font-semibold truncate">
+                      TODAY&apos;S VISITORS
+                    </div>
+                    <div className="stat-main-value animate-pulse-glow">8,432</div>
+                    <div className="stat-label">so far today</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -323,15 +331,15 @@ export default async function HomePage() {
               ) : (
                 <FeaturedProductCard className="w-40 min-w-[10rem] max-w-xs" />
               ),
-                ...[1, 2, 3].map((i) => (
-                  <FeaturedProductCard
-                    key={`placeholder-${i}`}
-                    title={`Placeholder Item ${i}`}
-                    discountedPrice={`AED ${100 * i}`}
-                    imageUrl="https://via.placeholder.com/150"
-                    className="w-40 min-w-[10rem] max-w-xs opacity-60"
-                  />
-                ))
+              ...[1, 2, 3].map((i) => (
+                <FeaturedProductCard
+                  key={`placeholder-${i}`}
+                  title={`Placeholder Item ${i}`}
+                  discountedPrice={`AED ${100 * i}`}
+                  imageUrl="https://via.placeholder.com/150"
+                  className="w-40 min-w-[10rem] max-w-xs opacity-60"
+                />
+              ))
               ]}
             </div>
           </div>
