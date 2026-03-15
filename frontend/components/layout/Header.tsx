@@ -13,7 +13,6 @@ export default function Header() {
   const { user } = useAuth();
   const { country, currency } = useCountry();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [searchQ, setSearchQ] = useState('');
   const [scrolled, setScrolled] = useState(false);
   const router = useRouter();
@@ -27,6 +26,10 @@ export default function Header() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQ.trim()) router.push(`/listings?q=${encodeURIComponent(searchQ)}&country=${country}`);
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen((prev) => !prev);
   };
 
   // const closeMobileNav = () => setMobileNavOpen(false); // Removed unused
@@ -54,15 +57,15 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 flex items-center gap-2 sm:gap-4 h-16">
         {/* Hamburger for mobile */}
         <button
-          onClick={() => setMobileNavOpen(!mobileNavOpen)}
-          className={`md:hidden p-2 rounded-lg ${scrolled ? 'text-gray-600 hover:bg-gray-100' : 'text-white hover:bg-white/20'}`}
+          className="md:hidden p-2 rounded-lg text-white hover:bg-white/20"
           aria-label="Toggle menu"
-          aria-expanded={mobileNavOpen}
+          aria-expanded={menuOpen}
+          onClick={toggleMenu}
         >
           <div className="w-5 h-5 flex flex-col justify-center gap-[5px]">
-            <span className={`block h-0.5 rounded-full ${scrolled ? 'bg-gray-700' : 'bg-white'} ${mobileNavOpen ? 'rotate-45 translate-y-[7px]' : ''}`} />
-            <span className={`block h-0.5 rounded-full ${scrolled ? 'bg-gray-700' : 'bg-white'} ${mobileNavOpen ? 'opacity-0 scale-x-0' : ''}`} />
-            <span className={`block h-0.5 rounded-full ${scrolled ? 'bg-gray-700' : 'bg-white'} ${mobileNavOpen ? '-rotate-45 -translate-y-[7px]' : ''}`} />
+            <span className={`block h-0.5 rounded-full bg-white transition-transform ${menuOpen ? 'rotate-45 translate-y-[6px]' : ''}`}></span>
+            <span className={`block h-0.5 rounded-full bg-white transition-opacity ${menuOpen ? 'opacity-0' : ''}`}></span>
+            <span className={`block h-0.5 rounded-full bg-white transition-transform ${menuOpen ? '-rotate-45 -translate-y-[6px]' : ''}`}></span>
           </div>
         </button>
 
@@ -107,16 +110,17 @@ export default function Header() {
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           </Link>
           {user ? (
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
+            <Link
+              href="/profile"
               className={`flex items-center gap-1.5 text-sm rounded-lg p-1.5 ${scrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-white hover:bg-white/20'}`}
               aria-label="My Account"
-              aria-expanded={menuOpen}
             >
               <UserAvatar user={user} size="sm" />
               <span className="hidden md:block font-medium">{user.name.split(' ')[0]}</span>
-              <svg className="w-3.5 h-3.5 hidden md:block opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-            </button>
+              <svg className="w-3.5 h-3.5 hidden md:block opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </Link>
           ) : (
             <div className="flex items-center gap-1">
               <Link href="/auth/login" className={`text-xs font-medium px-2 py-1.5 rounded-lg ${scrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-white/90 hover:text-elite-gold'}`}>Login</Link>

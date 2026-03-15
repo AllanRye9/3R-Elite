@@ -36,7 +36,7 @@ interface HeroSlideshowProps {
   interval?: number;
 }
 
-export default function HeroSlideshow({ slides = defaultSlides, interval = 4000 }: HeroSlideshowProps) {
+export default function HeroSlideshow({ slides = defaultSlides, interval = 2000 }: HeroSlideshowProps) {
   const [current, setCurrent] = useState(0);
   const [failedImages, setFailedImages] = useState<Set<number>>(new Set());
 
@@ -62,7 +62,7 @@ export default function HeroSlideshow({ slides = defaultSlides, interval = 4000 
       {slides.map((slide, i) => (
         <div
           key={i}
-          className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+          className="absolute inset-0 transition-opacity duration-500 ease-in-out"
           style={{ opacity: i === current ? 1 : 0 }}
           aria-hidden={i !== current}
         >
