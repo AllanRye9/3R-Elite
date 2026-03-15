@@ -150,30 +150,6 @@ export default function Header() {
       </div>
 
       {!scrolled && <div className="hidden sm:block"><CategoryBar /></div>}
-
-      <div className="flex gap-4">
-        <div className="bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm p-4 w-40 min-w-[8rem] text-center">
-          {/* 2. Fixed unescaped entity: changed Today's to Today&apos;s */}
-          <h3 className="text-xs font-bold text-elite-navy mb-1">Today&apos;s Visitors</h3>
-          <p className="text-xl font-mono text-elite-gold">1,234</p>
-        </div>
-        {/* ... Rest of your component stats */}
-        <div className="bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm p-4 w-40 min-w-[8rem] text-center">
-          <h3 className="text-xs font-bold text-elite-navy mb-1">Total Visitors</h3>
-          <p className="text-xl font-mono text-elite-gold">123,456</p>
-        </div>
-        <div className="bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm p-4 w-40 min-w-[8rem] text-center">
-          <h3 className="text-xs font-bold text-elite-navy mb-1">Served Customers</h3>
-          <p className="text-xl font-mono text-elite-gold">2,345</p>
-        </div>
-        <div className="bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm p-4 w-40 min-w-[8rem] text-center">
-          <h3 className="text-xs font-bold text-elite-navy mb-1">Avg. Rating</h3>
-          <div className="flex justify-center items-center gap-1">
-            <span className="text-xl font-mono text-elite-gold">4.8</span>
-            <svg className="w-4 h-4 text-elite-gold" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
-          </div>
-        </div>
-      </div>
     </header>
   );
 }
