@@ -11,6 +11,7 @@ interface FeaturedProductCardProps {
   imageUrl?: string;
   href?: string;
   isHandpicked?: boolean;
+  className?: string;
 }
 
 export default function FeaturedProductCard({
@@ -21,9 +22,10 @@ export default function FeaturedProductCard({
   imageUrl = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop',
   href = '/listings',
   isHandpicked = false,
-}: FeaturedProductCardProps) {
+  className = '',
+}: FeaturedProductCardProps & { className?: string }) {
   return (
-    <Link href={href} className="block group">
+    <Link href={href} className={`block group ${className}`}>
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-lg transition-shadow">
         <div className="aspect-[4/3] relative overflow-hidden bg-gray-50">
           <Image

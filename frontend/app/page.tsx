@@ -161,19 +161,33 @@ export default async function HomePage() {
               <p className="text-xs xs:text-sm text-gray-500 mt-0.5">Handpicked for you</p>
             </div>
           </div>
-          <div className="max-w-sm">
-            {featuredDeal && featuredDeal.id ? (
-              <FeaturedProductCard
-                storeName={featuredDeal.user?.name || '3R Elite Store'}
-                title={featuredDeal.title}
-                discountedPrice={`${featuredDeal.currency} ${featuredDeal.price?.toLocaleString()}`}
-                imageUrl={featuredDeal.images?.[0] || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop'}
-                href={`/listings/${featuredDeal.id}`}
-                isHandpicked
-              />
-            ) : (
-              <FeaturedProductCard />
-            )}
+          <div className="overflow-x-auto">
+            <div className="flex gap-4 w-[900px] max-w-full">
+              {[featuredDeal && featuredDeal.id ? (
+                <FeaturedProductCard
+                  key={featuredDeal.id}
+                  storeName={featuredDeal.user?.name || '3R Elite Store'}
+                  title={featuredDeal.title}
+                  discountedPrice={`${featuredDeal.currency} ${featuredDeal.price?.toLocaleString()}`}
+                  imageUrl={featuredDeal.images?.[0] || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop'}
+                  href={`/listings/${featuredDeal.id}`}
+                  isHandpicked
+                  className="w-40 min-w-[10rem] max-w-xs"
+                />
+              ) : (
+                <FeaturedProductCard className="w-40 min-w-[10rem] max-w-xs" />
+              ),
+                ...[1, 2, 3].map((i) => (
+                  <FeaturedProductCard
+                    key={`placeholder-${i}`}
+                    title={`Placeholder Item ${i}`}
+                    discountedPrice={`AED ${100 * i}`}
+                    imageUrl="https://via.placeholder.com/150"
+                    className="w-40 min-w-[10rem] max-w-xs opacity-60"
+                  />
+                ))
+              ]}
+            </div>
           </div>
         </section>
 
