@@ -1,6 +1,7 @@
 import Link from 'next/link';
 // import { SearchBar } from '@/components/listings/SearchBar';
 import { JumboInputBar } from '@/components/ui/JumboInputBar';
+import { ProgressCarousel } from '@/components/ui/ProgressCarousel';
 import { CategoryNav } from '@/components/listings/CategoryNav';
 import { ListingGrid } from '@/components/listings/ListingGrid';
 import HeroSlideshow from '@/components/ui/HeroSlideshow';
@@ -77,8 +78,8 @@ export default async function HomePage() {
       {/* ═══ HERO ═══ */}
       <section className="relative overflow-hidden bg-hero-gradient min-h-[320px] xs:min-h-[360px] sm:min-h-[400px] flex flex-col items-center justify-center">
         <div className="relative max-w-7xl mx-auto px-3 xs:px-4 lg:px-[22%] pt-8 xs:pt-10 pb-10 xs:pb-12 sm:pt-14 sm:pb-16 text-center z-10 flex flex-col items-center w-full">
-          {/* Slideshow - compact and centered */}
-          <div className="relative w-full max-w-3xl mx-auto aspect-[2.5/1] rounded-2xl overflow-hidden shadow-lg mb-6">
+          {/* Slideshow - compact and centered, increased by 4% on all sides */}
+          <div className="relative w-[108%] max-w-[112%] left-[-4%] aspect-[2.5/1] rounded-2xl overflow-hidden shadow-lg mb-6">
             <HeroSlideshow />
           </div>
 
@@ -129,6 +130,13 @@ export default async function HomePage() {
             </Link>
           </div>
         </div>
+
+      </section>
+
+      {/* ═══ PROGRESS CAROUSEL (Elite Downloads) ═══ */}
+      <section className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-lg transition-shadow max-w-7xl mx-auto my-8 px-2 py-4">
+        <h2 className="text-lg xs:text-xl font-extrabold text-elite-navy mb-2 text-center">Elite Downloads</h2>
+        <ProgressCarousel />
       </section>
 
       {/* ═══ TRUST STATS ═══ */}
