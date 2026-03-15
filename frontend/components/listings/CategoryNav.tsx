@@ -34,8 +34,7 @@ export function CategoryNav({ categories }: Props) {
     if (!marquee) return;
     let animationId: number;
     let start: number | null = null;
-    let scrollWidth = marquee.scrollWidth;
-    let clientWidth = marquee.clientWidth;
+    const scrollWidth = marquee.scrollWidth;
     let x = 0;
     const speed = 40; // px per second
 
@@ -47,7 +46,7 @@ export function CategoryNav({ categories }: Props) {
         start = ts;
         x = 0;
       }
-      marquee.scrollLeft = x;
+      if (marquee) marquee.scrollLeft = x;
       animationId = requestAnimationFrame(step);
     }
     animationId = requestAnimationFrame(step);
