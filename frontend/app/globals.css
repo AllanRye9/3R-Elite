@@ -1,3 +1,21 @@
+    select {
+      background: #f0f9ff;
+      color: #0B132B;
+      border: 1.5px solid #bae6fd;
+      border-radius: var(--radius-md);
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+    select:focus {
+      outline: none;
+      border-color: #0EA5E9;
+      box-shadow: 0 0 0 2px #0ea5e955;
+    }
+    select option {
+      color: #0B132B;
+      background: #e0f2fe;
+    }
   /* Enhanced header spacing and smoothness */
   .header-spaced {
     padding-top: 0.5rem;
