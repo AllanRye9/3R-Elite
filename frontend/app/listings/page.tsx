@@ -18,7 +18,7 @@ function ListingsContent() {
   const [loading, setLoading] = useState(true);
   const [filterOpen, setFilterOpen] = useState(false);
 
-  const currentPage = parseInt(params.get('page') || '1');
+  const currentPage = parseInt(params ? params.get('page') || '1' : '1');
 
   useEffect(() => {
     api.get('/categories').then(({ data }) => setCategories(data)).catch(() => {});
@@ -26,7 +26,7 @@ function ListingsContent() {
 
   useEffect(() => {
     setLoading(true);
-    const queryString = params.toString() || '';
+    const queryString = params ? params.toString() : '';
     api.get(`/listings?${queryString}`)
       .then(({ data }) => {
         setListings(data.listings || []);
@@ -38,7 +38,7 @@ function ListingsContent() {
   }, [params]);
 
   const goToPage = (page: number) => {
-    const newParams = new URLSearchParams(params.toString());
+    const newParams = new URLSearchParams(params ? params.toString() : '');
     newParams.set('page', String(page));
     router.push(`/listings?${newParams.toString()}`);
   };

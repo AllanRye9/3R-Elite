@@ -95,20 +95,7 @@ export default async function HomePage() {
               <span className="w-1.5 h-1.5 bg-elite-gold rounded-full animate-pulse" />
               Refined. Rare. Remarkable.
             </div>
-            <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-1 xs:mb-2 leading-tight text-balance">
-              The 3R{' '}
-              <span className="relative inline-block">
-                <span className="relative z-10 font-serif italic text-elite-gold">Signature</span>
-                <span className="absolute inset-x-0 bottom-0 h-2 xs:h-3 bg-elite-gold/20 rounded-full -rotate-1" aria-hidden="true" />
-              </span>
-              {' '}Series
-            </h1>
-            <p className="text-white/70 text-xs xs:text-sm sm:text-base mb-1 xs:mb-2 max-w-lg mx-auto px-2">
-              Curated collections of premium products. Exclusive member pricing.
-            </p>
-            <p className="text-elite-gold text-xs xs:text-sm font-semibold mb-2 xs:mb-3">
-              Exclusive Member Price: UGX 1,500,000
-            </p>
+            {/* Removed The 3R Signature Series, description, and price as requested */}
             {/* Quick links */}
             <div className="flex flex-wrap justify-center gap-1.5 xs:gap-2 mt-2 xs:mt-3 px-2">
               {heroQuickLinks.map((cat) => (
@@ -136,7 +123,7 @@ export default async function HomePage() {
                 Offerings
               </h3>
               <ul className="space-y-1 text-xs text-elite-navy/80">
-                {listings.slice(0, 8).map((item: any) => (
+                {listings.slice(0, 8).map((item: { id: string; title: string }) => (
                   <li key={item.id} className="truncate border-b border-elite-gold/10 py-1 last:border-0">
                     <Link href={`/listings/${item.id}`} className="hover:text-elite-gold transition-colors">
                       {item.title}

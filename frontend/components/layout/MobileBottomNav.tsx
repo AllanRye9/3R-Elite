@@ -26,7 +26,7 @@ const navItems = [
   {
     href: '/listings/create',
     label: 'Sell',
-    icon: (_: boolean) => (
+    icon: (active: boolean) => (
       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
       </svg>

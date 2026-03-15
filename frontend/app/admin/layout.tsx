@@ -34,7 +34,7 @@ export default function AdminLayout({
   }, [pathname]);
 
   // Auth pages render without sidebar
-  if (pathname.startsWith('/admin/auth')) {
+  if (pathname && pathname.startsWith('/admin/auth')) {
     return <>{children}</>;
   }
 
@@ -69,7 +69,7 @@ export default function AdminLayout({
         <nav className="flex-1 overflow-y-auto px-3 py-4">
           <ul className="space-y-1">
             {navItems.map(({ href, label, icon }) => {
-              const active = isNavActive(pathname, href);
+              const active = pathname ? isNavActive(pathname, href) : false;
               return (
                 <li key={href}>
                   <Link

@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import CategoryBar from '@/components/layout/CategoryBar';
 
 export default function Header() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const { country, currency } = useCountry();
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -29,7 +29,7 @@ export default function Header() {
     if (searchQ.trim()) router.push(`/listings?q=${encodeURIComponent(searchQ)}&country=${country}`);
   };
 
-  const closeMobileNav = () => setMobileNavOpen(false);
+  // const closeMobileNav = () => setMobileNavOpen(false); // Removed unused
 
   return (
     <header className={`sticky top-0 z-50 shadow-sm transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md border-b border-gray-100' : 'bg-elite-navy'}`}>

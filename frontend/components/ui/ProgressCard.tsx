@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ProgressRing } from './ProgressRing';
 import { SkeletonLoader } from './SkeletonLoader';
 
