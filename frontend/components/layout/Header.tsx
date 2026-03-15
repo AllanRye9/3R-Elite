@@ -4,14 +4,14 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useCountry } from '@/context/CountryContext';
-import { CountrySelector } from '@/components/ui/CountrySelector';
+// import { CountrySelector } from '@/components/ui/CountrySelector';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { useRouter } from 'next/navigation';
 import CategoryBar from '@/components/layout/CategoryBar';
 
 export default function Header() {
   const { user } = useAuth();
-  const { country, currency } = useCountry();
+  // const { country, currency } = useCountry();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQ, setSearchQ] = useState('');
   const [scrolled, setScrolled] = useState(false);
