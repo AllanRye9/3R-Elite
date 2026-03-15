@@ -12,17 +12,24 @@ export function UserAvatar({ user, size = 'md' }: Props) {
   const px = sizes[size];
   if (user.avatar) {
     return (
-      <div
-        className="relative avatar-crop shrink-0"
+      <a
+        href={user.avatar}
+        target="_blank"
+        rel="noopener noreferrer"
+        title={user.name ? `${user.name}'s profile photo` : 'Profile photo'}
+        className="relative avatar-crop shrink-0 block"
         style={{ width: px, height: px }}
       >
         <Image
           src={user.avatar}
-          alt={user.name || 'User'}
+          alt={user.name ? `${user.name}'s profile photo` : 'Profile photo'}
           fill
           sizes={`${px}px`}
+          loading="lazy"
+          decoding="async"
+          data-nimg="fill"
         />
-      </div>
+      </a>
     );
   }
   return (

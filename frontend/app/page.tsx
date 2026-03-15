@@ -76,15 +76,78 @@ export default async function HomePage() {
   return (
     <div className="animate-fade-in">
       {/* ═══ HERO ═══ */}
-      <section className="relative overflow-hidden bg-hero-gradient min-h-[320px] xs:min-h-[360px] sm:min-h-[400px] flex flex-col items-center justify-center">
-        <div className="relative max-w-7xl mx-auto px-3 xs:px-4 lg:px-[22%] pt-8 xs:pt-10 pb-10 xs:pb-12 sm:pt-14 sm:pb-16 text-center z-10 flex flex-col items-center w-full">
-          {/* Slideshow - compact and centered, increased by 4% on all sides */}
-          <div className="relative w-[108%] max-w-[112%] left-[-4%] aspect-[2.5/1] rounded-2xl overflow-hidden shadow-lg mb-6">
-            <HeroSlideshow />
+      <section className="relative overflow-hidden bg-hero-gradient min-h-[320px] xs:min-h-[360px] sm:min-h-[400px] flex items-center justify-center">
+        <div className="relative max-w-7xl mx-auto w-full flex items-stretch mt-[-2.5rem] sm:mt-[-3.5rem]" style={{ minHeight: '340px' }}>
+          {/* Left Table/EliteVault */}
+          <div className="hidden lg:flex flex-col justify-center" style={{ width: '20%', marginLeft: '3%' }}>
+            <HeroSideCards />
           </div>
-
-          {/* Side cards - 20% width on each side, optional: can be moved below slideshow if needed */}
-          {/* <HeroSideCards /> */}
+          {/* Center Slideshow and Hero Content */}
+          <div className="flex-1 flex flex-col items-center justify-center px-2">
+            <div className="relative w-[108%] max-w-[112%] left-[-4%] aspect-[2.5/1] rounded-2xl overflow-hidden shadow-lg mb-3">
+              <HeroSlideshow />
+            </div>
+            {/* Badge */}
+            <div className="inline-flex items-center gap-1.5 bg-elite-gold/20 backdrop-blur-sm text-elite-gold text-[10px] xs:text-xs font-semibold px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full mb-2 xs:mb-2 border border-elite-gold/30">
+              <span className="w-1.5 h-1.5 bg-elite-gold rounded-full animate-pulse" />
+              Refined. Rare. Remarkable.
+            </div>
+            <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-1 xs:mb-2 leading-tight text-balance">
+              The 3R{' '}
+              <span className="relative inline-block">
+                <span className="relative z-10 font-serif italic text-elite-gold">Signature</span>
+                <span className="absolute inset-x-0 bottom-0 h-2 xs:h-3 bg-elite-gold/20 rounded-full -rotate-1" aria-hidden="true" />
+              </span>
+              {' '}Series
+            </h1>
+            <p className="text-white/70 text-xs xs:text-sm sm:text-base mb-1 xs:mb-2 max-w-lg mx-auto px-2">
+              Curated collections of premium products. Exclusive member pricing.
+            </p>
+            <p className="text-elite-gold text-xs xs:text-sm font-semibold mb-2 xs:mb-3">
+              Exclusive Member Price: UGX 1,500,000
+            </p>
+            {/* Jumbo Input Bar */}
+            <div className="max-w-2xl mx-auto px-1 xs:px-0 mt-3 mb-1">
+              <JumboInputBar className="w-full" />
+            </div>
+            {/* Quick links */}
+            <div className="flex flex-wrap justify-center gap-1.5 xs:gap-2 mt-2 xs:mt-3 px-2">
+              {heroQuickLinks.map((cat) => (
+                <Link
+                  key={cat}
+                  href={`/listings?q=${cat.toLowerCase()}`}
+                  className="text-[10px] xs:text-xs text-white/70 hover:text-elite-gold bg-white/5 hover:bg-elite-gold/10 border border-white/10 hover:border-elite-gold/30 px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full transition-all interactive"
+                >
+                  {cat}
+                </Link>
+              ))}
+              <Link
+                href="/listings/create"
+                className="text-[10px] xs:text-xs font-bold text-elite-navy bg-elite-gold hover:bg-elite-gold-light px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full transition-all interactive shadow-sm"
+              >
+                Discover More →
+              </Link>
+            </div>
+          </div>
+          {/* Right Table/MembershipEvents */}
+          <div className="hidden lg:flex flex-col justify-center" style={{ width: '20%', marginRight: '3%' }}>
+            {/* You can create a MembershipEvents component or use a listings table here */}
+            <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 border border-elite-gold/20 shadow-lg">
+              <h3 className="text-xs font-bold text-elite-navy uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                Offerings
+              </h3>
+              <ul className="space-y-1 text-xs text-elite-navy/80">
+                {listings.slice(0, 8).map((item: any) => (
+                  <li key={item.id} className="truncate border-b border-elite-gold/10 py-1 last:border-0">
+                    <Link href={`/listings/${item.id}`} className="hover:text-elite-gold transition-colors">
+                      {item.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
           {/* Badge */}
           <div className="inline-flex items-center gap-1.5 bg-elite-gold/20 backdrop-blur-sm text-elite-gold text-[10px] xs:text-xs font-semibold px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full mb-3 xs:mb-4 border border-elite-gold/30">
             <span className="w-1.5 h-1.5 bg-elite-gold rounded-full animate-pulse" />
