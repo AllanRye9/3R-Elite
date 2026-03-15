@@ -307,39 +307,87 @@ export default async function HomePage() {
         {/* ═══ FEATURED CATEGORIES (Dubizzle-inspired large tiles) ═══ */}
         <FeaturedCategories />
 
-        {/* ═══ FEATURED PRODUCT CARD ═══ */}
+        {/* ═══ FEATURED PRODUCT CARD (scrollable, uniform cards, beautiful default images) ═══ */}
         <section className="animate-fade-up">
+          <style>{`
+            /* refined scrollbar for the horizontal row */
+            .scrollable-x {
+              scrollbar-width: thin;
+              scrollbar-color: #cbd5e1 #f1f5f9;
+            }
+            .scrollable-x::-webkit-scrollbar {
+              height: 6px;
+            }
+            .scrollable-x::-webkit-scrollbar-track {
+              background: #f1f5f9;
+              border-radius: 20px;
+            }
+            .scrollable-x::-webkit-scrollbar-thumb {
+              background: #cbd5e1;
+              border-radius: 20px;
+            }
+            .scrollable-x::-webkit-scrollbar-thumb:hover {
+              background: #94a3b8;
+            }
+          `}</style>
           <div className="flex items-center justify-between mb-3 xs:mb-4">
             <div>
               <h2 className="text-lg xs:text-xl font-extrabold text-elite-navy">Featured Deal</h2>
               <p className="text-xs xs:text-sm text-gray-500 mt-0.5">Handpicked for you</p>
             </div>
           </div>
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto scrollable-x">
             <div className="flex gap-4 w-[900px] max-w-full">
-              {[featuredDeal && featuredDeal.id ? (
+              {[
+                featuredDeal && featuredDeal.id ? (
+                  <FeaturedProductCard
+                    key={featuredDeal.id}
+                    storeName={featuredDeal.user?.name || '3R Elite Store'}
+                    title={featuredDeal.title}
+                    discountedPrice={`${featuredDeal.currency} ${featuredDeal.price?.toLocaleString()}`}
+                    imageUrl={featuredDeal.images?.[0] || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop'}
+                    href={`/listings/${featuredDeal.id}`}
+                    isHandpicked
+                    className="w-40 min-w-[10rem] max-w-xs"
+                  />
+                ) : (
+                  <FeaturedProductCard
+                    storeName="3R Elite Store"
+                    title="Premium Wireless Headphones"
+                    discountedPrice="AED 449"
+                    imageUrl="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop"
+                    href="/listings"
+                    className="w-40 min-w-[10rem] max-w-xs"
+                  />
+                ),
+                // Placeholder cards with beautiful Unsplash images (no opacity-60, all vibrant)
                 <FeaturedProductCard
-                  key={featuredDeal.id}
-                  storeName={featuredDeal.user?.name || '3R Elite Store'}
-                  title={featuredDeal.title}
-                  discountedPrice={`${featuredDeal.currency} ${featuredDeal.price?.toLocaleString()}`}
-                  imageUrl={featuredDeal.images?.[0] || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop'}
-                  href={`/listings/${featuredDeal.id}`}
-                  isHandpicked
+                  key="placeholder-1"
+                  storeName="3R Elite Store"
+                  title="Minimalist Chronograph — Edition 2025"
+                  discountedPrice="AED 449"
+                  imageUrl="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=375&fit=crop&auto=format"
+                  href="/listings"
+                  className="w-40 min-w-[10rem] max-w-xs"
+                />,
+                <FeaturedProductCard
+                  key="placeholder-2"
+                  storeName="3R Elite Store"
+                  title="AirFlow Running Shoes — Breathable mesh"
+                  discountedPrice="AED 449"
+                  imageUrl="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=375&fit=crop&auto=format"
+                  href="/listings"
+                  className="w-40 min-w-[10rem] max-w-xs"
+                />,
+                <FeaturedProductCard
+                  key="placeholder-3"
+                  storeName="3R Elite Store"
+                  title="Vintage Leather Backpack — Handcrafted"
+                  discountedPrice="AED 449"
+                  imageUrl="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&h=375&fit=crop&auto=format"
+                  href="/listings"
                   className="w-40 min-w-[10rem] max-w-xs"
                 />
-              ) : (
-                <FeaturedProductCard className="w-40 min-w-[10rem] max-w-xs" />
-              ),
-              ...[1, 2, 3].map((i) => (
-                <FeaturedProductCard
-                  key={`placeholder-${i}`}
-                  title={`Placeholder Item ${i}`}
-                  discountedPrice={`AED ${100 * i}`}
-                  imageUrl="https://via.placeholder.com/150"
-                  className="w-40 min-w-[10rem] max-w-xs opacity-60"
-                />
-              ))
               ]}
             </div>
           </div>
