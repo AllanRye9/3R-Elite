@@ -1,4 +1,4 @@
-"use client" 
+'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 // import { SearchBar } from '@/components/listings/SearchBar';
@@ -17,7 +17,6 @@ import QuickActions from '@/components/ui/QuickActions';
 import TestimonialSection from '@/components/ui/TestimonialSection';
 import ReviewPortalCTA from '@/components/ui/ReviewPortalCTA';
 import type { Category } from '@/lib/types';
-
 
 function FeaturedDealCarousel({ initialCards }: { initialCards: React.ReactNode[] }) {
   const [cards, setCards] = useState(initialCards);
@@ -164,7 +163,7 @@ export default async function HomePage() {
     { id: 'speaker', url: 'https://images.unsplash.com/photo-1545454677-3538b9c7a5b8?w=500&h=375&fit=crop&auto=format', title: 'Portable Wooden Speaker — Deep bass' },
   ];
 
-  placeholderImages.forEach((img) => {
+  placeholderImages.forEach((img, index) => {
     featuredCards.push(
       <FeaturedProductCard
         key={`placeholder-${img.id}`}
@@ -177,6 +176,34 @@ export default async function HomePage() {
       />
     );
   });
+
+  // ---------- LARGE PLACEHOLDER DATASET FOR LATEST COLLECTIONS (24 items) ----------
+  const latestPlaceholders = [
+    { id: 'ph1', title: 'Premium Wireless Headphones', price: 'AED 449', img: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph2', title: 'Minimalist Chronograph — Edition 2025', price: 'AED 449', img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph3', title: 'AirFlow Running Shoes', price: 'AED 449', img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph4', title: 'Vintage Leather Backpack', price: 'AED 449', img: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph5', title: 'Polarized Aviator Sunglasses', price: 'AED 449', img: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph6', title: 'Minimalist Ceramic Mug', price: 'AED 449', img: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph7', title: 'Vintage Rangefinder Camera', price: 'AED 449', img: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph8', title: 'Wooden Bluetooth Speaker', price: 'AED 449', img: 'https://images.unsplash.com/photo-1545454677-3538b9c7a5b8?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph9', title: 'Ultra-Slim Laptop Stand', price: 'AED 249', img: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph10', title: 'Mechanical Keyboard – Cherry MX', price: 'AED 599', img: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph11', title: 'Noise-Cancelling Earbuds', price: 'AED 399', img: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph12', title: 'Smart Watch – Fitness Edition', price: 'AED 799', img: 'https://images.unsplash.com/photo-1546868871-0f936fb4f870?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph13', title: 'Leather Messenger Bag', price: 'AED 649', img: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph14', title: 'Aviator Sunglasses – Gold', price: 'AED 529', img: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph15', title: 'Espresso Machine – Silver', price: 'AED 1,299', img: 'https://images.unsplash.com/photo-1522012189487-2f7b3b8f5b2a?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph16', title: 'Yoga Mat – Premium Grip', price: 'AED 189', img: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph17', title: 'Desk Lamp – Adjustable', price: 'AED 279', img: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph18', title: 'Stainless Steel Water Bottle', price: 'AED 149', img: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph19', title: 'Leather Wallet – RFID Blocking', price: 'AED 329', img: 'https://images.unsplash.com/photo-1627123424574-724758594e93?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph20', title: 'Portable Power Bank – 20,000mAh', price: 'AED 219', img: 'https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph21', title: 'Fitness Tracker – Heart Rate', price: 'AED 349', img: 'https://images.unsplash.com/photo-1576243345690-4e4b79b63288?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph22', title: 'Wireless Charging Pad', price: 'AED 189', img: 'https://images.unsplash.com/photo-1586816879360-004f5b0c51e3?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph23', title: 'Leather Journal – A5', price: 'AED 159', img: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=500&h=375&fit=crop&auto=format' },
+    { id: 'ph24', title: 'Ceramic Vase – Minimalist', price: 'AED 229', img: 'https://images.unsplash.com/photo-1612196808214-b7e239f5c5e8?w=500&h=375&fit=crop&auto=format' },
+  ];
 
   return (
     <div className="animate-fade-in">
@@ -440,7 +467,7 @@ export default async function HomePage() {
           </section>
         )}
 
-        {/* ═══ LATEST LISTINGS (Jiji-style trending feed) ═══ */}
+        {/* ═══ LATEST LISTINGS (Jiji-style trending feed) — with 24 beautiful placeholders if no data ═══ */}
         <section>
           <div className="flex items-center justify-between mb-3 xs:mb-4">
             <div>
@@ -455,16 +482,29 @@ export default async function HomePage() {
           {(latestCollections.length > 0 ? latestCollections : listings).length > 0 ? (
             <ListingGrid listings={latestCollections.length > 0 ? latestCollections : listings} />
           ) : (
+            /* ---------- 24 BEAUTIFUL PLACEHOLDER CARDS (instead of skeletons) ---------- */
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-              {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="bg-white border border-gray-100 rounded-xl overflow-hidden">
-                  <div className="aspect-[4/3] bg-gray-100 shimmer" />
-                  <div className="p-3 space-y-2">
-                    <div className="h-3 bg-gray-100 rounded-full shimmer w-3/4" />
-                    <div className="h-3 bg-gray-100 rounded-full shimmer w-1/2" />
-                    <div className="h-4 bg-gray-100 rounded-full shimmer w-1/3 mt-1" />
+              {latestPlaceholders.map((item) => (
+                <Link key={item.id} href="/listings" className="block group">
+                  <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300">
+                    <div className="aspect-[4/3] relative overflow-hidden bg-gray-50">
+                      <img
+                        src={item.img}
+                        alt={item.title}
+                        loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                    <div className="p-3">
+                      <p className="text-xs text-gray-500 font-medium mb-0.5">3R Elite Store</p>
+                      <h3 className="text-sm font-bold text-gray-900 line-clamp-2 mb-2">{item.title}</h3>
+                      <div className="flex items-center gap-2">
+                        <span className="text-gray-400 line-through text-xs">AED 899</span>
+                        <span className="text-[#0EA5E9] font-extrabold text-base">{item.price}</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}
