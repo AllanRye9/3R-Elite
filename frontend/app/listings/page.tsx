@@ -85,9 +85,9 @@ function ListingsContent() {
               <label htmlFor="sort-top" className="text-xs text-gray-500 whitespace-nowrap">Sort by:</label>
               <select
                 id="sort-top"
-                value={params.get('sort') || 'createdAt'}
+                value={params ? params.get('sort') || 'createdAt' : 'createdAt'}
                 onChange={(e) => {
-                  const newParams = new URLSearchParams(params.toString());
+                  const newParams = new URLSearchParams(params ? params.toString() : '');
                   newParams.set('sort', e.target.value);
                   newParams.set('page', '1');
                   router.push(`/listings?${newParams.toString()}`);

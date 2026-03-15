@@ -23,7 +23,7 @@ export function FilterSidebar({ categories, isOpen = false, onClose }: Props) {
   const { country, locations } = useCountry();
 
   const update = (key: string, value: string) => {
-    const newParams = new URLSearchParams(params.toString());
+    const newParams = new URLSearchParams(params ? params.toString() : '');
     if (value) newParams.set(key, value);
     else newParams.delete(key);
     newParams.set('page', '1');
@@ -31,7 +31,7 @@ export function FilterSidebar({ categories, isOpen = false, onClose }: Props) {
   };
 
   const updateMultiple = (updates: Record<string, string>) => {
-    const newParams = new URLSearchParams(params.toString());
+    const newParams = new URLSearchParams(params ? params.toString() : '');
     Object.entries(updates).forEach(([key, value]) => {
       if (value) newParams.set(key, value);
       else newParams.delete(key);
@@ -40,8 +40,8 @@ export function FilterSidebar({ categories, isOpen = false, onClose }: Props) {
     router.push(`/listings?${newParams.toString()}`);
   };
 
-  const currentMin = params.get('priceMin') || '';
-  const currentMax = params.get('priceMax') || '';
+  const currentMin = params?.get('priceMin') || '';
+  const currentMax = params?.get('priceMax') || '';
 
   const activePricePreset = pricePresets.find(
     (p) => p.min === currentMin && p.max === currentMax
@@ -83,7 +83,7 @@ export function FilterSidebar({ categories, isOpen = false, onClose }: Props) {
           <div className="relative">
             <input
               type="checkbox"
-              checked={params.get('verified') === 'true'}
+              checked={params?.get('verified') === 'true'}
               onChange={(e) => update('verified', e.target.checked ? 'true' : '')}
               className="sr-only peer"
             />
@@ -102,7 +102,7 @@ export function FilterSidebar({ categories, isOpen = false, onClose }: Props) {
       <div>
         <h3 className="font-bold text-gray-800 text-xs uppercase tracking-wider mb-2">Category</h3>
         <select
-          value={params.get('category') || ''}
+          value={params?.get('category') || ''}
           onChange={(e) => update('category', e.target.value)}
           className="input-premium text-sm"
         >
@@ -116,7 +116,7 @@ export function FilterSidebar({ categories, isOpen = false, onClose }: Props) {
       <div>
         <h3 className="font-bold text-gray-800 text-xs uppercase tracking-wider mb-2">Location</h3>
         <select
-          value={params.get('location') || ''}
+          value={params?.get('location') || ''}
           onChange={(e) => update('location', e.target.value)}
           className="input-premium text-sm"
         >
@@ -139,7 +139,7 @@ export function FilterSidebar({ categories, isOpen = false, onClose }: Props) {
               key={c.value}
               onClick={() => update('condition', c.value)}
               className={`flex-1 py-1.5 rounded-lg text-xs font-semibold transition-all interactive border ${
-                params.get('condition') === c.value || (!params.get('condition') && c.value === '')
+                params?.get('condition') === c.value || (!params?.get('condition') && c.value === '')
                   ? 'bg-sky-500 text-white border-sky-500 shadow-sm'
                   : 'bg-white text-gray-600 border-gray-200 hover:border-sky-200 hover:text-sky-600'
               }`}
@@ -197,7 +197,7 @@ export function FilterSidebar({ categories, isOpen = false, onClose }: Props) {
       <div>
         <h3 className="font-bold text-gray-800 text-xs uppercase tracking-wider mb-2">Sort By</h3>
         <select
-          value={params.get('sort') || 'createdAt'}
+          value={params?.get('sort') || 'createdAt'}
           onChange={(e) => update('sort', e.target.value)}
           className="input-premium text-sm"
         >

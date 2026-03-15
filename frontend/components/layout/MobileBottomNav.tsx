@@ -58,7 +58,7 @@ export function MobileBottomNav() {
   const { user } = useAuth();
 
   // Hide on admin pages
-  if (pathname.startsWith('/admin')) return null;
+  if (pathname && pathname.startsWith('/admin')) return null;
 
   return (
     <nav
@@ -69,7 +69,7 @@ export function MobileBottomNav() {
       <div className="bg-white border-t border-gray-100 shadow-[0_-4px_24px_0_rgb(0,0,0,0.08)]">
         <div className="flex items-center justify-around px-1">
           {navItems.map((item) => {
-            const isActive = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href) && item.href !== '/';
+            const isActive = item.href === '/' ? pathname === '/' : (pathname && pathname.startsWith(item.href) && item.href !== '/');
             const href = item.label === 'Profile' && !user ? '/auth/login' : item.href;
 
             if (item.isSell) {
@@ -99,7 +99,7 @@ export function MobileBottomNav() {
                 aria-current={isActive ? 'page' : undefined}
               >
                 <div className={`relative p-1 rounded-xl transition-all ${isActive ? 'bg-elite-gold/10' : ''}`}>
-                  {item.icon(isActive)}
+                  {item.icon(Boolean(isActive))}
                 </div>
                 <span className={`text-[10px] font-medium ${isActive ? 'font-semibold' : ''}`}>{item.label}</span>
               </Link>

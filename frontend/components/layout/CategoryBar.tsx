@@ -114,7 +114,7 @@ const topCategories: TopCategory[] = [
 
 function CategoryBarInner() {
   const params = useSearchParams();
-  const currentQ = params.get('q') || '';
+  const currentQ = params ? params.get('q') || '' : '';
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
