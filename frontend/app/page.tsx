@@ -13,6 +13,9 @@ import PromoBanners from '@/components/ui/PromoBanners';
 import CategoryPills from '@/components/ui/CategoryPills';
 import FeaturedProductCard from '@/components/ui/FeaturedProductCard';
 import QuickActions from '@/components/ui/QuickActions';
+
+import TestimonialSection from '@/components/ui/TestimonialSection';
+import ReviewPortalCTA from '@/components/ui/ReviewPortalCTA';
 import type { Category } from '@/lib/types';
 
 async function getHomeData() {
@@ -386,6 +389,10 @@ export default async function HomePage() {
         </section>
 
       </div>
+      {/* Testimonials */}
+      <TestimonialSection />
+      {/* Review Portal CTA */}
+      <ReviewPortalCTA />
     </div>
   );
 }

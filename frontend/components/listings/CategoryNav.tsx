@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useCountry } from '@/context/CountryContext';
 import { Category } from '@/lib/types';
+import { useRef, useEffect } from 'react';
 
 interface Props {
   categories: Category[];
@@ -26,23 +27,57 @@ const gradients = [
 
 export function CategoryNav({ categories }: Props) {
   const { country } = useCountry();
+  const marqueeRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const marquee = marqueeRef.current;
+    if (!marquee) return;
+    let animationId: number;
+    let start: number | null = null;
+    let scrollWidth = marquee.scrollWidth;
+    let clientWidth = marquee.clientWidth;
+    let x = 0;
+    const speed = 40; // px per second
+
+    function step(ts: number) {
+      if (start === null) start = ts;
+      const elapsed = ts - start;
+      x = (elapsed / 1000) * speed;
+      if (x > scrollWidth) {
+        start = ts;
+        x = 0;
+      }
+      marquee.scrollLeft = x;
+      animationId = requestAnimationFrame(step);
+    }
+    animationId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(animationId);
+  }, [categories]);
+
+  // Duplicate categories for seamless loop
+  const marqueeCategories = [...categories, ...categories];
 
   return (
-    <div className="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-1.5 xs:gap-2 sm:gap-3">
-      {categories.map((cat, i) => (
-        <Link
-          key={cat.id}
-          href={`/listings?category=${cat.slug}&country=${country}`}
-          className="group flex flex-col items-center gap-1 xs:gap-1.5 p-1.5 xs:p-2 sm:p-3 rounded-lg xs:rounded-xl hover:bg-white border border-transparent hover:border-sky-100 hover:shadow-sm transition-all duration-200 interactive"
-        >
-          <div className={`w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 rounded-lg xs:rounded-xl bg-gradient-to-br ${gradients[i % gradients.length]} flex items-center justify-center shadow-sm group-hover:shadow-md group-hover:scale-110 transition-all duration-200`}>
-            <span className="text-base xs:text-lg sm:text-xl" aria-hidden="true">{cat.icon || '📦'}</span>
-          </div>
-          <span className="text-[8px] xs:text-[9px] sm:text-[10px] text-gray-600 group-hover:text-sky-700 font-semibold leading-tight text-center line-clamp-2">
-            {cat.name}
-          </span>
-        </Link>
-      ))}
+    <div className="relative w-full overflow-x-hidden py-2 bg-gradient-to-r from-elite-navy/5 to-elite-gold/5 rounded-xl border border-elite-gold/10 shadow-sm">
+      <div ref={marqueeRef} className="flex gap-3 min-w-full whitespace-nowrap overflow-x-scroll no-scrollbar animate-none" style={{scrollBehavior:'auto'}}>
+        {marqueeCategories.map((cat, i) => (
+          <Link
+            key={cat.id + '-' + i}
+            href={`/listings?category=${cat.slug}&country=${country}`}
+            className="group flex flex-col items-center gap-1 xs:gap-1.5 p-1.5 xs:p-2 sm:p-3 rounded-lg xs:rounded-xl hover:bg-white border border-transparent hover:border-sky-100 hover:shadow-sm transition-all duration-200 interactive min-w-[80px] sm:min-w-[100px]"
+          >
+            <div className={`w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 rounded-lg xs:rounded-xl bg-gradient-to-br ${gradients[i % gradients.length]} flex items-center justify-center shadow-sm group-hover:shadow-md group-hover:scale-110 transition-all duration-200`}>
+              <span className="text-base xs:text-lg sm:text-xl" aria-hidden="true">{cat.icon || '📦'}</span>
+            </div>
+            <span className="text-[10px] xs:text-xs sm:text-sm text-gray-700 group-hover:text-elite-gold font-semibold leading-tight text-center line-clamp-2">
+              {cat.name}
+            </span>
+          </Link>
+        ))}
+      </div>
+      {/* Animated gradient overlay for effect */}
+      <div className="pointer-events-none absolute left-0 top-0 h-full w-10 bg-gradient-to-r from-white/80 to-transparent z-10" />
+      <div className="pointer-events-none absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-white/80 to-transparent z-10" />
     </div>
   );
 }
