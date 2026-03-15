@@ -48,8 +48,8 @@ function ListingsContent() {
       {/* Search */}
       <div className="mb-4">
         <SearchBar
-          initialQ={params.get('q') || ''}
-          initialLocation={params.get('location') || ''}
+          initialQ={params ? params.get('q') || '' : ''}
+          initialLocation={params ? params.get('location') || '' : ''}
         />
       </div>
 
