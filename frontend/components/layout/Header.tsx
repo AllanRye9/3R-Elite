@@ -4,14 +4,15 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useCountry } from '@/context/CountryContext';
-// import { CountrySelector } from '@/components/ui/CountrySelector';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { useRouter } from 'next/navigation';
 import CategoryBar from '@/components/layout/CategoryBar';
 
 export default function Header() {
   const { user } = useAuth();
-  // const { country, currency } = useCountry();
+  // 1. Fixed 'useCountry' warning: Uncommented 'country' because it's used in handleSearch.
+  // Kept currency commented/removed to avoid a new "unused variable" warning.
+  const { country } = useCountry(); 
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQ, setSearchQ] = useState('');
   const [scrolled, setScrolled] = useState(false);
@@ -25,6 +26,7 @@ export default function Header() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
+    // 'country' is now defined above, so this won't crash
     if (searchQ.trim()) router.push(`/listings?q=${encodeURIComponent(searchQ)}&country=${country}`);
   };
 
@@ -32,11 +34,9 @@ export default function Header() {
     setMenuOpen((prev) => !prev);
   };
 
-  // const closeMobileNav = () => setMobileNavOpen(false); // Removed unused
-
   return (
     <header className={`sticky top-0 z-50 shadow-sm transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md border-b border-gray-100' : 'bg-elite-navy'}`}>
-      {/* Top utility bar - hidden on mobile */}
+      {/* Top utility bar */}
       <div className="hidden sm:flex justify-between items-center max-w-7xl mx-auto px-4 h-8 text-xs text-white/80 bg-elite-navy">
         <div className="flex items-center gap-4">
           <Link href="/listings/create" className="hover:text-[#0EA5E9] flex items-center gap-1">
@@ -50,7 +50,7 @@ export default function Header() {
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-3 bg-white/90 border border-elite-gold/40 rounded-xl px-3 py-2 shadow-md">
             <select className="border border-gray-300 rounded-lg px-2 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-sky-400 font-semibold text-elite-navy hover:border-elite-gold transition-colors">
-              <option value="UAE" selected>🇦🇪 UAE</option>
+              <option value="UAE" defaultValue="UAE">🇦🇪 UAE</option>
               <option value="UGANDA">🇺🇬 Uganda</option>
             </select>
             <span className="border-l border-elite-gold/30 pl-3 text-elite-navy font-bold tracking-wide">AED</span>
@@ -60,7 +60,6 @@ export default function Header() {
 
       {/* Main header row */}
       <div className="max-w-7xl mx-auto px-4 flex items-center gap-2 sm:gap-4 h-16">
-        {/* Hamburger for mobile */}
         <button
           className="md:hidden p-2 rounded-lg text-white hover:bg-white/20"
           aria-label="Toggle menu"
@@ -74,7 +73,6 @@ export default function Header() {
           </div>
         </button>
 
-        {/* Logo */}
         <Link href="/" className="flex items-center gap-2 shrink-0 group hover:scale-105 active:scale-95 transition-all">
           <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-base ${scrolled ? 'bg-elite-navy text-elite-gold' : 'bg-elite-gold/20 text-elite-gold'}`}>3R</div>
           <span className={`font-serif font-bold text-lg sm:text-xl tracking-tight whitespace-nowrap ${scrolled ? 'text-elite-navy' : 'text-white'}`}>
@@ -82,7 +80,6 @@ export default function Header() {
           </span>
         </Link>
 
-        {/* Search bar (hidden on xs) */}
         <form onSubmit={handleSearch} className="hidden sm:flex flex-1 max-w-lg mx-4">
           <div className={`flex flex-1 rounded-lg overflow-hidden ring-2 ${scrolled ? 'ring-gray-200 focus-within:ring-elite-gold/60' : 'ring-white/20 focus-within:ring-elite-gold/60'}`}> 
             <input
@@ -101,7 +98,6 @@ export default function Header() {
           </div>
         </form>
 
-        {/* Right nav icons */}
         <nav className="flex items-center gap-2 sm:gap-3 ml-auto">
           <Link href="/listings/create" className={`hidden sm:flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold ${scrolled ? 'bg-elite-navy text-elite-gold hover:bg-elite-charcoal' : 'bg-elite-gold text-elite-navy hover:bg-elite-gold-light'}`}>Sell</Link>
           <Link href="/messages" className={`relative p-2 rounded-lg hidden sm:flex items-center justify-center ${scrolled ? 'text-gray-600 hover:bg-gray-100' : 'text-white hover:bg-white/20'}`} aria-label="My Messages">
@@ -134,7 +130,7 @@ export default function Header() {
           )}
         </nav>
       </div>
-      {/* Mobile search bar */}
+
       <div className={`sm:hidden border-t px-3 py-2 ${scrolled ? 'border-gray-100 bg-white' : 'border-white/10 bg-elite-charcoal'}`}>
         <form onSubmit={handleSearch} className="flex rounded-lg overflow-hidden ring-2 ring-white/20">
           <input
@@ -152,13 +148,16 @@ export default function Header() {
           </button>
         </form>
       </div>
-      {/* Category bar (desktop, only when not scrolled) */}
+
       {!scrolled && <div className="hidden sm:block"><CategoryBar /></div>}
+
       <div className="flex gap-4">
         <div className="bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm p-4 w-40 min-w-[8rem] text-center">
-          <h3 className="text-xs font-bold text-elite-navy mb-1">Today's Visitors</h3>
+          {/* 2. Fixed unescaped entity: changed Today's to Today&apos;s */}
+          <h3 className="text-xs font-bold text-elite-navy mb-1">Today&apos;s Visitors</h3>
           <p className="text-xl font-mono text-elite-gold">1,234</p>
         </div>
+        {/* ... Rest of your component stats */}
         <div className="bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm p-4 w-40 min-w-[8rem] text-center">
           <h3 className="text-xs font-bold text-elite-navy mb-1">Total Visitors</h3>
           <p className="text-xl font-mono text-elite-gold">123,456</p>

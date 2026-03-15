@@ -26,7 +26,8 @@ const navItems = [
   {
     href: '/listings/create',
     label: 'Sell',
-    icon: (active: boolean) => (
+    // FIXED: Changed 'active' to '_active' to satisfy the linter
+    icon: (_active: boolean) => (
       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
       </svg>
@@ -57,7 +58,6 @@ export function MobileBottomNav() {
   const pathname = usePathname();
   const { user } = useAuth();
 
-  // Hide on admin pages
   if (pathname && pathname.startsWith('/admin')) return null;
 
   return (
@@ -81,6 +81,7 @@ export function MobileBottomNav() {
                   aria-label={item.label}
                 >
                   <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-elite-gold to-elite-gold-dark flex items-center justify-center text-white shadow-lg -mt-5 group-active:scale-95 transition-transform">
+                    {/* Note: This still passes 'false' as intended */}
                     {item.icon(false)}
                   </div>
                   <span className="text-[10px] font-medium text-elite-gold mt-0.5">{item.label}</span>

@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { Roboto, Playfair_Display } from 'next/font/google'; // 1. Import the fonts
 import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
 import { CountryProvider } from '@/context/CountryContext';
@@ -6,6 +7,21 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { MobileBottomNav } from '@/components/layout/MobileBottomNav';
 import { ToastProvider } from '@/components/ui/Toast';
+
+// 2. Configure the fonts
+const roboto = Roboto({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '700', '900'],
+  variable: '--font-roboto',
+  display: 'swap',
+});
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  weight: ['400', '600', '700'],
+  variable: '--font-playfair',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: '3R-Elite Marketplace - UAE & Uganda',
@@ -43,20 +59,8 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          rel="preload"
-          as="style"
-          href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Playfair+Display:wght@400;600;700&display=swap"
-        />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Playfair+Display:wght@400;600;700&display=swap"
-        />
-      </head>
-      <body className="font-sans">
+      {/* 3. Removed the manual <head> link tags */}
+      <body className={`${roboto.variable} ${playfair.variable} font-sans`}>
         <CountryProvider>
           <AuthProvider>
             <ToastProvider>
@@ -75,4 +79,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
-
