@@ -47,15 +47,6 @@ export default function Header() {
           </Link>
           <Link href="/help" className="hover:text-[#0EA5E9]">Help / FAQ</Link>
         </div>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-3 bg-white/90 border border-elite-gold/40 rounded-xl px-3 py-2 shadow-md">
-            <select className="border border-gray-300 rounded-lg px-2 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-sky-400 font-semibold text-elite-navy hover:border-elite-gold transition-colors">
-              <option value="UAE" defaultValue="UAE">🇦🇪 UAE</option>
-              <option value="UGANDA">🇺🇬 Uganda</option>
-            </select>
-            <span className="border-l border-elite-gold/30 pl-3 text-elite-navy font-bold tracking-wide">AED</span>
-          </div>
-        </div>
       </div>
 
       {/* Main header row */}

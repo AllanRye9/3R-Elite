@@ -136,10 +136,156 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ═══ PROGRESS CAROUSEL (Elite Downloads) ═══ */}
+      {/* ═══ ENHANCED TRAFFIC STATS (formerly Elite Downloads) ═══ */}
       <section className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-lg transition-shadow max-w-7xl mx-auto my-8 px-2 py-4">
-        <h2 className="text-lg xs:text-xl font-extrabold text-elite-navy mb-2 text-center">Elite Downloads</h2>
-        <ProgressCarousel />
+        <style>{`
+          @keyframes marquee-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          .marquee-track {
+            display: flex;
+            gap: 0.5rem;
+            width: fit-content;
+            animation: marquee-left 30s linear infinite;
+          }
+          @keyframes circular-rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+          .animate-circular {
+            animation: circular-rotate 20s linear infinite;
+            transform-origin: center center;
+          }
+          @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); }
+            100% { transform: translateY(0px); }
+          }
+          .animate-float {
+            animation: float 4s ease-in-out infinite;
+          }
+          @keyframes pulse-glow {
+            0% { text-shadow: 0 0 0px rgba(251, 191, 36, 0.2); }
+            50% { text-shadow: 0 0 8px rgba(251, 191, 36, 0.6); }
+            100% { text-shadow: 0 0 0px rgba(251, 191, 36, 0.2); }
+          }
+          .animate-pulse-glow {
+            animation: pulse-glow 3s ease-in-out infinite;
+          }
+          .card-pattern {
+            background-image: radial-gradient(circle at 10px 10px, rgba(251,191,36,0.05) 2px, transparent 2px);
+            background-size: 20px 20px;
+          }
+          .stat-card {
+            min-width: 10rem;
+            width: 10rem;
+          }
+          .stat-card svg {
+            width: 40px;
+            height: 40px;
+          }
+          .stat-main-value {
+            font-size: 1.25rem;
+            font-weight: 800;
+            line-height: 1.2;
+            color: #0f172a;
+          }
+          .stat-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #334155;
+          }
+          .bg-elite-gold { background-color: #fbbf24; }
+          .text-elite-navy { color: #1e293b; }
+          .border-elite-gold\\/30 { border-color: rgba(251, 191, 36, 0.3); }
+          .hover\\:bg-elite-gold-dark:hover { background-color: #f59e0b; }
+        `}</style>
+
+        <h2 className="text-lg xs:text-xl font-extrabold text-elite-navy mb-2 text-center">📈 Elite Traffic Stats</h2>
+
+        <div className="w-full flex flex-col items-center">
+          <div className="flex items-center gap-2 mb-2">
+            <button className="w-8 h-8 rounded-full bg-elite-gold text-elite-navy font-bold flex items-center justify-center shadow hover:bg-elite-gold-dark transition-all" aria-label="Previous">←</button>
+
+            <div className="marquee-wrapper overflow-hidden">
+              <div className="marquee-track">
+                {/* CARD 1 – TOTAL VISITORS */}
+                <div className="stat-card bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm overflow-hidden hover:shadow-lg transition-shadow flex flex-col items-center p-2 mx-1 animate-circular animate-float card-pattern">
+                  <svg width="40" height="40" viewBox="0 0 48 48" className="block">
+                    <circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none" />
+                    <circle cx="24" cy="24" r="21.5" stroke="#0EA5E9" strokeWidth="5" fill="none"
+                            strokeDasharray="135.088" strokeDashoffset="13.5088" strokeLinecap="round" />
+                    <text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0EA5E9"
+                          fontFamily="JetBrains Mono, monospace" fontWeight="700">90%</text>
+                  </svg>
+                  <div className="mt-1 w-full text-center">
+                    <div className="font-mono text-elite-navy text-xs font-semibold truncate">TOTAL VISITORS</div>
+                    <div className="stat-main-value animate-pulse-glow">1.28M</div>
+                    <div className="stat-label">all time</div>
+                  </div>
+                </div>
+
+                {/* CARD 2 – UNIQUE VISITORS */}
+                <div className="stat-card bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm overflow-hidden hover:shadow-lg transition-shadow flex flex-col items-center p-2 mx-1 animate-circular animate-float card-pattern">
+                  <svg width="40" height="40" viewBox="0 0 48 48" className="block">
+                    <circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none" />
+                    <circle cx="24" cy="24" r="21.5" stroke="#0EA5E9" strokeWidth="5" fill="none"
+                            strokeDasharray="135.088" strokeDashoffset="27.0176" strokeLinecap="round" />
+                    <text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0EA5E9"
+                          fontFamily="JetBrains Mono, monospace" fontWeight="700">80%</text>
+                  </svg>
+                  <div className="mt-1 w-full text-center">
+                    <div className="font-mono text-elite-navy text-xs font-semibold truncate">UNIQUE VISITORS</div>
+                    <div className="stat-main-value animate-pulse-glow">468K</div>
+                    <div className="stat-label">this month</div>
+                  </div>
+                </div>
+
+                {/* CARD 3 – TODAY'S VISITORS */}
+                <div className="stat-card bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm overflow-hidden hover:shadow-lg transition-shadow flex flex-col items-center p-2 mx-1 animate-circular animate-float card-pattern">
+                  <svg width="40" height="40" viewBox="0 0 48 48" className="block">
+                    <circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none" />
+                    <circle cx="24" cy="24" r="21.5" stroke="#0EA5E9" strokeWidth="5" fill="none"
+                            strokeDasharray="135.088" strokeDashoffset="54.0352" strokeLinecap="round" />
+                    <text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0EA5E9"
+                          fontFamily="JetBrains Mono, monospace" fontWeight="700">60%</text>
+                  </svg>
+                  <div className="mt-1 w-full text-center">
+                    <div className="font-mono text-elite-navy text-xs font-semibold truncate">TODAY'S VISITORS</div>
+                    <div className="stat-main-value animate-pulse-glow">8,432</div>
+                    <div className="stat-label">so far today</div>
+                  </div>
+                </div>
+
+                {/* DUPLICATES FOR SEAMLESS LOOP */}
+                <div className="stat-card bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm overflow-hidden hover:shadow-lg transition-shadow flex flex-col items-center p-2 mx-1 animate-circular animate-float card-pattern">
+                  <svg width="40" height="40" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none"/><circle cx="24" cy="24" r="21.5" stroke="#0EA5E9" strokeWidth="5" fill="none" strokeDasharray="135.088" strokeDashoffset="13.5088"/><text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0EA5E9" fontWeight="700">90%</text></svg>
+                  <div className="mt-1 w-full text-center"><div className="font-mono text-elite-navy text-xs font-semibold truncate">TOTAL VISITORS</div><div className="stat-main-value animate-pulse-glow">1.28M</div><div className="stat-label">all time</div></div>
+                </div>
+                <div className="stat-card bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm overflow-hidden hover:shadow-lg transition-shadow flex flex-col items-center p-2 mx-1 animate-circular animate-float card-pattern">
+                  <svg width="40" height="40" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none"/><circle cx="24" cy="24" r="21.5" stroke="#0EA5E9" strokeWidth="5" fill="none" strokeDasharray="135.088" strokeDashoffset="27.0176"/><text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0EA5E9" fontWeight="700">80%</text></svg>
+                  <div className="mt-1 w-full text-center"><div className="font-mono text-elite-navy text-xs font-semibold truncate">UNIQUE VISITORS</div><div className="stat-main-value animate-pulse-glow">468K</div><div className="stat-label">this month</div></div>
+                </div>
+                <div className="stat-card bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm overflow-hidden hover:shadow-lg transition-shadow flex flex-col items-center p-2 mx-1 animate-circular animate-float card-pattern">
+                  <svg width="40" height="40" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none"/><circle cx="24" cy="24" r="21.5" stroke="#0EA5E9" strokeWidth="5" fill="none" strokeDasharray="135.088" strokeDashoffset="54.0352"/><text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0EA5E9" fontWeight="700">60%</text></svg>
+                  <div className="mt-1 w-full text-center"><div className="font-mono text-elite-navy text-xs font-semibold truncate">TODAY'S VISITORS</div><div className="stat-main-value animate-pulse-glow">8,432</div><div className="stat-label">so far today</div></div>
+                </div>
+              </div>
+            </div>
+
+            <button className="w-8 h-8 rounded-full bg-elite-gold text-elite-navy font-bold flex items-center justify-center shadow hover:bg-elite-gold-dark transition-all" aria-label="Next">→</button>
+          </div>
+
+          <div className="flex gap-1 mt-1">
+            <span className="w-2 h-2 rounded-full bg-elite-gold animate-pulse-glow"></span>
+            <span className="w-2 h-2 rounded-full bg-elite-navy/20"></span>
+            <span className="w-2 h-2 rounded-full bg-elite-navy/20"></span>
+            <span className="w-2 h-2 rounded-full bg-elite-navy/20"></span>
+            <span className="w-2 h-2 rounded-full bg-elite-navy/20"></span>
+          </div>
+        </div>
       </section>
 
       {/* ═══ TRUST STATS ═══ */}
@@ -347,4 +493,3 @@ export default async function HomePage() {
     </div>
   );
 }
-

@@ -75,18 +75,6 @@ export default function Footer() {
                 <li><Link href="/privacy" className="hover:text-elite-gold transition-colors">Privacy Policy</Link></li>
                 <li><Link href="/terms" className="hover:text-elite-gold transition-colors">Terms of Service</Link></li>
               </ul>
-              {/* App download hint */}
-              <div className="mt-4 p-3 bg-elite-charcoal rounded-xl">
-                <p className="text-xs text-gray-400 mb-2 font-medium">Available on</p>
-                <div className="flex flex-col gap-1.5">
-                  <div className="flex items-center gap-2 text-xs text-gray-300">
-                    <span>🍎</span> iOS App Store
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-gray-300">
-                    <span>🤖</span> Google Play
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
