@@ -55,14 +55,14 @@
     --elite-gold-dark: #A8863D;
     --elite-red: #721C24;
     --elite-cream: #FAF8F5;
-    --elite-charcoal: #1C2541;
+    --elite-charcoal: #285bf1;
 
     --surface-0: #ffffff;
     --surface-1: #f8fafc;
     --surface-2: #f1f5f9;
     --surface-card: #ffffff;
 
-    --text-primary: #0f172a;
+    --text-primary: #214db6;
     --text-secondary: #475569;
     --text-muted: #94a3b8;
 
@@ -76,7 +76,7 @@
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.06);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.05);
     --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.04);
-    --shadow-glow: 0 0 20px rgb(14 165 233 / 0.25);
+    --shadow-glow: 0 0 20px rgba(43, 186, 252, 0.25);
     --shadow-gold: 0 0 20px rgb(197 160 89 / 0.25);
 
     --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -107,10 +107,6 @@
     word-break: break-word;
   }
 
-  /* ── Circular Profile Optimization ─────────────────────────────────────
-     Center-crop logic for Next.js data-nimg="fill" images inside circular
-     containers. Prevents "long-face" / "wide-face" distortion on non-square
-     user-uploaded photos. ──────────────────────────────────────────────── */
   [data-nimg="fill"] {
     object-fit: cover !important;
     width: 100% !important;
@@ -168,7 +164,7 @@
 
   /* Selection */
   ::selection {
-    background: rgb(14 165 233 / 0.3);
+    background: rgba(15, 170, 241, 0.3);
     color: #0B132B;
   }
 }
@@ -290,7 +286,7 @@
     gap: 8px;
     padding: 10px 20px;
     background: white;
-    color: #0B132B;
+    color: #2050df;
     border: 1.5px solid #0EA5E9;
     border-radius: var(--radius-sm);
     font-weight: 600;
@@ -316,7 +312,7 @@
   }
 
   .bg-hero-gradient {
-    background: linear-gradient(135deg, #0B132B 0%, #1C2541 35%, #0B132B 65%, #0B132B 100%);
+    background: linear-gradient(135deg, #214fd8 0%, #1C2541 35%, #0B132B 65%, #0B132B 100%);
   }
 
   .bg-elite-gradient {

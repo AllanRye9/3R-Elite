@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image'; // added for optimized images
+import Image from 'next/image';
 // import { SearchBar } from '@/components/listings/SearchBar';
 
 // ProgressCarousel import removed (unused)
@@ -22,6 +22,7 @@ import ReviewPortalCTA from '@/components/ui/ReviewPortalCTA';
 import type { Category } from '@/lib/types';
 
 
+
 function FeaturedDealCarousel({ initialCards }: { initialCards: React.ReactNode[] }) {
   const [cards, setCards] = useState(initialCards);
 
@@ -29,11 +30,10 @@ function FeaturedDealCarousel({ initialCards }: { initialCards: React.ReactNode[
     const interval = setInterval(() => {
       setCards(prev => {
         if (prev.length <= 1) return prev;
-        // Rotate: move first card to the end
         const [first, ...rest] = prev;
         return [...rest, first];
       });
-    }, 30000); // 30 seconds
+    }, 30000);
 
     return () => clearInterval(interval);
   }, []);
@@ -167,7 +167,6 @@ export default async function HomePage() {
     { id: 'speaker', url: 'https://images.unsplash.com/photo-1545454677-3538b9c7a5b8?w=500&h=375&fit=crop&auto=format', title: 'Portable Wooden Speaker — Deep bass' },
   ];
 
-  // Removed unused 'index' parameter
   placeholderImages.forEach((img) => {
     featuredCards.push(
       <FeaturedProductCard
@@ -225,25 +224,24 @@ export default async function HomePage() {
               <HeroSlideshow />
             </div>
             {/* Badge */}
-            <div className="inline-flex items-center gap-1.5 bg-elite-gold/20 backdrop-blur-sm text-elite-gold text-[10px] xs:text-xs font-semibold px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full mb-2 xs:mb-2 border border-elite-gold/30">
-              <span className="w-1.5 h-1.5 bg-elite-gold rounded-full animate-pulse" />
+            <div className="inline-flex items-center gap-1.5 bg-[#0369a1]/20 backdrop-blur-sm text-[#0369a1] text-[10px] xs:text-xs font-semibold px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full mb-2 xs:mb-2 border border-[#0369a1]/30">
+              <span className="w-1.5 h-1.5 bg-[#0369a1] rounded-full animate-pulse" />
               Refined. Rare. Remarkable.
             </div>
-            {/* Removed The 3R Signature Series, description, and price as requested */}
             {/* Quick links */}
             <div className="flex flex-wrap justify-center gap-1.5 xs:gap-2 mt-2 xs:mt-3 px-2">
               {heroQuickLinks.map((cat) => (
                 <Link
                   key={cat}
                   href={`/listings?q=${cat.toLowerCase()}`}
-                  className="text-[10px] xs:text-xs text-white/70 hover:text-elite-gold bg-white/5 hover:bg-elite-gold/10 border border-white/10 hover:border-elite-gold/30 px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full transition-all interactive"
+                  className="text-[10px] xs:text-xs text-white/70 hover:text-[#0369a1] bg-white/5 hover:bg-[#0369a1]/10 border border-white/10 hover:border-[#0369a1]/30 px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full transition-all interactive"
                 >
                   {cat}
                 </Link>
               ))}
               <Link
                 href="/listings/create"
-                className="text-[10px] xs:text-xs font-bold text-elite-navy bg-elite-gold hover:bg-elite-gold-light px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full transition-all interactive shadow-sm"
+                className="text-[10px] xs:text-xs font-bold text-white bg-[#0369a1] hover:bg-[#0284c7] px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full transition-all interactive shadow-sm"
               >
                 Discover More →
               </Link>
@@ -251,15 +249,14 @@ export default async function HomePage() {
           </div>
           {/* Right Table/MembershipEvents */}
           <div className="hidden lg:flex flex-col justify-center" style={{ width: '20%', marginRight: '3%' }}>
-            {/* You can create a MembershipEvents component or use a listings table here */}
-            <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 border border-elite-gold/20 shadow-lg">
+            <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 border border-[#0369a1]/20 shadow-lg">
               <h3 className="text-xs font-bold text-elite-navy uppercase tracking-wider mb-3 flex items-center gap-1.5">
                 Offerings
               </h3>
               <ul className="space-y-1 text-xs text-elite-navy/80">
                 {listings.slice(0, 8).map((item: { id: string; title: string }) => (
-                  <li key={item.id} className="truncate border-b border-elite-gold/10 py-1 last:border-0">
-                    <Link href={`/listings/${item.id}`} className="hover:text-elite-gold transition-colors">
+                  <li key={item.id} className="truncate border-b border-[#0369a1]/10 py-1 last:border-0">
+                    <Link href={`/listings/${item.id}`} className="hover:text-[#0369a1] transition-colors">
                       {item.title}
                     </Link>
                   </li>
@@ -300,15 +297,15 @@ export default async function HomePage() {
             animation: float 4s ease-in-out infinite;
           }
           @keyframes pulse-glow {
-            0% { text-shadow: 0 0 0px rgba(251, 191, 36, 0.2); }
-            50% { text-shadow: 0 0 8px rgba(251, 191, 36, 0.6); }
-            100% { text-shadow: 0 0 0px rgba(251, 191, 36, 0.2); }
+            0% { text-shadow: 0 0 0px rgba(3, 105, 161, 0.2); }
+            50% { text-shadow: 0 0 8px rgba(3, 105, 161, 0.6); }
+            100% { text-shadow: 0 0 0px rgba(3, 105, 161, 0.2); }
           }
           .animate-pulse-glow {
             animation: pulse-glow 3s ease-in-out infinite;
           }
           .card-pattern {
-            background-image: radial-gradient(circle at 10px 10px, rgba(251,191,36,0.05) 2px, transparent 2px);
+            background-image: radial-gradient(circle at 10px 10px, rgba(3,105,161,0.05) 2px, transparent 2px);
             background-size: 20px 20px;
           }
           .stat-card {
@@ -331,17 +328,19 @@ export default async function HomePage() {
             letter-spacing: 0.5px;
             color: #334155;
           }
-          .bg-elite-gold { background-color: #fbbf24; }
-          .text-elite-navy { color: #1e293b; }
-          .border-elite-gold\\/30 { border-color: rgba(251, 191, 36, 0.3); }
-          .hover\\:bg-elite-gold-dark:hover { background-color: #f59e0b; }
+          .bg-elite-gold { background-color: #0369a1; }
+          .text-elite-gold { color: #0369a1; }
+          .border-elite-gold\\/30 { border-color: rgba(3, 105, 161, 0.3); }
+          .hover\\:bg-elite-gold-dark:hover { background-color: #0284c7; }
+          .hover\\:text-elite-gold-dark:hover { color: #0284c7; }
+          .hover\\:bg-elite-gold-light:hover { background-color: #0284c7; }
         `}</style>
 
         <h2 className="text-lg xs:text-xl font-extrabold text-elite-navy mb-2 text-center">📈 Elite Traffic Stats</h2>
 
         <div className="w-full flex flex-col items-center">
           <div className="flex items-center gap-2 mb-2">
-            <button className="w-8 h-8 rounded-full bg-elite-gold text-elite-navy font-bold flex items-center justify-center shadow hover:bg-elite-gold-dark transition-all" aria-label="Previous">←</button>
+            <button className="w-8 h-8 rounded-full bg-elite-gold text-white font-bold flex items-center justify-center shadow hover:bg-elite-gold-dark transition-all" aria-label="Previous">←</button>
 
             <div className="marquee-wrapper overflow-hidden">
               <div className="marquee-track">
@@ -349,9 +348,9 @@ export default async function HomePage() {
                 <div className="stat-card bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm overflow-hidden hover:shadow-lg transition-shadow flex flex-col items-center p-2 mx-1 animate-circular animate-float card-pattern">
                   <svg width="40" height="40" viewBox="0 0 48 48" className="block">
                     <circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none" />
-                    <circle cx="24" cy="24" r="21.5" stroke="#0EA5E9" strokeWidth="5" fill="none"
+                    <circle cx="24" cy="24" r="21.5" stroke="#0369a1" strokeWidth="5" fill="none"
                       strokeDasharray="135.088" strokeDashoffset="13.5088" strokeLinecap="round" />
-                    <text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0EA5E9"
+                    <text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0369a1"
                       fontFamily="JetBrains Mono, monospace" fontWeight="700">90%</text>
                   </svg>
                   <div className="mt-1 w-full text-center">
@@ -365,9 +364,9 @@ export default async function HomePage() {
                 <div className="stat-card bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm overflow-hidden hover:shadow-lg transition-shadow flex flex-col items-center p-2 mx-1 animate-circular animate-float card-pattern">
                   <svg width="40" height="40" viewBox="0 0 48 48" className="block">
                     <circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none" />
-                    <circle cx="24" cy="24" r="21.5" stroke="#0EA5E9" strokeWidth="5" fill="none"
+                    <circle cx="24" cy="24" r="21.5" stroke="#0369a1" strokeWidth="5" fill="none"
                       strokeDasharray="135.088" strokeDashoffset="27.0176" strokeLinecap="round" />
-                    <text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0EA5E9"
+                    <text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0369a1"
                       fontFamily="JetBrains Mono, monospace" fontWeight="700">80%</text>
                   </svg>
                   <div className="mt-1 w-full text-center">
@@ -381,9 +380,9 @@ export default async function HomePage() {
                 <div className="stat-card bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm overflow-hidden hover:shadow-lg transition-shadow flex flex-col items-center p-2 mx-1 animate-circular animate-float card-pattern">
                   <svg width="40" height="40" viewBox="0 0 48 48" className="block">
                     <circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none" />
-                    <circle cx="24" cy="24" r="21.5" stroke="#0EA5E9" strokeWidth="5" fill="none"
+                    <circle cx="24" cy="24" r="21.5" stroke="#0369a1" strokeWidth="5" fill="none"
                       strokeDasharray="135.088" strokeDashoffset="54.0352" strokeLinecap="round" />
-                    <text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0EA5E9"
+                    <text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0369a1"
                       fontFamily="JetBrains Mono, monospace" fontWeight="700">60%</text>
                   </svg>
                   <div className="mt-1 w-full text-center">
@@ -397,15 +396,15 @@ export default async function HomePage() {
 
                 {/* DUPLICATES FOR SEAMLESS LOOP */}
                 <div className="stat-card bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm overflow-hidden hover:shadow-lg transition-shadow flex flex-col items-center p-2 mx-1 animate-circular animate-float card-pattern">
-                  <svg width="40" height="40" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none" /><circle cx="24" cy="24" r="21.5" stroke="#0EA5E9" strokeWidth="5" fill="none" strokeDasharray="135.088" strokeDashoffset="13.5088" /><text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0EA5E9" fontWeight="700">90%</text></svg>
+                  <svg width="40" height="40" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none" /><circle cx="24" cy="24" r="21.5" stroke="#0369a1" strokeWidth="5" fill="none" strokeDasharray="135.088" strokeDashoffset="13.5088" /><text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0369a1" fontWeight="700">90%</text></svg>
                   <div className="mt-1 w-full text-center"><div className="font-mono text-elite-navy text-xs font-semibold truncate">TOTAL VISITORS</div><div className="stat-main-value animate-pulse-glow">1.28M</div><div className="stat-label">all time</div></div>
                 </div>
                 <div className="stat-card bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm overflow-hidden hover:shadow-lg transition-shadow flex flex-col items-center p-2 mx-1 animate-circular animate-float card-pattern">
-                  <svg width="40" height="40" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none" /><circle cx="24" cy="24" r="21.5" stroke="#0EA5E9" strokeWidth="5" fill="none" strokeDasharray="135.088" strokeDashoffset="27.0176" /><text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0EA5E9" fontWeight="700">80%</text></svg>
+                  <svg width="40" height="40" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none" /><circle cx="24" cy="24" r="21.5" stroke="#0369a1" strokeWidth="5" fill="none" strokeDasharray="135.088" strokeDashoffset="27.0176" /><text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0369a1" fontWeight="700">80%</text></svg>
                   <div className="mt-1 w-full text-center"><div className="font-mono text-elite-navy text-xs font-semibold truncate">UNIQUE VISITORS</div><div className="stat-main-value animate-pulse-glow">468K</div><div className="stat-label">this month</div></div>
                 </div>
                 <div className="stat-card bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm overflow-hidden hover:shadow-lg transition-shadow flex flex-col items-center p-2 mx-1 animate-circular animate-float card-pattern">
-                  <svg width="40" height="40" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none" /><circle cx="24" cy="24" r="21.5" stroke="#0EA5E9" strokeWidth="5" fill="none" strokeDasharray="135.088" strokeDashoffset="54.0352" /><text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0EA5E9" fontWeight="700">60%</text></svg>
+                  <svg width="40" height="40" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none" /><circle cx="24" cy="24" r="21.5" stroke="#0369a1" strokeWidth="5" fill="none" strokeDasharray="135.088" strokeDashoffset="54.0352" /><text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0369a1" fontWeight="700">60%</text></svg>
                   <div className="mt-1 w-full text-center">
                     <div className="font-mono text-elite-navy text-xs font-semibold truncate">
                       TODAY&apos;S VISITORS
@@ -417,7 +416,7 @@ export default async function HomePage() {
               </div>
             </div>
 
-            <button className="w-8 h-8 rounded-full bg-elite-gold text-elite-navy font-bold flex items-center justify-center shadow hover:bg-elite-gold-dark transition-all" aria-label="Next">→</button>
+            <button className="w-8 h-8 rounded-full bg-elite-gold text-white font-bold flex items-center justify-center shadow hover:bg-elite-gold-dark transition-all" aria-label="Next">→</button>
           </div>
 
           <div className="flex gap-1 mt-1">
@@ -438,10 +437,10 @@ export default async function HomePage() {
 
       <div className="max-w-7xl mx-auto px-3 xs:px-4 py-4 xs:py-6 space-y-6 xs:space-y-8 sm:space-y-10">
 
-        {/* ═══ FEATURED CATEGORIES (Dubizzle-inspired large tiles) ═══ */}
+        {/* ═══ FEATURED CATEGORIES ═══ */}
         <FeaturedCategories />
 
-        {/* ═══ FEATURED DEAL — AUTO‑ROTATING CAROUSEL (8 cards, rotates every 30s) ═══ */}
+        {/* ═══ FEATURED DEAL — AUTO‑ROTATING CAROUSEL ═══ */}
         <section className="animate-fade-up">
           <div className="flex items-center justify-between mb-3 xs:mb-4">
             <div>
@@ -452,7 +451,7 @@ export default async function HomePage() {
           <FeaturedDealCarousel initialCards={featuredCards} />
         </section>
 
-        {/* ═══ ELITE DROPS (Premium countdown section) ═══ */}
+        {/* ═══ ELITE DROPS ═══ */}
         <FlashDeals listings={flashListings} />
 
         {/* ═══ BROWSE ALL CATEGORIES ═══ */}
@@ -472,7 +471,7 @@ export default async function HomePage() {
           </section>
         )}
 
-        {/* ═══ LATEST LISTINGS (Jiji-style trending feed) — with 24 beautiful placeholders (6 per row) ═══ */}
+        {/* ═══ LATEST LISTINGS — with 24 placeholders (6 per row) ═══ */}
         <section>
           <div className="flex items-center justify-between mb-3 xs:mb-4">
             <div>
@@ -487,7 +486,6 @@ export default async function HomePage() {
           {(latestCollections.length > 0 ? latestCollections : listings).length > 0 ? (
             <ListingGrid listings={latestCollections.length > 0 ? latestCollections : listings} />
           ) : (
-            /* 24 placeholders – now 6 per row on large screens */
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
               {latestPlaceholders.map((item) => (
                 <Link key={item.id} href="/listings" className="block group">
@@ -507,7 +505,7 @@ export default async function HomePage() {
                       <h3 className="text-sm font-bold text-gray-900 line-clamp-2 mb-2">{item.title}</h3>
                       <div className="flex items-center gap-2">
                         <span className="text-gray-400 line-through text-xs">AED 899</span>
-                        <span className="text-[#0EA5E9] font-extrabold text-base">{item.price}</span>
+                        <span className="text-[#0369a1] font-extrabold text-base">{item.price}</span>
                       </div>
                     </div>
                   </div>
@@ -517,15 +515,15 @@ export default async function HomePage() {
           )}
         </section>
 
-        {/* ═══ MARKET CTAs (Promo banners) ═══ */}
+        {/* ═══ MARKET CTAs ═══ */}
         <PromoBanners />
 
         {/* ═══ QUICK ACTIONS ═══ */}
         <QuickActions />
 
         {/* ═══ SAFETY BANNER ═══ */}
-        <section className="bg-elite-cream border border-elite-gold/15 rounded-xl p-4 xs:p-5 flex flex-col sm:flex-row items-start sm:items-center gap-3 xs:gap-4">
-          <div className="shrink-0 w-10 h-10 xs:w-12 xs:h-12 rounded-xl bg-elite-gold/10 flex items-center justify-center text-2xl">
+        <section className="bg-elite-cream border border-[#0369a1]/15 rounded-xl p-4 xs:p-5 flex flex-col sm:flex-row items-start sm:items-center gap-3 xs:gap-4">
+          <div className="shrink-0 w-10 h-10 xs:w-12 xs:h-12 rounded-xl bg-[#0369a1]/10 flex items-center justify-center text-2xl">
             🛡️
           </div>
           <div className="flex-1 min-w-0">
@@ -537,7 +535,7 @@ export default async function HomePage() {
           </div>
           <Link
             href="/safety"
-            className="shrink-0 text-xs font-semibold text-elite-navy bg-elite-gold/10 hover:bg-elite-gold/20 border border-elite-gold/20 px-3 py-1.5 rounded-lg transition-colors interactive"
+            className="shrink-0 text-xs font-semibold text-elite-navy bg-[#0369a1]/10 hover:bg-[#0369a1]/20 border border-[#0369a1]/20 px-3 py-1.5 rounded-lg transition-colors interactive"
           >
             Safety Tips →
           </Link>
@@ -546,11 +544,11 @@ export default async function HomePage() {
         {/* ═══ GET VERIFIED CTA ═══ */}
         <section className="relative overflow-hidden bg-gradient-to-r from-elite-navy to-elite-charcoal rounded-xl px-4 xs:px-6 py-6 xs:py-8 sm:px-10 text-white">
           <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-            <div className="absolute -top-8 -right-8 w-40 h-40 bg-elite-gold/5 rounded-full blur-2xl" />
-            <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-elite-gold/5 rounded-full blur-2xl" />
+            <div className="absolute -top-8 -right-8 w-40 h-40 bg-[#0369a1]/5 rounded-full blur-2xl" />
+            <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-[#0369a1]/5 rounded-full blur-2xl" />
           </div>
           <div className="relative flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
-            <div className="shrink-0 w-14 h-14 xs:w-16 xs:h-16 bg-elite-gold/15 rounded-2xl flex items-center justify-center text-3xl">
+            <div className="shrink-0 w-14 h-14 xs:w-16 xs:h-16 bg-[#0369a1]/15 rounded-2xl flex items-center justify-center text-3xl">
               ✅
             </div>
             <div className="text-center sm:text-left flex-1">
@@ -560,14 +558,14 @@ export default async function HomePage() {
                 exclusive pricing, and a trust badge on every listing.
               </p>
               <div className="flex flex-wrap justify-center sm:justify-start gap-2 mt-2 xs:mt-3 text-xs text-white/60">
-                <span className="flex items-center gap-1"><span className="text-elite-gold">✓</span> Priority access</span>
-                <span className="flex items-center gap-1"><span className="text-elite-gold">✓</span> Verified badge</span>
-                <span className="flex items-center gap-1"><span className="text-elite-gold">✓</span> Member pricing</span>
+                <span className="flex items-center gap-1"><span className="text-[#0369a1]">✓</span> Priority access</span>
+                <span className="flex items-center gap-1"><span className="text-[#0369a1]">✓</span> Verified badge</span>
+                <span className="flex items-center gap-1"><span className="text-[#0369a1]">✓</span> Member pricing</span>
               </div>
             </div>
             <Link
               href="/auth/register"
-              className="shrink-0 bg-elite-gold text-elite-navy font-bold px-5 py-2.5 rounded-xl hover:bg-elite-gold-light transition-all interactive shadow-lg hover:shadow-xl hover:-translate-y-0.5 text-sm whitespace-nowrap"
+              className="shrink-0 bg-[#0369a1] text-white font-bold px-5 py-2.5 rounded-xl hover:bg-[#0284c7] transition-all interactive shadow-lg hover:shadow-xl hover:-translate-y-0.5 text-sm whitespace-nowrap"
             >
               Join Now
             </Link>
@@ -583,8 +581,8 @@ export default async function HomePage() {
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4 stagger-children">
             {features.map((f) => (
               <div key={f.title} className="text-center group">
-                <div className={`w-10 h-10 xs:w-12 xs:h-12 mx-auto mb-2 xs:mb-3 rounded-lg bg-gradient-to-br ${f.color} flex items-center justify-center text-xl xs:text-2xl shadow-md group-hover:scale-110 transition-transform duration-300 border border-elite-gold/20`}>
-                  <span className="text-elite-gold">{f.icon}</span>
+                <div className={`w-10 h-10 xs:w-12 xs:h-12 mx-auto mb-2 xs:mb-3 rounded-lg bg-gradient-to-br ${f.color} flex items-center justify-center text-xl xs:text-2xl shadow-md group-hover:scale-110 transition-transform duration-300 border border-[#0369a1]/20`}>
+                  <span className="text-[#0369a1]">{f.icon}</span>
                 </div>
                 <h3 className="font-bold text-elite-navy text-xs xs:text-sm mb-0.5 xs:mb-1">{f.title}</h3>
                 <p className="text-[10px] xs:text-xs text-gray-500 leading-relaxed">{f.desc}</p>
@@ -596,8 +594,8 @@ export default async function HomePage() {
         {/* ═══ POST AD CTA ═══ */}
         <section className="relative overflow-hidden bg-gradient-to-r from-elite-navy to-elite-charcoal rounded-lg px-4 xs:px-6 py-6 xs:py-8 sm:px-10 text-white text-center">
           <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-            <div className="absolute top-0 left-1/4 w-24 xs:w-32 h-24 xs:h-32 bg-elite-gold/5 rounded-full blur-xl" />
-            <div className="absolute bottom-0 right-1/4 w-32 xs:w-40 h-32 xs:h-40 bg-elite-gold/5 rounded-full blur-xl" />
+            <div className="absolute top-0 left-1/4 w-24 xs:w-32 h-24 xs:h-32 bg-[#0369a1]/5 rounded-full blur-xl" />
+            <div className="absolute bottom-0 right-1/4 w-32 xs:w-40 h-32 xs:h-40 bg-[#0369a1]/5 rounded-full blur-xl" />
           </div>
           <div className="relative">
             <p className="text-3xl xs:text-4xl mb-2 xs:mb-3">✦</p>
@@ -607,7 +605,7 @@ export default async function HomePage() {
             </p>
             <Link
               href="/listings/create"
-              className="inline-flex items-center gap-2 bg-elite-gold text-elite-navy font-bold px-6 py-3 rounded-lg hover:bg-elite-gold-light transition-all interactive shadow-lg hover:shadow-xl hover:-translate-y-0.5 border border-elite-gold"
+              className="inline-flex items-center gap-2 bg-[#0369a1] text-white font-bold px-6 py-3 rounded-lg hover:bg-[#0284c7] transition-all interactive shadow-lg hover:shadow-xl hover:-translate-y-0.5 border border-[#0369a1]"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
               Create Listing
