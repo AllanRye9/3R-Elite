@@ -1,6 +1,7 @@
-"use client";
+'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image'; // added for optimized images
 // import { SearchBar } from '@/components/listings/SearchBar';
 
 // ProgressCarousel import removed (unused)
@@ -166,7 +167,8 @@ export default async function HomePage() {
     { id: 'speaker', url: 'https://images.unsplash.com/photo-1545454677-3538b9c7a5b8?w=500&h=375&fit=crop&auto=format', title: 'Portable Wooden Speaker — Deep bass' },
   ];
 
-  placeholderImages.forEach((img, index) => {
+  // Removed unused 'index' parameter
+  placeholderImages.forEach((img) => {
     featuredCards.push(
       <FeaturedProductCard
         key={`placeholder-${img.id}`}
@@ -491,11 +493,13 @@ export default async function HomePage() {
                 <Link key={item.id} href="/listings" className="block group">
                   <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300">
                     <div className="aspect-[4/3] relative overflow-hidden bg-gray-50">
-                      <img
+                      <Image
                         src={item.img}
                         alt={item.title}
+                        width={500}
+                        height={375}
                         loading="lazy"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
                     <div className="p-3">
