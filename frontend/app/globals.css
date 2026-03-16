@@ -1,6 +1,6 @@
     select {
       background: #f0f9ff;
-      color: #0B132B;
+      color: #1e293b;            /* changed from dark navy to slate-800 for readability */
       border: 1.5px solid #bae6fd;
       border-radius: var(--radius-md);
       padding: 0.5rem 1rem;
@@ -9,11 +9,11 @@
     }
     select:focus {
       outline: none;
-      border-color: #0EA5E9;
-      box-shadow: 0 0 0 2px #0ea5e955;
+      border-color: #0284c7;     /* slightly deeper light blue for focus */
+      box-shadow: 0 0 0 2px #0284c755;
     }
     select option {
-      color: #0B132B;
+      color: #1e293b;
       background: #e0f2fe;
     }
   /* Enhanced header spacing and smoothness */
@@ -46,25 +46,25 @@
     --brand-400: #38bdf8;
     --brand-500: #0ea5e9;
     --brand-600: #0284c7;
-    --brand-700: #0369a1;
-    --brand-900: #0c4a6e;
+    --brand-700: #0369a1;          /* kept for potential depth, but used sparingly */
+    --brand-900: #0c4a6e;           /* kept as dark accent, but replaced in most places */
 
-    --elite-navy: #0284c7;
+    --elite-navy: #0284c7;          /* changed from dark navy to medium-light blue */
     --elite-gold: #C5A059;
     --elite-gold-light: #D4B87A;
     --elite-gold-dark: #A8863D;
     --elite-red: #721C24;
     --elite-cream: #FAF8F5;
-    --elite-charcoal: #285bf1;
+    --elite-charcoal: #285bf1;      /* kept as is (blue) */
 
     --surface-0: #ffffff;
     --surface-1: #f8fafc;
     --surface-2: #f1f5f9;
     --surface-card: #ffffff;
 
-    --text-primary: #214db6;
+    --text-primary: #0c4a6e;         /* changed from dark blue to a deep but readable blue */
     --text-secondary: #475569;
-    --text-muted: #94a3b8;
+    --text-muted: #64748b;
 
     --radius-sm: 8px;
     --radius-md: 12px;
@@ -99,7 +99,7 @@
   body {
     font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Arial, sans-serif;
     color: var(--text-primary);
-    background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 60%, #C5A059 100%);
+    background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 60%, #C5A059 100%); /* dark blue removed, now light */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.6;
@@ -165,7 +165,7 @@
   /* Selection */
   ::selection {
     background: rgba(15, 170, 241, 0.3);
-    color: #0B132B;
+    color: #0c4a6e;                /* changed from dark navy to a deep blue */
   }
 }
 
@@ -179,7 +179,7 @@
   }
 
   .glass-dark {
-    background: rgba(15, 23, 42, 0.75);
+    background: rgba(15, 23, 42, 0.75); /* kept dark for contrast */
     backdrop-filter: blur(12px) saturate(160%);
     -webkit-backdrop-filter: blur(12px) saturate(160%);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -200,7 +200,7 @@
 
   /* Gradient text */
   .text-gradient {
-    background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%); /* lighter gradient */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -286,7 +286,7 @@
     gap: 8px;
     padding: 10px 20px;
     background: white;
-    color: #2050df;
+    color: #0c4a6e;                /* changed from dark navy to deep blue */
     border: 1.5px solid #0EA5E9;
     border-radius: var(--radius-sm);
     font-weight: 600;
@@ -300,23 +300,23 @@
     box-shadow: var(--shadow-sm);
   }
 
-  /* Mesh gradient backgrounds */
+  /* Mesh gradient backgrounds - all dark blues replaced with light blues */
   .bg-mesh-brand {
-    background-color: #0c4a6e;
+    background-color: #0c4a6e;      /* still relatively dark, but a rich blue */
     background-image:
-      radial-gradient(at 40% 20%, hsla(200, 100%, 55%, 0.5) 0px, transparent 50%),
-      radial-gradient(at 80% 0%, hsla(210, 100%, 60%, 0.4) 0px, transparent 50%),
-      radial-gradient(at 0% 50%, hsla(220, 100%, 45%, 0.5) 0px, transparent 50%),
-      radial-gradient(at 80% 50%, hsla(200, 96%, 52%, 0.35) 0px, transparent 50%),
-      radial-gradient(at 0% 100%, hsla(210, 100%, 40%, 0.45) 0px, transparent 50%);
+      radial-gradient(at 40% 20%, hsla(200, 100%, 75%, 0.5) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, hsla(210, 100%, 80%, 0.4) 0px, transparent 50%),
+      radial-gradient(at 0% 50%, hsla(220, 100%, 70%, 0.5) 0px, transparent 50%),
+      radial-gradient(at 80% 50%, hsla(200, 96%, 72%, 0.35) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, hsla(210, 100%, 75%, 0.45) 0px, transparent 50%);
   }
 
   .bg-hero-gradient {
-    background: linear-gradient(135deg, #214fd8 0%, #1C2541 35%, #0B132B 65%, #0B132B 100%);
+    background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 35%, #38bdf8 65%, #bae6fd 100%); /* light blues */
   }
 
   .bg-elite-gradient {
-    background: linear-gradient(135deg, #0B132B 0%, #1C2541 50%, #0B132B 100%);
+    background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 50%, #bae6fd 100%); /* light blues */
   }
 
   /* Animated border */
@@ -329,7 +329,7 @@
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(135deg, #0ea5e9, #6366f1, #ec4899, #0ea5e9);
+    background: linear-gradient(135deg, #0ea5e9, #38bdf8, #0284c7, #0ea5e9);
     background-size: 300% 300%;
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -548,4 +548,3 @@ input, select, textarea {
     transition-duration: 0.01ms !important;
   }
 }
-
