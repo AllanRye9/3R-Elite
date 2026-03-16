@@ -1,7 +1,9 @@
-'use client';
+"use client";
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 // import { SearchBar } from '@/components/listings/SearchBar';
+
+// ProgressCarousel import removed (unused)
 import { CategoryNav } from '@/components/listings/CategoryNav';
 import { ListingGrid } from '@/components/listings/ListingGrid';
 import HeroSlideshow from '@/components/ui/HeroSlideshow';
@@ -17,6 +19,7 @@ import QuickActions from '@/components/ui/QuickActions';
 import TestimonialSection from '@/components/ui/TestimonialSection';
 import ReviewPortalCTA from '@/components/ui/ReviewPortalCTA';
 import type { Category } from '@/lib/types';
+
 
 function FeaturedDealCarousel({ initialCards }: { initialCards: React.ReactNode[] }) {
   const [cards, setCards] = useState(initialCards);
@@ -177,7 +180,7 @@ export default async function HomePage() {
     );
   });
 
-  // ---------- LARGE PLACEHOLDER DATASET FOR LATEST COLLECTIONS (24 items) ----------
+  // ---------- LARGE PLACEHOLDER DATASET FOR LATEST COLLECTIONS (24 items, all working Unsplash URLs) ----------
   const latestPlaceholders = [
     { id: 'ph1', title: 'Premium Wireless Headphones', price: 'AED 449', img: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=375&fit=crop&auto=format' },
     { id: 'ph2', title: 'Minimalist Chronograph — Edition 2025', price: 'AED 449', img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=375&fit=crop&auto=format' },
@@ -467,7 +470,7 @@ export default async function HomePage() {
           </section>
         )}
 
-        {/* ═══ LATEST LISTINGS (Jiji-style trending feed) — with 24 beautiful placeholders if no data ═══ */}
+        {/* ═══ LATEST LISTINGS (Jiji-style trending feed) — with 24 beautiful placeholders (6 per row) ═══ */}
         <section>
           <div className="flex items-center justify-between mb-3 xs:mb-4">
             <div>
@@ -482,8 +485,8 @@ export default async function HomePage() {
           {(latestCollections.length > 0 ? latestCollections : listings).length > 0 ? (
             <ListingGrid listings={latestCollections.length > 0 ? latestCollections : listings} />
           ) : (
-            /* ---------- 24 BEAUTIFUL PLACEHOLDER CARDS (instead of skeletons) ---------- */
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+            /* 24 placeholders – now 6 per row on large screens */
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
               {latestPlaceholders.map((item) => (
                 <Link key={item.id} href="/listings" className="block group">
                   <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300">
