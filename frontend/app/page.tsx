@@ -164,8 +164,13 @@ export default async function HomePage() {
     { id: 'sunglasses', url: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=500&h=375&fit=crop&auto=format', title: 'Polarized Aviator — 100% UV protection' },
     { id: 'mug', url: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=500&h=375&fit=crop&auto=format', title: 'Minimalist Ceramic Mug — 350ml' },
     { id: 'camera', url: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500&h=375&fit=crop&auto=format', title: 'Vintage Rangefinder — Leather edition' },
-    { id: 'speaker', url: 'https://images.unsplash.com/photo-1545454677-3538b9c7a5b8?w=500&h=375&fit=crop&auto=format', title: 'Portable Wooden Speaker — Deep bass' },
-  ];
+    {
+      id: 'speaker',
+      url: 'https://images.unsplash.com/photo-1545454677-3538b9c7a5b8?w=500&h=375&fit=crop&auto=format',
+      title: 'Portable Wooden Speaker — Deep bass',
+      price: 'AED 449',
+      href: '/listings/audio/portable-wooden-speaker-deep-bass'
+    },];
 
   placeholderImages.forEach((img) => {
     featuredCards.push(
@@ -190,24 +195,49 @@ export default async function HomePage() {
     { id: 'ph5', title: 'Polarized Aviator Sunglasses', price: 'AED 449', img: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=500&h=375&fit=crop&auto=format' },
     { id: 'ph6', title: 'Minimalist Ceramic Mug', price: 'AED 449', img: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=500&h=375&fit=crop&auto=format' },
     { id: 'ph7', title: 'Vintage Rangefinder Camera', price: 'AED 449', img: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500&h=375&fit=crop&auto=format' },
-    { id: 'ph8', title: 'Wooden Bluetooth Speaker', price: 'AED 449', img: 'https://images.unsplash.com/photo-1545454677-3538b9c7a5b8?w=500&h=375&fit=crop&auto=format' },
-    { id: 'ph9', title: 'Ultra-Slim Laptop Stand', price: 'AED 249', img: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=500&h=375&fit=crop&auto=format' },
+    {
+      id: 'ph8',
+      title: 'Wooden Bluetooth Speaker',
+      price: 'AED 449',
+      img: 'https://images.unsplash.com/photo-1545454677-3538b9c7a5b8?w=500&h=375&fit=crop&auto=format',
+      href: '/listings/electronics/wooden-bluetooth-speaker'
+    }, { id: 'ph9', title: 'Ultra-Slim Laptop Stand', price: 'AED 249', img: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=500&h=375&fit=crop&auto=format' },
     { id: 'ph10', title: 'Mechanical Keyboard – Cherry MX', price: 'AED 599', img: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=500&h=375&fit=crop&auto=format' },
     { id: 'ph11', title: 'Noise-Cancelling Earbuds', price: 'AED 399', img: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500&h=375&fit=crop&auto=format' },
-    { id: 'ph12', title: 'Smart Watch – Fitness Edition', price: 'AED 799', img: 'https://images.unsplash.com/photo-1546868871-0f936fb4f870?w=500&h=375&fit=crop&auto=format' },
-    { id: 'ph13', title: 'Leather Messenger Bag', price: 'AED 649', img: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&h=375&fit=crop&auto=format' },
+    {
+      id: 'ph12',
+      title: 'Smart Watch – Fitness Edition',
+      price: 'AED 799',
+      img: 'https://images.unsplash.com/photo-1546868871-0f936fb4f870?w=500&h=375&fit=crop&auto=format',
+      href: '/listings/electronics/smart-watch-fitness'
+    }, { id: 'ph13', title: 'Leather Messenger Bag', price: 'AED 649', img: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&h=375&fit=crop&auto=format' },
     { id: 'ph14', title: 'Aviator Sunglasses – Gold', price: 'AED 529', img: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=500&h=375&fit=crop&auto=format' },
-    { id: 'ph15', title: 'Espresso Machine – Silver', price: 'AED 1,299', img: 'https://images.unsplash.com/photo-1522012189487-2f7b3b8f5b2a?w=500&h=375&fit=crop&auto=format' },
-    { id: 'ph16', title: 'Yoga Mat – Premium Grip', price: 'AED 189', img: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=500&h=375&fit=crop&auto=format' },
+    {
+      id: 'ph15',
+      title: 'Espresso Machine – Silver',
+      price: 'AED 1,299',
+      img: 'https://images.unsplash.com/photo-1522012189487-2f7b3b8f5b2a?w=500&h=375&fit=crop&auto=format',
+      href: '/listings/appliances/espresso-machine-silver'
+    }, { id: 'ph16', title: 'Yoga Mat – Premium Grip', price: 'AED 189', img: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=500&h=375&fit=crop&auto=format' },
     { id: 'ph17', title: 'Desk Lamp – Adjustable', price: 'AED 279', img: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500&h=375&fit=crop&auto=format' },
     { id: 'ph18', title: 'Stainless Steel Water Bottle', price: 'AED 149', img: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&h=375&fit=crop&auto=format' },
     { id: 'ph19', title: 'Leather Wallet – RFID Blocking', price: 'AED 329', img: 'https://images.unsplash.com/photo-1627123424574-724758594e93?w=500&h=375&fit=crop&auto=format' },
     { id: 'ph20', title: 'Portable Power Bank – 20,000mAh', price: 'AED 219', img: 'https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500&h=375&fit=crop&auto=format' },
     { id: 'ph21', title: 'Fitness Tracker – Heart Rate', price: 'AED 349', img: 'https://images.unsplash.com/photo-1576243345690-4e4b79b63288?w=500&h=375&fit=crop&auto=format' },
-    { id: 'ph22', title: 'Wireless Charging Pad', price: 'AED 189', img: 'https://images.unsplash.com/photo-1586816879360-004f5b0c51e3?w=500&h=375&fit=crop&auto=format' },
-    { id: 'ph23', title: 'Leather Journal – A5', price: 'AED 159', img: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=500&h=375&fit=crop&auto=format' },
-    { id: 'ph24', title: 'Ceramic Vase – Minimalist', price: 'AED 229', img: 'https://images.unsplash.com/photo-1612196808214-b7e239f5c5e8?w=500&h=375&fit=crop&auto=format' },
-  ];
+    {
+      id: 'ph22',
+      title: 'Wireless Charging Pad',
+      price: 'AED 189',
+      img: 'https://images.unsplash.com/photo-1586816879360-004f5b0c51e3?w=500&h=375&fit=crop&auto=format',
+      href: '/listings/electronics/wireless-charging-pad'
+    }, { id: 'ph23', title: 'Leather Journal – A5', price: 'AED 159', img: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=500&h=375&fit=crop&auto=format' },
+    {
+      id: 'ph24',
+      title: 'Ceramic Vase – Minimalist',
+      price: 'AED 229',
+      img: 'https://images.unsplash.com/photo-1612196808214-b7e239f5c5e8?w=500&h=375&fit=crop&auto=format',
+      href: '/listings/home-decor/ceramic-vase-minimalist'
+    },];
 
   return (
     <div className="animate-fade-in">
