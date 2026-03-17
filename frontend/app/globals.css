@@ -62,9 +62,9 @@
     --surface-2: #f1f5f9;
     --surface-card: #ffffff;
 
-    --text-primary: #0c4a6e;         /* changed from dark blue to a deep but readable blue */
-    --text-secondary: #475569;
-    --text-muted: #64748b;
+    --text-primary: #111827;         /* near-black (gray-900) for readability */
+    --text-secondary: #374151;       /* gray-700 */
+    --text-muted: #6b7280;           /* gray-500 */
 
     --radius-sm: 8px;
     --radius-md: 12px;
@@ -165,7 +165,7 @@
   /* Selection */
   ::selection {
     background: rgba(15, 170, 241, 0.3);
-    color: #0c4a6e;                /* changed from dark navy to a deep blue */
+    color: #111827;                /* near-black (gray-900) */
   }
 }
 
@@ -286,7 +286,7 @@
     gap: 8px;
     padding: 10px 20px;
     background: white;
-    color: #0c4a6e;                /* changed from dark navy to deep blue */
+    color: #111827;                /* near-black (gray-900) */
     border: 1.5px solid #0EA5E9;
     border-radius: var(--radius-sm);
     font-weight: 600;
