@@ -8,6 +8,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useCountry } from '@/context/CountryContext';
 import { api } from '@/lib/api';
 import { Category } from '@/lib/types';
+import CategoryPicker from '@/components/ui/CategoryPicker';
 
 export default function CreateListingPage() {
   const { user, loading } = useAuth();
@@ -188,21 +189,11 @@ export default function CreateListingPage() {
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Category *</label>
-          <select
+          <CategoryPicker
+            categories={categories}
             value={form.categoryId}
-            onChange={(e) => setForm({ ...form, categoryId: e.target.value })}
-            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-sky-400"
-          >
-            <option value="">Select a category</option>
-            {categories.map((cat) => (
-              <optgroup key={cat.id} label={`${cat.icon || ''} ${cat.name}`}>
-                <option value={cat.id}>{cat.name}</option>
-                {cat.children?.map((sub) => (
-                  <option key={sub.id} value={sub.id}>  └ {sub.name}</option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
+            onChange={(id) => setForm({ ...form, categoryId: id })}
+          />
         </div>
 
         <div>
