@@ -9,9 +9,9 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Roboto', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Arial', 'sans-serif'],
-        display: ['Roboto', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
-        serif: ['Georgia', 'Playfair Display', 'Times New Roman', 'serif'],
+        sans: ['var(--font-inter)', 'ui-sans-serif', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        display: ['var(--font-inter)', 'ui-sans-serif', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        serif: ['var(--font-playfair)', 'Playfair Display', 'Georgia', 'Times New Roman', 'serif'],
       },
       colors: {
         background: "var(--background)",
@@ -29,13 +29,13 @@ const config: Config = {
           900: '#0c4a6e',
         },
         elite: {
-          navy: '#0B132B',
+          navy: '#0369a1',
           gold: '#C5A059',
           'gold-light': '#D4B87A',
           'gold-dark': '#A8863D',
           red: '#721C24',
           cream: '#FAF8F5',
-          charcoal: '#1C2541',
+          charcoal: '#0284c7',
         },
         theme: {
           DEFAULT: '#0EA5E9',

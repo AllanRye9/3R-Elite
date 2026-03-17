@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Roboto, Playfair_Display } from 'next/font/google'; // 1. Import the fonts
+import localFont from 'next/font/local';
 import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
 import { CountryProvider } from '@/context/CountryContext';
@@ -8,18 +8,19 @@ import Footer from '@/components/layout/Footer';
 import { MobileBottomNav } from '@/components/layout/MobileBottomNav';
 import { ToastProvider } from '@/components/ui/Toast';
 
-// 2. Configure the fonts
-const roboto = Roboto({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '700', '900'],
-  variable: '--font-roboto',
+// Primary font: Geist Variable — clean modern sans-serif, bundled locally
+const geist = localFont({
+  src: './fonts/GeistVF.woff',
+  variable: '--font-inter', // keep the CSS variable name so Tailwind `font-sans` picks it up
+  weight: '100 900',
   display: 'swap',
 });
 
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  weight: ['400', '600', '700'],
+// Accent / display font: Geist Mono used as a distinctive serif-style accent
+const geistMono = localFont({
+  src: './fonts/GeistMonoVF.woff',
   variable: '--font-playfair',
+  weight: '100 900',
   display: 'swap',
 });
 
@@ -59,8 +60,8 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      {/* 3. Removed the manual <head> link tags */}
-      <body className={`${roboto.variable} ${playfair.variable} font-sans`}>
+      {/* 3. Font variables injected via body className */}
+      <body className={`${geist.variable} ${geistMono.variable} font-sans`}>
         <CountryProvider>
           <AuthProvider>
             <ToastProvider>

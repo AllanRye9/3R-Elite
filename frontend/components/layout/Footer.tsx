@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="bg-elite-navy text-gray-400">
+    <footer className="bg-gray-900 text-gray-400">
       {/* Main footer content - hidden on mobile, shown on md+ */}
       <div className="hidden md:block">
         <div className="max-w-7xl mx-auto px-4 py-12">

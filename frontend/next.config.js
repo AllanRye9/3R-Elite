@@ -10,6 +10,9 @@ const nextConfig = {
       { protocol: 'https', hostname: '**.railway.app' },
       { protocol: 'https', hostname: '**.onrender.com' },
       { protocol: 'https', hostname: '**.up.railway.app' },
+      { protocol: 'https', hostname: 'randomuser.me' },
+      { protocol: 'https', hostname: '**.randomuser.me' },
+      { protocol: 'https', hostname: 'via.placeholder.com' },
     ],
   },
 };
