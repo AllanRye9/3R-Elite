@@ -9,9 +9,9 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Roboto', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Arial', 'sans-serif'],
-        display: ['Roboto', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
-        serif: ['Georgia', 'Playfair Display', 'Times New Roman', 'serif'],
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        display: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        serif: ['Playfair Display', 'Georgia', 'Times New Roman', 'serif'],
       },
       colors: {
         background: "var(--background)",
@@ -29,13 +29,13 @@ const config: Config = {
           900: '#0c4a6e',
         },
         elite: {
-          navy: '#0B132B',
+          navy: '#0284c7',
           gold: '#C5A059',
           'gold-light': '#D4B87A',
           'gold-dark': '#A8863D',
           red: '#721C24',
           cream: '#FAF8F5',
-          charcoal: '#1C2541',
+          charcoal: '#0369a1',
         },
         theme: {
           DEFAULT: '#0EA5E9',
@@ -99,9 +99,9 @@ const config: Config = {
         'card-hover': '0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.04)',
       },
       backgroundImage: {
-        'hero-gradient': 'linear-gradient(135deg, #0B132B 0%, #1C2541 40%, #0B132B 100%)',
+        'hero-gradient': 'linear-gradient(135deg, #0284c7 0%, #0369a1 40%, #0284c7 100%)',
         'brand-gradient': 'linear-gradient(135deg, #0ea5e9, #0284c7)',
-        'elite-gradient': 'linear-gradient(135deg, #0B132B 0%, #1C2541 50%, #0B132B 100%)',
+        'elite-gradient': 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 50%, #0369a1 100%)',
       },
       screens: {
         'xs': '375px',

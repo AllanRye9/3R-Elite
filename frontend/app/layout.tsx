@@ -1,5 +1,8 @@
 import type { Metadata, Viewport } from 'next';
-import { Roboto, Playfair_Display } from 'next/font/google'; // 1. Import the fonts
+import '@fontsource-variable/inter';
+import '@fontsource/playfair-display/400.css';
+import '@fontsource/playfair-display/600.css';
+import '@fontsource/playfair-display/700.css';
 import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
 import { CountryProvider } from '@/context/CountryContext';
@@ -7,21 +10,6 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { MobileBottomNav } from '@/components/layout/MobileBottomNav';
 import { ToastProvider } from '@/components/ui/Toast';
-
-// 2. Configure the fonts
-const roboto = Roboto({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '700', '900'],
-  variable: '--font-roboto',
-  display: 'swap',
-});
-
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  weight: ['400', '600', '700'],
-  variable: '--font-playfair',
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: '3R-Elite Marketplace - UAE & Uganda',
@@ -60,7 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       {/* 3. Removed the manual <head> link tags */}
-      <body className={`${roboto.variable} ${playfair.variable} font-sans`}>
+      <body className="font-sans">
         <CountryProvider>
           <AuthProvider>
             <ToastProvider>

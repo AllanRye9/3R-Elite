@@ -49,13 +49,13 @@
     --brand-700: #0369a1;          /* kept for potential depth, but used sparingly */
     --brand-900: #0c4a6e;           /* kept as dark accent, but replaced in most places */
 
-    --elite-navy: #0284c7;          /* changed from dark navy to medium-light blue */
+    --elite-navy: #0284c7;          /* sky-600 light blue */
     --elite-gold: #C5A059;
     --elite-gold-light: #D4B87A;
     --elite-gold-dark: #A8863D;
     --elite-red: #721C24;
     --elite-cream: #FAF8F5;
-    --elite-charcoal: #285bf1;      /* kept as is (blue) */
+    --elite-charcoal: #0369a1;      /* sky-700 slightly deeper blue */
 
     --surface-0: #ffffff;
     --surface-1: #f8fafc;
@@ -97,7 +97,7 @@
   }
 
   body {
-    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Arial, sans-serif;
     color: var(--text-primary);
     background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 60%, #C5A059 100%); /* dark blue removed, now light */
     -webkit-font-smoothing: antialiased;
