@@ -9,12 +9,12 @@ export default function Footer() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
             {/* Brand column */}
             <div className="lg:col-span-2">
-              <div className="flex items-center gap-2 mb-3">
+              <Link href="/" className="flex items-center gap-2 mb-3 w-fit hover:opacity-80 transition-opacity">
                 <div className="w-8 h-8 bg-elite-gold/20 rounded-lg flex items-center justify-center font-black text-elite-gold text-sm border border-elite-gold/30">3R</div>
                 <span className="font-extrabold text-white text-lg tracking-tight">
                   <span>3R</span> <span className="font-serif italic text-elite-gold">Elite</span>
                 </span>
-              </div>
+              </Link>
               <p className="text-sm leading-relaxed mb-4 max-w-xs text-gray-300">
                 The premier online marketplace connecting buyers and sellers across UAE and Uganda. Safe, fast, and free to list.
               </p>
@@ -82,12 +82,12 @@ export default function Footer() {
 
       {/* Compact mobile footer - shown only below md */}
       <div className="md:hidden px-4 py-6">
-        <div className="flex items-center justify-center gap-2 mb-4">
+        <Link href="/" className="flex items-center justify-center gap-2 mb-4 hover:opacity-80 transition-opacity">
           <div className="w-7 h-7 bg-elite-gold/20 rounded-lg flex items-center justify-center font-black text-elite-gold text-xs border border-elite-gold/30">3R</div>
           <span className="font-extrabold text-white text-base tracking-tight">
             <span>3R</span> <span className="font-serif italic text-elite-gold">Elite</span>
           </span>
-        </div>
+        </Link>
         <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2.5 text-xs mb-4">
           <Link href="/about" className="text-gray-300 hover:text-elite-gold transition-colors">About</Link>
           <Link href="/blog" className="text-gray-300 hover:text-elite-gold transition-colors">Blog</Link>

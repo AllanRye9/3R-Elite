@@ -41,7 +41,7 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="flex h-screen overflow-hidden font-sans">
+    <div className="flex min-h-full font-sans">
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
@@ -136,7 +136,7 @@ export default function AdminLayout({
           </span>
         </header>
 
-        <main className="flex-1 overflow-y-auto bg-gray-50 p-4 sm:p-6">
+        <main className="flex-1 bg-gray-50 p-4 sm:p-6">
           {children}
         </main>
       </div>
