@@ -11,7 +11,7 @@ function LoginForm() {
   const { success } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirect = searchParams ? searchParams.get('redirect') || '/profile' : '/profile';
+  const redirect = searchParams ? searchParams.get('redirect') || '/' : '/';
   const toastShownRef = useRef(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,7 +21,7 @@ function LoginForm() {
 
   useEffect(() => {
     if (!authLoading && user) {
-      router.replace(redirect);
+      router.replace(user.role === 'ADMIN' ? '/admin' : redirect);
     }
   }, [user, authLoading, router, redirect]);
 
@@ -51,8 +51,8 @@ function LoginForm() {
     setError('');
     setLoading(true);
     try {
-      await login(email, password);
-      router.push(redirect);
+      const loggedInUser = await login(email, password);
+      router.push(loggedInUser.role === 'ADMIN' ? '/admin' : redirect);
     } catch (err: unknown) {
       const axiosErr = err as { response?: { data?: { message?: string } } };
       setError(axiosErr.response?.data?.message || 'Login failed. Please check your credentials.');
