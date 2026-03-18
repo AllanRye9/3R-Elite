@@ -6,8 +6,9 @@ interface Banner {
   cta: string;
   href: string;
   emoji: string;
-  color: string;
+  bgGradient: string;
   cities: string;
+  flag: string;
 }
 
 const banners: Banner[] = [
@@ -16,8 +17,9 @@ const banners: Banner[] = [
     subtitle: 'Discover exclusive listings across the Emirates',
     cta: 'Explore UAE',
     href: '/listings?country=UAE',
-    emoji: '🇦🇪',
-    color: 'from-elite-navy to-elite-charcoal',
+    emoji: '🏙️',
+    flag: '🇦🇪',
+    bgGradient: 'from-[#0284c7] to-[#0369a1]',
     cities: 'Dubai · Abu Dhabi · Sharjah · Ajman',
   },
   {
@@ -25,8 +27,9 @@ const banners: Banner[] = [
     subtitle: 'Explore curated collections from sellers across Uganda',
     cta: 'Explore Uganda',
     href: '/listings?country=UGANDA',
-    emoji: '🇺🇬',
-    color: 'from-elite-charcoal to-elite-navy',
+    emoji: '🌿',
+    flag: '🇺🇬',
+    bgGradient: 'from-[#0369a1] to-[#075985]',
     cities: 'Kampala · Jinja · Gulu · Mbarara',
   },
 ];
@@ -38,32 +41,36 @@ export default function PromoBanners() {
         <Link
           key={banner.title}
           href={banner.href}
-          className={`group relative overflow-hidden rounded-lg xs:rounded-xl p-4 xs:p-5 sm:p-6 bg-gradient-to-br ${banner.color} text-white hover:shadow-xl transition-all duration-300 interactive`}
+          className={`group relative overflow-hidden rounded-xl p-5 sm:p-6 bg-gradient-to-br ${banner.bgGradient} text-white hover:shadow-2xl transition-all duration-300 interactive`}
         >
-          {/* Decorative glow blob */}
+          {/* Reflective gold glow top-right */}
           <div
-            className="absolute -top-8 -right-8 w-32 xs:w-40 h-32 xs:h-40 bg-elite-gold/10 rounded-full blur-2xl group-hover:scale-125 transition-transform duration-500"
+            className="absolute -top-6 -right-6 w-36 xs:w-44 h-36 xs:h-44 bg-elite-gold/20 rounded-full blur-2xl group-hover:scale-125 transition-transform duration-500"
+            aria-hidden="true"
+          />
+          {/* Subtle bottom highlight */}
+          <div
+            className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-elite-gold/60 via-elite-gold to-elite-gold/60"
             aria-hidden="true"
           />
           <div
-            className="absolute bottom-0 left-0 w-24 h-24 bg-elite-gold/5 rounded-full blur-xl"
+            className="absolute bottom-0 left-0 w-28 h-28 bg-white/5 rounded-full blur-xl"
             aria-hidden="true"
           />
 
           <div className="relative">
-            <div
-              className="text-3xl xs:text-4xl mb-2 xs:mb-3 inline-block group-hover:scale-110 transition-transform duration-300"
-              aria-hidden="true"
-            >
-              {banner.emoji}
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-3xl xs:text-4xl" aria-hidden="true">{banner.flag}</span>
+              <span className="text-2xl xs:text-3xl" aria-hidden="true">{banner.emoji}</span>
             </div>
-            <h3 className="text-base xs:text-lg sm:text-xl font-extrabold mb-0.5 xs:mb-1">{banner.title}</h3>
-            <p className="text-white/80 text-[10px] xs:text-xs sm:text-sm mb-1 xs:mb-1.5">{banner.cities}</p>
-            <p className="text-white/70 text-[9px] xs:text-[10px] mb-3 xs:mb-4 hidden sm:block">{banner.subtitle}</p>
+            <h3 className="text-lg xs:text-xl sm:text-2xl font-extrabold mb-1 text-white">{banner.title}</h3>
+            <p className="text-white/90 text-xs xs:text-sm font-medium mb-1">{banner.cities}</p>
+            <p className="text-white/70 text-xs mb-4 hidden sm:block">{banner.subtitle}</p>
 
-            <div className="inline-flex items-center gap-1.5 text-[10px] xs:text-xs font-bold bg-elite-gold/20 hover:bg-elite-gold/30 border border-elite-gold/30 text-elite-gold px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full transition-colors">
+            <div className="inline-flex items-center gap-2 text-xs xs:text-sm font-bold bg-white/15 hover:bg-white/25 border border-white/30 text-white px-3 xs:px-4 py-1.5 xs:py-2 rounded-full transition-colors group-hover:border-elite-gold/60">
+              <span className="text-elite-gold-light">✦</span>
               {banner.cta}
-              <svg className="w-3 h-3 xs:w-3.5 xs:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-3.5 h-3.5 xs:w-4 xs:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
               </svg>
             </div>

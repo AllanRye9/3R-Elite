@@ -9,7 +9,7 @@ function LoginForm() {
   const { login, user, loading: authLoading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirect = searchParams ? searchParams.get('redirect') || '/' : '/';
+  const redirect = searchParams ? searchParams.get('redirect') || '/profile' : '/profile';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
