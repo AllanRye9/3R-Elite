@@ -1,5 +1,3 @@
-'use client';
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 // import { SearchBar } from '@/components/listings/SearchBar';
@@ -15,57 +13,12 @@ import FlashDeals from '@/components/ui/FlashDeals';
 import PromoBanners from '@/components/ui/PromoBanners';
 import CategoryPills from '@/components/ui/CategoryPills';
 import FeaturedProductCard from '@/components/ui/FeaturedProductCard';
+import FeaturedDealCarousel from '@/components/ui/FeaturedDealCarousel';
 import QuickActions from '@/components/ui/QuickActions';
 
 import TestimonialSection from '@/components/ui/TestimonialSection';
 import ReviewPortalCTA from '@/components/ui/ReviewPortalCTA';
 import type { Category } from '@/lib/types';
-
-
-
-function FeaturedDealCarousel({ initialCards }: { initialCards: React.ReactNode[] }) {
-  const [cards, setCards] = useState(initialCards);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCards(prev => {
-        if (prev.length <= 1) return prev;
-        const [first, ...rest] = prev;
-        return [...rest, first];
-      });
-    }, 30000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <div className="overflow-x-auto scrollable-x">
-      <style jsx>{`
-        .scrollable-x {
-          scrollbar-width: thin;
-          scrollbar-color: #cbd5e1 #f1f5f9;
-        }
-        .scrollable-x::-webkit-scrollbar {
-          height: 6px;
-        }
-        .scrollable-x::-webkit-scrollbar-track {
-          background: #f1f5f9;
-          border-radius: 20px;
-        }
-        .scrollable-x::-webkit-scrollbar-thumb {
-          background: #cbd5e1;
-          border-radius: 20px;
-        }
-        .scrollable-x::-webkit-scrollbar-thumb:hover {
-          background: #94a3b8;
-        }
-      `}</style>
-      <div className="flex gap-4 w-[900px] max-w-full">
-        {cards}
-      </div>
-    </div>
-  );
-}
 
 async function getHomeData() {
   try {

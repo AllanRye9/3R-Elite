@@ -222,14 +222,21 @@ export default function CategoryBar() {
         <Suspense
           fallback={
             <div className="flex gap-2 overflow-x-auto no-scrollbar py-0.5">
+              <Link
+                href="/listings"
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] font-semibold whitespace-nowrap text-white/85 hover:text-white hover:bg-white/10 transition-all interactive"
+              >
+                All
+              </Link>
               {topCategories.map((cat) => (
-                <div
+                <Link
                   key={cat.label}
-                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] font-semibold whitespace-nowrap text-white/80"
+                  href={cat.href}
+                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] font-semibold whitespace-nowrap text-white/85 hover:text-white hover:bg-white/10 transition-all interactive"
                 >
                   <span aria-hidden="true">{cat.icon}</span>
                   {cat.label}
-                </div>
+                </Link>
               ))}
             </div>
           }

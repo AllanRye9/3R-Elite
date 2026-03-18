@@ -54,7 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <ToastProvider>
               <div className="min-h-screen flex flex-col bg-white">
                 <Header />
-                <main className="flex-1 pt-2 has-bottom-nav md:pb-0">
+                <main className="flex-1 pt-0 has-bottom-nav md:pb-0">
                   {children}
                 </main>
                 <Footer />
