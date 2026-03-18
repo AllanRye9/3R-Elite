@@ -219,32 +219,70 @@ export default function ListingDetailPage() {
             </Link>
           </div>
 
-          {/* Contact */}
+          {/* Contact / Add to Cart */}
           {listing.status === 'ACTIVE' && (
             <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-              <h2 className="font-bold text-gray-900 mb-3 text-sm">Contact Seller</h2>
-              <ContactSellerModal listing={listing} />
-              <div className="flex gap-2 mt-3">
-                <button
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-semibold border-2 border-brand-600 text-brand-600 hover:bg-brand-50 transition-colors interactive"
-                  onClick={() => alert('Make Offer feature coming soon!')}
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                  </svg>
-                  Make Offer
-                </button>
-                <button
-                  className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold border border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-rose-300 hover:text-rose-500 transition-colors interactive"
-                  onClick={() => alert('Add to Wishlist feature coming soon!')}
-                  aria-label="Add to Wishlist"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                  </svg>
-                  Save
-                </button>
-              </div>
+              {listing.user.role === 'ADMIN' ? (
+                <>
+                  <h2 className="font-bold text-gray-900 mb-3 text-sm">Purchase</h2>
+                  <button
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold bg-sky-500 hover:bg-sky-600 text-white transition-colors interactive shadow-sm"
+                    onClick={() => alert('Add to Cart feature coming soon!')}
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    Add to Cart
+                  </button>
+                  <div className="flex gap-2 mt-3">
+                    <button
+                      className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-semibold border-2 border-brand-600 text-brand-600 hover:bg-brand-50 transition-colors interactive"
+                      onClick={() => alert('Make Offer feature coming soon!')}
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                      </svg>
+                      Make Offer
+                    </button>
+                    <button
+                      className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold border border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-rose-300 hover:text-rose-500 transition-colors interactive"
+                      onClick={() => alert('Add to Wishlist feature coming soon!')}
+                      aria-label="Add to Wishlist"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                      </svg>
+                      Save
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h2 className="font-bold text-gray-900 mb-3 text-sm">Contact Seller</h2>
+                  <ContactSellerModal listing={listing} />
+                  <div className="flex gap-2 mt-3">
+                    <button
+                      className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-semibold border-2 border-brand-600 text-brand-600 hover:bg-brand-50 transition-colors interactive"
+                      onClick={() => alert('Make Offer feature coming soon!')}
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                      </svg>
+                      Make Offer
+                    </button>
+                    <button
+                      className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold border border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-rose-300 hover:text-rose-500 transition-colors interactive"
+                      onClick={() => alert('Add to Wishlist feature coming soon!')}
+                      aria-label="Add to Wishlist"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                      </svg>
+                      Save
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           )}
 

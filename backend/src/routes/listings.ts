@@ -179,7 +179,7 @@ router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
       where: { id: req.params.id },
       include: {
         category: true,
-        user: { select: { id: true, name: true, avatar: true, phone: true, country: true, createdAt: true } },
+        user: { select: { id: true, name: true, avatar: true, phone: true, country: true, createdAt: true, role: true } },
         productImages: {
           where: { status: 'APPROVED' },
           select: { id: true, cdnUrl: true, uploadedAt: true },
