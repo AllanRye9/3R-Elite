@@ -1,5 +1,6 @@
 'use client';
 
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Listing } from '@/lib/types';
@@ -12,10 +13,22 @@ interface Props {
   showFavorite?: boolean;
 }
 
+const FALLBACK_IMG = (id: string) => `https://picsum.photos/seed/${encodeURIComponent(id)}/400/300`;
+
 export function ListingCard({ listing, showFavorite = true }: Props) {
-  const imageUrl = listing.images?.[0] || `https://picsum.photos/seed/${listing.id}/400/300`;
+  const [imgSrc, setImgSrc] = useState(
+    listing.images?.[0] || FALLBACK_IMG(listing.id)
+  );
+  const [imgFailed, setImgFailed] = useState(false);
   const countryLabel = listing.country === 'UAE' ? 'UAE' : 'Uganda';
   const countryFlag = listing.country === 'UAE' ? 'AE' : 'UG';
+
+  const handleImgError = () => {
+    if (!imgFailed) {
+      setImgFailed(true);
+      setImgSrc(FALLBACK_IMG(listing.id));
+    }
+  };
 
   return (
     <div className="group bg-white rounded-lg xs:rounded-xl border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1 hover:border-sky-100">
@@ -23,11 +36,13 @@ export function ListingCard({ listing, showFavorite = true }: Props) {
       <div className="relative aspect-[4/3] overflow-hidden bg-gray-50">
         <Link href={`/listings/${listing.id}`} className="block h-full" tabIndex={-1}>
           <Image
-            src={imageUrl}
+            src={imgSrc}
             alt={listing.title}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
             sizes="(max-width: 374px) 50vw, (max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            onError={handleImgError}
+            unoptimized={imgFailed}
           />
         </Link>
 

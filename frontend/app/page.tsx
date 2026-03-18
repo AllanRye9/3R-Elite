@@ -69,27 +69,31 @@ function FeaturedDealCarousel({ initialCards }: { initialCards: React.ReactNode[
 
 async function getHomeData() {
   try {
-    const [catRes, listingRes, flashRes, featuredRes, latestCollRes] = await Promise.all([
+    const [catRes, listingRes, flashRes, featuredRes, latestCollRes, statsRes] = await Promise.all([
       fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/categories`, { next: { revalidate: 3600 } }),
       fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/listings?limit=8&sort=createdAt`, { next: { revalidate: 60 } }),
       fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/listings?limit=8&sort=views`, { next: { revalidate: 120 } }),
       fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/listings/featured-deal`, { next: { revalidate: 30 } }),
       fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/listings/latest-collections`, { next: { revalidate: 30 } }),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/stats`, { next: { revalidate: 300 } }),
     ]);
     const categories: Category[] = catRes.ok ? await catRes.json() : [];
     const listingData = listingRes.ok ? await listingRes.json() : { listings: [] };
     const flashData = flashRes.ok ? await flashRes.json() : { listings: [] };
     const featuredDeal = featuredRes.ok ? await featuredRes.json() : null;
     const latestCollData = latestCollRes.ok ? await latestCollRes.json() : { listings: [] };
+        const stats: { activeListings: number; totalUsers: number; totalListings: number; countries: number } | null =
+          statsRes.ok ? await statsRes.json() : null;
     return {
       categories,
       listings: listingData.listings || [],
       flashListings: flashData.listings || [],
       featuredDeal,
       latestCollections: latestCollData.listings || [],
+      stats,
     };
   } catch {
-    return { categories: [], listings: [], flashListings: [], featuredDeal: null, latestCollections: [] };
+    return { categories: [], listings: [], flashListings: [], featuredDeal: null, latestCollections: [], stats: null };
   }
 }
 
@@ -123,7 +127,13 @@ const features = [
 const heroQuickLinks = ['Fine Timepieces', 'Designer Apparel', 'Tech Innovations', 'Bespoke Home', 'Luxury Vehicles'] as const;
 
 export default async function HomePage() {
-  const { categories, listings, flashListings, featuredDeal, latestCollections } = await getHomeData();
+  const { categories, listings, flashListings, featuredDeal, latestCollections, stats } = await getHomeData();
+
+  const fmtStat = (n: number) => {
+    if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
+    if (n >= 1_000) return `${(n / 1_000).toFixed(n >= 10_000 ? 0 : 1)}K`;
+    return n.toLocaleString();
+  };
 
   // Prepare cards for the rotating carousel
   const featuredCards: React.ReactNode[] = [];
@@ -269,8 +279,8 @@ export default async function HomePage() {
               <HeroSlideshow />
             </div>
             {/* Badge */}
-            <div className="inline-flex items-center gap-1.5 bg-[#0369a1]/20 backdrop-blur-sm text-[#0369a1] text-[10px] xs:text-xs font-semibold px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full mb-2 xs:mb-2 border border-[#0369a1]/30">
-              <span className="w-1.5 h-1.5 bg-[#0369a1] rounded-full animate-pulse" />
+            <div className="inline-flex items-center gap-1.5 bg-white/25 backdrop-blur-sm text-white text-[10px] xs:text-xs font-bold px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full mb-2 xs:mb-2 border border-white/30">
+              <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
               Refined. Rare. Remarkable.
             </div>
             {/* Quick links */}
@@ -279,7 +289,7 @@ export default async function HomePage() {
                 <Link
                   key={cat}
                   href={`/listings?q=${cat.toLowerCase()}`}
-                  className="text-[10px] xs:text-xs text-white/70 hover:text-[#0369a1] bg-white/5 hover:bg-[#0369a1]/10 border border-white/10 hover:border-[#0369a1]/30 px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full transition-all interactive"
+                  className="text-[10px] xs:text-xs text-white font-medium hover:text-[#dbeafe] bg-white/15 hover:bg-white/25 border border-white/20 hover:border-white/40 px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full transition-all interactive"
                 >
                   {cat}
                 </Link>
@@ -400,8 +410,8 @@ export default async function HomePage() {
                   </svg>
                   <div className="mt-1 w-full text-center">
                     <div className="font-mono text-elite-navy text-xs font-semibold truncate">TOTAL VISITORS</div>
-                    <div className="stat-main-value animate-pulse-glow">1.28M</div>
-                    <div className="stat-label">all time</div>
+                    <div className="stat-main-value animate-pulse-glow">{stats ? fmtStat(stats.totalUsers) : '—'}</div>
+                    <div className="stat-label">members</div>
                   </div>
                 </div>
 
@@ -416,8 +426,8 @@ export default async function HomePage() {
                   </svg>
                   <div className="mt-1 w-full text-center">
                     <div className="font-mono text-elite-navy text-xs font-semibold truncate">UNIQUE VISITORS</div>
-                    <div className="stat-main-value animate-pulse-glow">468K</div>
-                    <div className="stat-label">this month</div>
+                    <div className="stat-main-value animate-pulse-glow">{stats ? fmtStat(stats.activeListings) : '—'}</div>
+                    <div className="stat-label">active listings</div>
                   </div>
                 </div>
 
@@ -432,30 +442,30 @@ export default async function HomePage() {
                   </svg>
                   <div className="mt-1 w-full text-center">
                     <div className="font-mono text-elite-navy text-xs font-semibold truncate">
-                      TODAY&#39;S VISITORS
+                      TOTAL LISTINGS
                     </div>
-                    <div className="stat-main-value animate-pulse-glow">8,432</div>
-                    <div className="stat-label">so far today</div>
+                    <div className="stat-main-value animate-pulse-glow">{stats ? fmtStat(stats.totalListings) : '—'}</div>
+                    <div className="stat-label">all time</div>
                   </div>
                 </div>
 
                 {/* DUPLICATES FOR SEAMLESS LOOP */}
                 <div className="stat-card bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm overflow-hidden hover:shadow-lg transition-shadow flex flex-col items-center p-2 mx-1 animate-circular animate-float card-pattern">
                   <svg width="40" height="40" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none" /><circle cx="24" cy="24" r="21.5" stroke="#0369a1" strokeWidth="5" fill="none" strokeDasharray="135.088" strokeDashoffset="13.5088" /><text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0369a1" fontWeight="700">90%</text></svg>
-                  <div className="mt-1 w-full text-center"><div className="font-mono text-elite-navy text-xs font-semibold truncate">TOTAL VISITORS</div><div className="stat-main-value animate-pulse-glow">1.28M</div><div className="stat-label">all time</div></div>
+                  <div className="mt-1 w-full text-center"><div className="font-mono text-elite-navy text-xs font-semibold truncate">TOTAL VISITORS</div><div className="stat-main-value animate-pulse-glow">{stats ? fmtStat(stats.totalUsers) : '—'}</div><div className="stat-label">members</div></div>
                 </div>
                 <div className="stat-card bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm overflow-hidden hover:shadow-lg transition-shadow flex flex-col items-center p-2 mx-1 animate-circular animate-float card-pattern">
                   <svg width="40" height="40" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none" /><circle cx="24" cy="24" r="21.5" stroke="#0369a1" strokeWidth="5" fill="none" strokeDasharray="135.088" strokeDashoffset="27.0176" /><text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0369a1" fontWeight="700">80%</text></svg>
-                  <div className="mt-1 w-full text-center"><div className="font-mono text-elite-navy text-xs font-semibold truncate">UNIQUE VISITORS</div><div className="stat-main-value animate-pulse-glow">468K</div><div className="stat-label">this month</div></div>
+                  <div className="mt-1 w-full text-center"><div className="font-mono text-elite-navy text-xs font-semibold truncate">UNIQUE VISITORS</div><div className="stat-main-value animate-pulse-glow">{stats ? fmtStat(stats.activeListings) : '—'}</div><div className="stat-label">active listings</div></div>
                 </div>
                 <div className="stat-card bg-[#e0f2fe] rounded-xl border border-elite-gold/30 shadow-sm overflow-hidden hover:shadow-lg transition-shadow flex flex-col items-center p-2 mx-1 animate-circular animate-float card-pattern">
                   <svg width="40" height="40" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21.5" stroke="#e5e7eb" strokeWidth="5" fill="none" /><circle cx="24" cy="24" r="21.5" stroke="#0369a1" strokeWidth="5" fill="none" strokeDasharray="135.088" strokeDashoffset="54.0352" /><text x="50%" y="50%" textAnchor="middle" dy="0.35em" fontSize="10" fill="#0369a1" fontWeight="700">60%</text></svg>
                   <div className="mt-1 w-full text-center">
                     <div className="font-mono text-elite-navy text-xs font-semibold truncate">
-                      TODAY&apos;S VISITORS
+                      TOTAL LISTINGS
                     </div>
-                    <div className="stat-main-value animate-pulse-glow">8,432</div>
-                    <div className="stat-label">so far today</div>
+                    <div className="stat-main-value animate-pulse-glow">{stats ? fmtStat(stats.totalListings) : '—'}</div>
+                    <div className="stat-label">all time</div>
                   </div>
                 </div>
               </div>

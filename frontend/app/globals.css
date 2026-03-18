@@ -42,6 +42,7 @@
   :root {
     --brand-50: #f0f9ff;
     --brand-100: #e0f2fe;
+      color-scheme: light;
     --brand-200: #bae6fd;
     --brand-400: #38bdf8;
     --brand-500: #0ea5e9;
@@ -348,6 +349,9 @@
     color: var(--text-primary);
     background: white;
     transition: all var(--transition-fast);
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
     outline: none;
   }
   .input-premium:focus {
@@ -430,6 +434,9 @@
   .interactive {
     cursor: pointer;
     user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
   }

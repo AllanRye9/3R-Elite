@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
@@ -14,6 +14,7 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const submitLockRef = useRef(false);
 
   useEffect(() => {
     if (!authLoading && user?.role === 'ADMIN') {
@@ -32,21 +33,28 @@ export default function AdminLoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loading || submitLockRef.current) return;
+    submitLockRef.current = true;
     setError('');
     setLoading(true);
     try {
       const { data } = await api.post('/auth/login', { email, password });
       if (data.user?.role !== 'ADMIN') {
-        setError('This account does not have admin access.');
+        setError('This account does not have admin access. Regular users should sign in at /auth/login.');
         return;
       }
       setAuthSession(data.accessToken, data.refreshToken);
       updateUser(data.user);
       router.push('/admin');
     } catch (err: unknown) {
-      const axiosErr = err as { response?: { data?: { message?: string } } };
-      setError(axiosErr.response?.data?.message || 'Login failed');
+      const axiosErr = err as { response?: { status?: number; data?: { message?: string } } };
+      setError(
+        axiosErr.response?.status === 429
+          ? 'Too many sign-in attempts. Please wait a few minutes before trying again.'
+          : axiosErr.response?.data?.message || 'Login failed'
+      );
     } finally {
+      submitLockRef.current = false;
       setLoading(false);
     }
   };

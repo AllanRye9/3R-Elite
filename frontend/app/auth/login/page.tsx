@@ -56,7 +56,13 @@ function LoginForm() {
     setLoading(true);
     try {
       const loggedInUser = await login(email, password);
-      router.push(loggedInUser.role === 'ADMIN' ? '/admin' : redirect);
+      if (loggedInUser.role === 'ADMIN') {
+        // Admin accounts must use the dedicated admin portal
+        setError('Admin accounts must sign in via the Admin Portal. Redirecting…');
+        setTimeout(() => router.push('/admin/auth/login'), 1500);
+        return;
+      }
+      router.push(redirect);
     } catch (err: unknown) {
       const axiosErr = err as { response?: { status?: number; data?: { message?: string } } };
       setError(

@@ -38,6 +38,15 @@ export default function ListingDetailPage() {
   const [listing, setListing] = useState<Listing | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeImage, setActiveImage] = useState(0);
+  const [failedImages, setFailedImages] = useState<Set<number>>(new Set());
+
+  const handleMainImgError = (index: number) => {
+    setFailedImages((prev) => {
+      const next = new Set(prev);
+      next.add(index);
+      return next;
+    });
+  };
 
   // Reviews state
   const [reviews, setReviews] = useState<ProductReview[]>([]);
@@ -179,12 +188,13 @@ export default function ListingDetailPage() {
           {/* Main image */}
           <div className="relative aspect-[4/3] bg-gray-100 rounded-2xl overflow-hidden group cursor-zoom-in">
             <Image
-              src={images[activeImage]}
+              src={failedImages.has(activeImage) ? `https://picsum.photos/seed/${listing.id}-${activeImage}/800/600` : images[activeImage]}
               alt={listing.title}
               fill
               className="object-contain transition-all duration-300 group-hover:scale-110"
               sizes="(max-width: 768px) 100vw, 60vw"
               priority
+              onError={() => handleMainImgError(activeImage)}
             />
             {listing.status === 'SOLD' && (
               <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
@@ -212,7 +222,14 @@ export default function ListingDetailPage() {
                       : 'border-transparent opacity-70 hover:opacity-100 hover:border-gray-200'
                   }`}
                 >
-                  <Image src={img} alt="" width={72} height={72} className="object-cover w-full h-full" />
+                  <Image
+                    src={failedImages.has(i) ? `https://picsum.photos/seed/${listing.id}-${i}/72/72` : img}
+                    alt=""
+                    width={72}
+                    height={72}
+                    className="object-cover w-full h-full"
+                    onError={() => handleMainImgError(i)}
+                  />
                 </button>
               ))}
             </div>

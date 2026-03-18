@@ -64,14 +64,34 @@ app.get('/health', async (_req: Request, res: Response) => {
   }
 });
 
-// Rate limiting
+// General API rate limit — generous enough for normal multi-tab browsing.
 const limiter = rateLimit({
   windowMs: Number(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000,
-  max: Number(process.env.RATE_LIMIT_MAX) || 100,
+  max: Number(process.env.RATE_LIMIT_MAX) || 500,
+  standardHeaders: true,
+  legacyHeaders: false,
+  skip: (req) => req.path === '/health',
+});
+app.use('/api/', limiter);
+
+// Strict limiter for auth mutation endpoints (login / register) to prevent
+// brute-force and credential-stuffing attacks while keeping normal use smooth.
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,       // 15 minutes
+  max: 20,                          // 20 attempts per IP per window
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'Too many attempts. Please wait a few minutes before trying again.' },
+});
+
+// Light limiter for /api/users/me — called on every page load and tab focus.
+// 300 per 15 minutes allows up to ~20 reloads/minute for a single browser.
+const meLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 300,
   standardHeaders: true,
   legacyHeaders: false,
 });
-app.use('/api/', limiter);
 
 // Body parsing
 app.use(express.json({ limit: '10mb' }));
@@ -87,6 +107,10 @@ app.use(morgan('combined', {
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 // Routes
+app.use('/api/auth/login', authLimiter);
+app.use('/api/auth/register', authLimiter);
+app.use('/api/auth/admin-register', authLimiter);
+app.use('/api/users/me', meLimiter);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/listings', listingRoutes);
