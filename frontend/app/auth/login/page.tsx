@@ -12,6 +12,7 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams ? searchParams.get('redirect') || '/' : '/';
+  const submitLockRef = useRef(false);
   const toastShownRef = useRef(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -48,15 +49,23 @@ function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loading || submitLockRef.current) return;
+
+    submitLockRef.current = true;
     setError('');
     setLoading(true);
     try {
       const loggedInUser = await login(email, password);
       router.push(loggedInUser.role === 'ADMIN' ? '/admin' : redirect);
     } catch (err: unknown) {
-      const axiosErr = err as { response?: { data?: { message?: string } } };
-      setError(axiosErr.response?.data?.message || 'Login failed. Please check your credentials.');
+      const axiosErr = err as { response?: { status?: number; data?: { message?: string } } };
+      setError(
+        axiosErr.response?.status === 429
+          ? 'Too many sign-in attempts. Wait a short moment before trying again.'
+          : axiosErr.response?.data?.message || 'Login failed. Please check your credentials.'
+      );
     } finally {
+      submitLockRef.current = false;
       setLoading(false);
     }
   };

@@ -4,6 +4,11 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import { User } from '@/lib/types';
 import { api } from '@/lib/api';
 
+const AUTH_ME_COOLDOWN_KEY = 'auth:meCooldownUntil';
+const AUTH_ME_COOLDOWN_MS = 30_000;
+
+let fetchMeRequest: Promise<void> | null = null;
+
 interface AuthContextType {
   user: User | null;
   loading: boolean;
@@ -28,14 +33,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   const fetchMe = useCallback(async () => {
-    try {
-      const { data } = await api.get('/users/me');
-      setUser(data);
-    } catch {
-      setUser(null);
-    } finally {
-      setLoading(false);
+    if (typeof window !== 'undefined') {
+      const cooldownUntil = Number(sessionStorage.getItem(AUTH_ME_COOLDOWN_KEY) || '0');
+      if (cooldownUntil > Date.now()) {
+        setLoading(false);
+        return;
+      }
     }
+
+    if (fetchMeRequest) {
+      await fetchMeRequest;
+      return;
+    }
+
+    fetchMeRequest = (async () => {
+      try {
+        const { data } = await api.get('/users/me');
+        if (typeof window !== 'undefined') sessionStorage.removeItem(AUTH_ME_COOLDOWN_KEY);
+        setUser(data);
+      } catch (error: unknown) {
+        const status = (error as { response?: { status?: number } }).response?.status;
+        if (typeof window !== 'undefined' && status === 429) {
+          sessionStorage.setItem(AUTH_ME_COOLDOWN_KEY, String(Date.now() + AUTH_ME_COOLDOWN_MS));
+        }
+        setUser(null);
+      } finally {
+        fetchMeRequest = null;
+        setLoading(false);
+      }
+    })();
+
+    await fetchMeRequest;
   }, []);
 
   useEffect(() => {
