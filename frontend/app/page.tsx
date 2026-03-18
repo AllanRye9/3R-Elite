@@ -242,8 +242,8 @@ export default async function HomePage() {
   return (
     <div className="animate-fade-in">
       {/* ═══ HERO ═══ */}
-      <section className="relative overflow-hidden bg-hero-gradient min-h-[320px] xs:min-h-[360px] sm:min-h-[400px] flex items-center justify-center">
-        <div className="relative max-w-7xl mx-auto w-full flex items-stretch mt-[-2.5rem] sm:mt-[-3.5rem]" style={{ minHeight: '340px' }}>
+      <section className="relative overflow-hidden bg-hero-gradient min-h-[320px] xs:min-h-[360px] sm:min-h-[400px] flex items-center justify-center pt-4 sm:pt-6">
+        <div className="relative max-w-7xl mx-auto w-full flex items-stretch" style={{ minHeight: '340px' }}>
           {/* Left Table/EliteVault */}
           <div className="hidden lg:flex flex-col justify-center" style={{ width: '20%', marginLeft: '3%' }}>
             <HeroSideCards />
