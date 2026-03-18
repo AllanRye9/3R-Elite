@@ -175,7 +175,14 @@ export default function Header() {
                   aria-expanded={profileDropOpen}
                 >
                   <UserAvatar user={user} size="sm" />
-                  <span className="hidden md:block font-medium">{user.name.split(' ')[0]}</span>
+                  <div className="hidden md:flex flex-col items-start leading-none gap-0.5">
+                    <span className="font-medium">{user.name.split(' ')[0]}</span>
+                    {user.role === 'ADMIN' && (
+                      <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full leading-none ${scrolled ? 'bg-purple-100 text-purple-700' : 'bg-purple-400/30 text-purple-100'}`}>
+                        ADMIN
+                      </span>
+                    )}
+                  </div>
                   <svg
                     className={`w-3.5 h-3.5 hidden md:block opacity-60 transition-transform duration-200 ${profileDropOpen ? 'rotate-180' : ''}`}
                     fill="none"
@@ -190,7 +197,12 @@ export default function Header() {
                 {profileDropOpen && (
                   <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 z-50 animate-scale-in">
                     <div className="px-3 py-2 border-b border-gray-100">
-                      <p className="text-sm font-semibold text-gray-900 truncate">{user.name}</p>
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm font-semibold text-gray-900 truncate">{user.name}</p>
+                        {user.role === 'ADMIN' && (
+                          <span className="shrink-0 text-[10px] font-bold bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded-full">ADMIN</span>
+                        )}
+                      </div>
                       <p className="text-xs text-gray-500 truncate">{user.email}</p>
                     </div>
                     <Link href="/profile" className="flex items-center gap-2.5 px-3 py-2 text-sm text-gray-700 hover:bg-brand-50 hover:text-brand-600 transition-colors" onClick={() => setProfileDropOpen(false)}>
@@ -299,7 +311,12 @@ export default function Header() {
             <div className="flex items-center gap-3">
               <UserAvatar user={user} size="md" />
               <div className="min-w-0">
-                <p className="text-sm font-semibold text-gray-900 truncate">{user.name}</p>
+                <div className="flex items-center gap-1.5">
+                  <p className="text-sm font-semibold text-gray-900 truncate">{user.name}</p>
+                  {user.role === 'ADMIN' && (
+                    <span className="shrink-0 text-[10px] font-bold bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded-full">ADMIN</span>
+                  )}
+                </div>
                 <p className="text-xs text-gray-500 truncate">{user.email}</p>
               </div>
             </div>
