@@ -1,15 +1,18 @@
 'use client';
 
-import { useState, Suspense, useEffect } from 'react';
+import { useState, Suspense, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { useToast } from '@/components/ui/Toast';
 
 function LoginForm() {
   const { login, user, loading: authLoading } = useAuth();
+  const { success } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams ? searchParams.get('redirect') || '/profile' : '/profile';
+  const toastShownRef = useRef(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -21,6 +24,18 @@ function LoginForm() {
       router.replace(redirect);
     }
   }, [user, authLoading, router, redirect]);
+
+  useEffect(() => {
+    if (!searchParams || toastShownRef.current || searchParams.get('registered') !== '1') return;
+
+    toastShownRef.current = true;
+    success('Successfully registered. Please sign in to continue.');
+
+    const nextParams = new URLSearchParams(searchParams.toString());
+    nextParams.delete('registered');
+    const nextQuery = nextParams.toString();
+    router.replace(nextQuery ? `/auth/login?${nextQuery}` : '/auth/login');
+  }, [router, searchParams, success]);
 
   // Don't render the form while auth state is loading or user is already authenticated
   if (authLoading || user) {
@@ -53,9 +68,9 @@ function LoginForm() {
         <div className="bg-white rounded-2xl border border-gray-100 shadow-xl p-7 sm:p-8">
           {/* Logo */}
           <div className="flex justify-center mb-6">
-            <div className="w-12 h-12 bg-gradient-to-br from-sky-400 to-brand-600 rounded-2xl flex items-center justify-center shadow-glow">
+            <Link href="/" className="w-12 h-12 bg-gradient-to-br from-sky-400 to-brand-600 rounded-2xl flex items-center justify-center shadow-glow hover:scale-105 transition-transform" aria-label="Go to homepage">
               <span className="text-white font-black text-lg">3R</span>
-            </div>
+            </Link>
           </div>
 
           <h1 className="text-2xl font-extrabold text-gray-900 mb-1 text-center">Welcome back</h1>

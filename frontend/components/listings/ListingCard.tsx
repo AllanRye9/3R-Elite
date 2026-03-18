@@ -14,6 +14,8 @@ interface Props {
 
 export function ListingCard({ listing, showFavorite = true }: Props) {
   const imageUrl = listing.images?.[0] || `https://picsum.photos/seed/${listing.id}/400/300`;
+  const countryLabel = listing.country === 'UAE' ? 'UAE' : 'Uganda';
+  const countryFlag = listing.country === 'UAE' ? 'AE' : 'UG';
 
   return (
     <div className="group bg-white rounded-lg xs:rounded-xl border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1 hover:border-sky-100">
@@ -34,6 +36,10 @@ export function ListingCard({ listing, showFavorite = true }: Props) {
 
         {/* Badges */}
         <div className="absolute top-1.5 xs:top-2 left-1.5 xs:left-2 flex flex-col gap-1">
+          <span className="badge text-[9px] xs:text-[10px] shadow-sm bg-white/95 text-slate-700 border border-white/80 backdrop-blur-sm">
+            <span aria-hidden="true" className="font-bold text-sky-700">{countryFlag}</span>
+            {countryLabel}
+          </span>
           {listing.condition === 'NEW' && (
             <span className="badge badge-new text-[9px] xs:text-[10px] shadow-sm"><span aria-hidden="true">✦</span> New</span>
           )}
@@ -76,14 +82,20 @@ export function ListingCard({ listing, showFavorite = true }: Props) {
           className="text-sky-600 font-extrabold text-xs xs:text-sm"
         />
 
-        <div className="flex items-center justify-between mt-1 xs:mt-1.5 text-[9px] xs:text-[10px] text-gray-400">
-          <span className="flex items-center gap-0.5 truncate">
+        <div className="mt-1 xs:mt-1.5 flex items-center gap-1.5 text-[9px] xs:text-[10px]">
+          <span className="inline-flex items-center gap-1 rounded-full bg-sky-50 px-2 py-0.5 font-semibold text-sky-700">
+            <span aria-hidden="true">{countryFlag}</span>
+            {countryLabel}
+          </span>
+          <span className="flex min-w-0 items-center gap-0.5 truncate text-gray-400">
             <svg className="w-2.5 h-2.5 xs:w-3 xs:h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
             <span className="truncate">{listing.location}</span>
           </span>
+        </div>
+        <div className="mt-1 flex items-center justify-end gap-1.5 text-[9px] xs:text-[10px] text-gray-400">
           <div className="flex items-center gap-1.5 flex-shrink-0 ml-1">
             {listing.views > 0 && (
               <span className="flex items-center gap-0.5">

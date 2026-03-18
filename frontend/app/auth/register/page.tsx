@@ -3,10 +3,9 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
+import { api } from '@/lib/api';
 
 export default function RegisterPage() {
-  const { register } = useAuth();
   const router = useRouter();
   const [form, setForm] = useState({
     email: '', password: '', name: '', phone: '', country: 'UAE' as 'UAE' | 'UGANDA',
@@ -21,8 +20,9 @@ export default function RegisterPage() {
     if (form.password.length < 6) { setError('Password must be at least 6 characters'); return; }
     setLoading(true);
     try {
-      await register(form);
-      router.push('/');
+      await api.post('/auth/register', form);
+      setForm({ email: '', password: '', name: '', phone: '', country: 'UAE' });
+      router.push('/auth/login?registered=1');
     } catch (err: unknown) {
       const axiosErr = err as { response?: { data?: { message?: string; errors?: Array<{ msg: string }> } } };
       setError(
@@ -43,9 +43,9 @@ export default function RegisterPage() {
         <div className="rounded-3xl border border-white/30 bg-white/96 shadow-2xl backdrop-blur p-7 sm:p-8">
           {/* Logo */}
           <div className="flex justify-center mb-5">
-            <div className="w-12 h-12 bg-gradient-to-br from-sky-400 to-brand-600 rounded-2xl flex items-center justify-center shadow-glow">
+            <Link href="/" className="w-12 h-12 bg-gradient-to-br from-sky-400 to-brand-600 rounded-2xl flex items-center justify-center shadow-glow hover:scale-105 transition-transform" aria-label="Go to homepage">
               <span className="text-white font-black text-lg">3R</span>
-            </div>
+            </Link>
           </div>
 
           <h1 className="text-2xl font-extrabold text-slate-950 mb-1 text-center">Create Account</h1>

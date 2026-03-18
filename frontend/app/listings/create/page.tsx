@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { useCountry } from '@/context/CountryContext';
 import { api } from '@/lib/api';
-import { Category } from '@/lib/types';
+import { Category, Country } from '@/lib/types';
+import { getCurrency, getLocations } from '@/lib/utils';
 import CategoryPicker from '@/components/ui/CategoryPicker';
 
 function getCategoryLabel(categories: Category[], id: string): string {
@@ -24,8 +24,7 @@ function getCategoryLabel(categories: Category[], id: string): string {
 
 export default function CreateListingPage() {
   const { user, loading } = useAuth();
-  const { country, locations, currency } = useCountry();
-  const router = useRouter();
+  const { country: selectedCountry, setCountry } = useCountry();
   const [categories, setCategories] = useState<Category[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -40,6 +39,7 @@ export default function CreateListingPage() {
     description: '',
     price: '',
     condition: 'USED',
+    country: selectedCountry,
     location: '',
     categoryId: '',
   });
@@ -48,8 +48,14 @@ export default function CreateListingPage() {
     api.get('/categories').then(({ data }) => setCategories(data)).catch(() => {});
   }, []);
 
+  useEffect(() => {
+    setForm((prev) => (prev.country === selectedCountry ? prev : { ...prev, country: selectedCountry, location: '' }));
+  }, [selectedCountry]);
+
   const selectedCategoryLabel = getCategoryLabel(categories, form.categoryId);
   const featuredCategories = categories.slice(0, 6);
+  const availableLocations = getLocations(form.country as Country);
+  const listingCurrency = getCurrency(form.country as Country);
 
   const handleImageFiles = async (files: FileList | null) => {
     if (!files || files.length === 0) return;
@@ -104,8 +110,8 @@ export default function CreateListingPage() {
       await api.post('/listings', {
         ...form,
         price: parseFloat(form.price),
-        country,
-        currency,
+        country: form.country,
+        currency: listingCurrency,
         imageIds: pendingImageIds,
       });
       setSubmitted(true);
@@ -200,11 +206,11 @@ export default function CreateListingPage() {
           <div className="grid gap-3 sm:grid-cols-3 lg:w-[420px]">
             <div className="rounded-2xl border border-white/15 bg-white/10 p-4">
               <p className="text-xs uppercase tracking-[0.18em] text-white/70">Market</p>
-              <p className="mt-2 text-lg font-bold">{country === 'UAE' ? 'United Arab Emirates' : 'Uganda'}</p>
+              <p className="mt-2 text-lg font-bold">{form.country === 'UAE' ? 'United Arab Emirates' : 'Uganda'}</p>
             </div>
             <div className="rounded-2xl border border-white/15 bg-white/10 p-4">
               <p className="text-xs uppercase tracking-[0.18em] text-white/70">Currency</p>
-              <p className="mt-2 text-lg font-bold">{currency}</p>
+              <p className="mt-2 text-lg font-bold">{listingCurrency}</p>
             </div>
             <div className="rounded-2xl border border-white/15 bg-white/10 p-4">
               <p className="text-xs uppercase tracking-[0.18em] text-white/70">Category</p>
@@ -286,7 +292,22 @@ export default function CreateListingPage() {
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700">Price ({currency}) *</label>
+                  <label className="mb-1 block text-sm font-medium text-gray-700">Country *</label>
+                  <select
+                    value={form.country}
+                    onChange={(e) => {
+                      const nextCountry = e.target.value as Country;
+                      setCountry(nextCountry);
+                      setForm({ ...form, country: nextCountry, location: '' });
+                    }}
+                    className="w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-400"
+                  >
+                    <option value="UAE">United Arab Emirates</option>
+                    <option value="UGANDA">Uganda</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="mb-1 block text-sm font-medium text-gray-700">Price ({listingCurrency}) *</label>
                   <input
                     type="number"
                     value={form.price}
@@ -317,8 +338,8 @@ export default function CreateListingPage() {
                   onChange={(e) => setForm({ ...form, location: e.target.value })}
                   className="w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-400"
                 >
-                  <option value="">Select location</option>
-                  {locations.map((loc) => (
+                  <option value="">Select a location in {form.country === 'UAE' ? 'the UAE' : 'Uganda'}</option>
+                  {availableLocations.map((loc) => (
                     <option key={loc} value={loc}>{loc}</option>
                   ))}
                 </select>

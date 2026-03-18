@@ -17,6 +17,12 @@ function getStatusClasses(status: Listing['status']) {
   return 'bg-gray-100 text-gray-700 border-gray-200';
 }
 
+function getCountryBadge(listingCountry: Listing['country']) {
+  return listingCountry === 'UAE'
+    ? { label: 'United Arab Emirates', short: 'UAE', flag: 'AE' }
+    : { label: 'Uganda', short: 'Uganda', flag: 'UG' };
+}
+
 export default function MyListingsPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
@@ -77,6 +83,9 @@ export default function MyListingsPage() {
           <div className="grid gap-4 lg:grid-cols-2">
             {listings.map((listing) => (
               <article key={listing.id} className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                {(() => {
+                  const country = getCountryBadge(listing.country);
+                  return (
                 <div className="flex flex-col sm:flex-row">
                   <div className="relative h-48 w-full bg-slate-100 sm:h-auto sm:w-44">
                     {listing.images?.[0] ? (
@@ -84,6 +93,10 @@ export default function MyListingsPage() {
                     ) : (
                       <div className="flex h-full items-center justify-center text-sm font-medium text-slate-400">No image</div>
                     )}
+                    <div className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full border border-white/80 bg-white/95 px-2.5 py-1 text-xs font-semibold text-slate-800 shadow-sm backdrop-blur-sm">
+                      <span aria-hidden="true" className="text-sky-700">{country.flag}</span>
+                      {country.short}
+                    </div>
                   </div>
                   <div className="flex flex-1 flex-col p-5">
                     <div className="flex flex-wrap items-center gap-2">
@@ -92,6 +105,9 @@ export default function MyListingsPage() {
                       </span>
                       <span className="rounded-full bg-sky-50 px-2.5 py-1 text-xs font-medium text-sky-700">
                         {listing.category?.name || 'Uncategorized'}
+                      </span>
+                      <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700">
+                        {country.label}
                       </span>
                     </div>
 
@@ -127,6 +143,8 @@ export default function MyListingsPage() {
                     </div>
                   </div>
                 </div>
+                  );
+                })()}
               </article>
             ))}
           </div>
