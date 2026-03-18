@@ -8,6 +8,7 @@ import { UserAvatar } from '@/components/ui/UserAvatar';
 import { timeAgo } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function MessagesPage() {
   const { user, loading } = useAuth();
@@ -41,9 +42,9 @@ export default function MessagesPage() {
           {conversations.map((conv) => {
             const other = conv.senderId === user?.id ? conv.receiver : conv.sender;
             return (
-              <a
+              <Link
                 key={conv.id}
-                href={`/messages/${conv.listingId}/${other.id}`}
+                href={`/messages/${conv.listingId}/${other.id}?name=${encodeURIComponent(other.name)}${conv.listing ? `&listingTitle=${encodeURIComponent(conv.listing.title)}` : ''}`}
                 className="flex items-center gap-3 sm:gap-4 bg-white rounded-xl shadow-sm p-3 sm:p-4 hover:shadow-md transition-shadow"
               >
                 <UserAvatar user={other} size="md" />
@@ -68,7 +69,7 @@ export default function MessagesPage() {
                     className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg object-cover shrink-0"
                   />
                 )}
-              </a>
+              </Link>
             );
           })}
         </div>

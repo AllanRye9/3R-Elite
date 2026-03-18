@@ -400,20 +400,13 @@ export default function ListingDetailPage() {
           </div>
 
           {/* Report */}
-          <button
-            className="w-full text-xs text-gray-400 hover:text-red-500 transition-colors flex items-center justify-center gap-1.5 py-2 interactive"
-            onClick={() => {
-              const reason = prompt('Please describe the issue with this listing:');
-              if (reason) {
-                api.post('/reports', { listingId: listing.id, reason })
-                  .then(() => alert('Report submitted. Thank you.'))
-                  .catch(() => alert('Please login to report listings.'));
-              }
-            }}
+          <Link
+            href={`/reports/create?listingId=${listing.id}&title=${encodeURIComponent(listing.title)}`}
+            className="w-full text-xs text-gray-500 hover:text-red-600 transition-colors flex items-center justify-center gap-1.5 py-2 interactive"
           >
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" /></svg>
             Report this listing
-          </button>
+          </Link>
         </div>
       </div>
 

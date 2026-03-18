@@ -315,8 +315,8 @@ export default function Header() {
           </form>
         </div>
 
-        {/* CategoryBar — desktop only inside header */}
-        {!scrolled && <div className="hidden sm:block"><CategoryBar /></div>}
+        {/* CategoryBar — shared across all pages */}
+        <div className="hidden sm:block"><CategoryBar /></div>
       </header>
 
       {/* Mobile menu backdrop */}

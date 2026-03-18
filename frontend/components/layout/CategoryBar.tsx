@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { useState, useRef } from 'react';
 import { Suspense } from 'react';
@@ -113,6 +114,7 @@ const topCategories: TopCategory[] = [
 ];
 
 function CategoryBarInner() {
+  const pathname = usePathname();
   const params = useSearchParams();
   const currentQ = params ? params.get('q') || '' : '';
   const [openMenu, setOpenMenu] = useState<string | null>(null);
@@ -128,6 +130,16 @@ function CategoryBarInner() {
   };
 
   const activeCategory = openMenu ? topCategories.find((c) => c.label === openMenu) : null;
+  const currentPath = pathname || '';
+  const isListingsView = currentPath === '/' || currentPath.startsWith('/listings');
+
+  const getLinkClasses = (isActive: boolean) => {
+    if (isActive) {
+      return 'bg-elite-gold text-elite-navy shadow-sm ring-1 ring-elite-gold-light/80';
+    }
+
+    return 'text-white/85 hover:text-white hover:bg-white/10';
+  };
 
   return (
     /* Outer wrapper is the positioning context for mega menus so they escape the overflow container */
@@ -136,17 +148,14 @@ function CategoryBarInner() {
       <div className="flex items-center gap-0.5 overflow-x-auto no-scrollbar">
         <Link
           href="/listings"
-          className={`flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] xs:text-xs font-semibold whitespace-nowrap transition-all interactive ${
-            !currentQ
-              ? 'bg-white/20 text-white'
-              : 'text-white/80 hover:text-white hover:bg-white/10'
-          }`}
+          className={`relative flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] xs:text-xs font-semibold whitespace-nowrap transition-all interactive ${getLinkClasses(isListingsView && !currentQ)}`}
         >
           All
+          {isListingsView && !currentQ && <span className="absolute inset-x-2 -bottom-0.5 h-0.5 rounded-full bg-elite-gold-light" aria-hidden="true" />}
         </Link>
         {topCategories.map((cat) => {
           const catQ = new URL(cat.href, 'http://x').searchParams.get('q') || '';
-          const isActive = catQ.toLowerCase() === currentQ.toLowerCase() && catQ !== '';
+          const isActive = isListingsView && catQ.toLowerCase() === currentQ.toLowerCase() && catQ !== '';
           const hasMega = Boolean(cat.megaMenu);
 
           return (
@@ -157,11 +166,7 @@ function CategoryBarInner() {
             >
               <Link
                 href={cat.href}
-                className={`flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] xs:text-xs font-semibold whitespace-nowrap transition-all interactive ${
-                  isActive
-                    ? 'bg-white/20 text-white'
-                    : 'text-white/80 hover:text-white hover:bg-white/10'
-                }`}
+                className={`relative flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] xs:text-xs font-semibold whitespace-nowrap transition-all interactive ${getLinkClasses(isActive)}`}
               >
                 <span aria-hidden="true">{cat.icon}</span>
                 {cat.label}
@@ -170,6 +175,7 @@ function CategoryBarInner() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 )}
+                {isActive && <span className="absolute inset-x-2 -bottom-0.5 h-0.5 rounded-full bg-elite-gold-light" aria-hidden="true" />}
               </Link>
             </div>
           );
@@ -211,7 +217,7 @@ function CategoryBarInner() {
 
 export default function CategoryBar() {
   return (
-    <div className="w-full border-t border-white/5 bg-elite-charcoal/50 backdrop-blur-sm">
+    <div className="w-full border-t border-white/10 bg-elite-charcoal/80 backdrop-blur-sm">
       <div className="w-full px-3 sm:px-6 py-1">
         <Suspense
           fallback={

@@ -24,7 +24,13 @@
 - **Post Listings** with multiple images and rich product details
 - **Favorites / Saved Items** — bookmark listings for later
 - **Messaging** — chat directly with sellers
+- **Conversation Threads** — open full listing-specific message threads at `/messages/[listingId]/[userId]`
 - **Profile Management** — avatar, bio, and listing history
+- **Listing Reports** — submit moderation reports from a dedicated frontend form at `/reports/create`
+
+### Shared Navigation
+- **Global Category Bar** — the category pill bar is rendered from the shared header across the app, including the home page
+- **Active Gold State** — the selected category is highlighted with a gold background and active underline for clearer navigation feedback
 
 ### For Admins
 - **Admin Dashboard** — real-time KPI cards, listing & user stats, approval rate
