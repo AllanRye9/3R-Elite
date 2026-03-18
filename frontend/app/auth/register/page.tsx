@@ -3,9 +3,10 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { api } from '@/lib/api';
+import { useAuth } from '@/context/AuthContext';
 
 export default function RegisterPage() {
+  const { register } = useAuth();
   const router = useRouter();
   const [form, setForm] = useState({
     email: '', password: '', name: '', phone: '', country: 'UAE' as 'UAE' | 'UGANDA',
@@ -20,9 +21,8 @@ export default function RegisterPage() {
     if (form.password.length < 6) { setError('Password must be at least 6 characters'); return; }
     setLoading(true);
     try {
-      await api.post('/auth/register', form);
-      setForm({ email: '', password: '', name: '', phone: '', country: 'UAE' });
-      router.push('/auth/login?registered=1');
+      await register(form);
+      router.push('/profile');
     } catch (err: unknown) {
       const axiosErr = err as { response?: { data?: { message?: string; errors?: Array<{ msg: string }> } } };
       setError(

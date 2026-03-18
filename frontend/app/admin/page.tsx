@@ -134,7 +134,7 @@ export default function AdminDashboard() {
   const greeting = now.getHours() < 12 ? 'Good morning' : now.getHours() < 17 ? 'Good afternoon' : 'Good evening';
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-h-[calc(100vh-3.5rem)]">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
