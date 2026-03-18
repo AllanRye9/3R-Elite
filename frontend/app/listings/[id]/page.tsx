@@ -468,7 +468,7 @@ export default function ListingDetailPage() {
                     value={formTitle}
                     onChange={(e) => setFormTitle(e.target.value)}
                     maxLength={150}
-                    placeholder="Summarise your experience"
+                    placeholder="Summarize your experience"
                     className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-400"
                   />
                 </div>
