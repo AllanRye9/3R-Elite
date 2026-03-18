@@ -233,7 +233,7 @@ export default function Header() {
             ) : (
               <div className="flex items-center gap-1">
                 <Link href="/auth/login" className={`text-xs font-medium px-2 py-1.5 rounded-lg transition-colors ${scrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-white/90 hover:text-white'}`}>Login</Link>
-                <Link href="/auth/register" className={`hidden sm:flex text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${scrolled ? 'bg-elite-navy text-elite-gold hover:bg-elite-charcoal' : 'bg-elite-gold/20 text-elite-gold hover:bg-elite-gold/30 border border-elite-gold/40'}`}>Register</Link>
+                <Link href="/auth/register" className={`hidden sm:flex text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${scrolled ? 'bg-elite-gold text-white hover:bg-elite-gold-light' : 'bg-white text-elite-navy hover:bg-sky-50 border border-white/70'}`}>Register</Link>
               </div>
             )}
           </nav>

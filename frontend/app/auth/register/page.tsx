@@ -36,9 +36,11 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center px-4 py-10">
-      <div className="w-full max-w-md animate-fade-up">
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-xl p-7 sm:p-8">
+    <div className="relative min-h-[70vh] overflow-hidden px-4 py-10 sm:py-14">
+      <div className="absolute inset-0 bg-gradient-to-br from-elite-navy via-sky-500 to-sky-300 opacity-90" />
+      <div className="absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.28),transparent_60%)]" />
+      <div className="relative mx-auto w-full max-w-md animate-fade-up">
+        <div className="rounded-3xl border border-white/30 bg-white/96 shadow-2xl backdrop-blur p-7 sm:p-8">
           {/* Logo */}
           <div className="flex justify-center mb-5">
             <div className="w-12 h-12 bg-gradient-to-br from-sky-400 to-brand-600 rounded-2xl flex items-center justify-center shadow-glow">
@@ -46,8 +48,8 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          <h1 className="text-2xl font-extrabold text-gray-900 mb-1 text-center">Create Account</h1>
-          <p className="text-sm text-gray-500 text-center mb-5">Join thousands of buyers and sellers</p>
+          <h1 className="text-2xl font-extrabold text-slate-950 mb-1 text-center">Create Account</h1>
+          <p className="text-sm text-slate-600 text-center mb-5">Join thousands of buyers and sellers</p>
 
           {error && (
             <div className="flex items-start gap-2 bg-red-50 border border-red-200 text-red-700 rounded-xl p-3.5 text-sm mb-4 animate-scale-in">
@@ -58,7 +60,7 @@ export default function RegisterPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Full Name <span className="text-red-400">*</span></label>
+              <label className="block text-sm font-semibold text-slate-800 mb-1.5">Full Name <span className="text-red-500">*</span></label>
               <input
                 type="text"
                 value={form.name}
@@ -69,7 +71,7 @@ export default function RegisterPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Email <span className="text-red-400">*</span></label>
+              <label className="block text-sm font-semibold text-slate-800 mb-1.5">Email <span className="text-red-500">*</span></label>
               <input
                 type="email"
                 value={form.email}
@@ -81,7 +83,7 @@ export default function RegisterPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Password <span className="text-red-400">*</span></label>
+              <label className="block text-sm font-semibold text-slate-800 mb-1.5">Password <span className="text-red-500">*</span></label>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -119,7 +121,7 @@ export default function RegisterPage() {
               )}
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Phone <span className="text-gray-400 font-normal">(optional)</span></label>
+              <label className="block text-sm font-semibold text-slate-800 mb-1.5">Phone <span className="text-slate-500 font-normal">(optional)</span></label>
               <input
                 type="tel"
                 value={form.phone}
@@ -129,7 +131,7 @@ export default function RegisterPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Country <span className="text-red-400">*</span></label>
+              <label className="block text-sm font-semibold text-slate-800 mb-1.5">Country <span className="text-red-500">*</span></label>
               <select
                 value={form.country}
                 onChange={(e) => setForm({ ...form, country: e.target.value as 'UAE' | 'UGANDA' })}
@@ -153,7 +155,7 @@ export default function RegisterPage() {
               ) : 'Create Free Account'}
             </button>
 
-            <p className="text-center text-xs text-gray-400 mt-1">
+            <p className="text-center text-xs text-slate-500 mt-1">
               By registering, you agree to our{' '}
               <Link href="/terms" className="text-sky-600 hover:underline">Terms</Link>{' '}
               and{' '}
@@ -163,10 +165,10 @@ export default function RegisterPage() {
 
           <div className="relative my-5">
             <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-100" /></div>
-            <div className="relative flex justify-center"><span className="bg-white px-3 text-xs text-gray-400 font-medium">OR</span></div>
+            <div className="relative flex justify-center"><span className="bg-white px-3 text-xs text-slate-500 font-medium">OR</span></div>
           </div>
 
-          <p className="text-center text-sm text-gray-500">
+          <p className="text-center text-sm text-slate-600">
             Already have an account?{' '}
             <Link href="/auth/login" className="text-sky-600 hover:text-sky-700 font-bold transition-colors">
               Sign in →
@@ -174,9 +176,9 @@ export default function RegisterPage() {
           </p>
         </div>
 
-        <div className="flex items-center justify-center gap-4 mt-4 text-xs text-gray-400">
-          <span>🆓 Free to Register</span>
-          <span>🔒 Secure & Private</span>
+        <div className="flex items-center justify-center gap-4 mt-4 text-xs text-white/90">
+          <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1">🆓 Free to Register</span>
+          <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1">🔒 Secure & Private</span>
         </div>
       </div>
     </div>

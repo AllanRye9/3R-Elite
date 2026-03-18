@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { prisma } from '../utils/prisma';
-import { authenticate, AuthRequest } from '../middleware/auth';
+import { authenticate, AuthRequest, optionalAuthenticate } from '../middleware/auth';
 import { createError } from '../middleware/errorHandler';
 import { Prisma } from '@prisma/client';
 
@@ -57,19 +57,26 @@ router.get('/latest-collections', async (req: Request, res: Response, next: Next
   }
 });
 
-router.get('/', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/', optionalAuthenticate, async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const {
       category, location, country, priceMin, priceMax,
-      condition, sort = 'createdAt', page = '1', limit = '20', q,
+      condition, sort = 'createdAt', page = '1', limit = '20', q, mine, userId,
     } = req.query as Record<string, string>;
+
+    if (mine === 'true' && !req.user) {
+      return next(createError('Authentication required', 401));
+    }
+
+    const viewingOwnListings = mine === 'true' && !!req.user;
 
     const pageNum = Math.max(1, parseInt(page));
     const limitNum = Math.min(100, Math.max(1, parseInt(limit)));
     const skip = (pageNum - 1) * limitNum;
 
     const where: Prisma.ListingWhereInput = {
-      status: 'ACTIVE',
+      ...(viewingOwnListings ? { userId: req.user!.userId } : { status: 'ACTIVE' }),
+      ...(!viewingOwnListings && userId && { userId }),
       ...(country && { country: country as 'UAE' | 'UGANDA' }),
       ...(location && { location: { contains: location, mode: 'insensitive' } }),
       ...(condition && { condition: condition as 'NEW' | 'USED' }),
