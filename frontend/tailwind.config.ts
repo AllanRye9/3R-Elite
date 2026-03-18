@@ -53,6 +53,7 @@ const config: Config = {
         'float': 'float 6s ease-in-out infinite',
         'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
         'bounce-subtle': 'bounceSlight 2s ease-in-out infinite',
+        'swing': 'swing 3s ease-in-out infinite',
       },
       keyframes: {
         fadeIn: {
@@ -90,6 +91,11 @@ const config: Config = {
         bounceSlight: {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-6px)' },
+        },
+        swing: {
+          '0%, 100%': { transform: 'rotate(0deg) translateX(0px)' },
+          '25%': { transform: 'rotate(1.5deg) translateX(2px)' },
+          '75%': { transform: 'rotate(-1.5deg) translateX(-2px)' },
         },
       },
       boxShadow: {
