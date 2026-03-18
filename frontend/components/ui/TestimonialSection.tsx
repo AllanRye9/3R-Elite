@@ -12,19 +12,19 @@ export interface Testimonial {
 const testimonials: Testimonial[] = [
   {
     name: 'Aisha K.',
-    avatarUrl: 'https://randomuser.me/api/portraits/women/65.jpg',
+    avatarUrl: '/avatars/avatar-aisha.svg',
     text: '3R-Elite made selling my designer bag so easy! The process was smooth and I got a great price.',
     rating: 5,
   },
   {
     name: 'Omar S.',
-    avatarUrl: 'https://randomuser.me/api/portraits/men/32.jpg',
+    avatarUrl: '/avatars/avatar-omar.svg',
     text: 'I found a rare watch I had been searching for. The platform feels safe and premium.',
     rating: 5,
   },
   {
     name: 'Grace N.',
-    avatarUrl: 'https://randomuser.me/api/portraits/women/44.jpg',
+    avatarUrl: '/avatars/avatar-grace.svg',
     text: 'Excellent support and fast listing approval. Highly recommend for luxury items.',
     rating: 4,
   },
@@ -32,6 +32,7 @@ const testimonials: Testimonial[] = [
 
 export default function TestimonialSection() {
   const [current, setCurrent] = useState(0);
+  const [failedAvatars, setFailedAvatars] = useState<Set<number>>(new Set());
   const advance = useCallback(() => {
     setCurrent((prev) => (prev + 1) % testimonials.length);
   }, []);
@@ -42,6 +43,10 @@ export default function TestimonialSection() {
     const timer = setInterval(advance, 6000);
     return () => clearInterval(timer);
   }, [advance]);
+
+  const handleAvatarError = useCallback((index: number) => {
+    setFailedAvatars((prev) => new Set(prev).add(index));
+  }, []);
 
   return (
     <section className="bg-white border-t border-gray-100 py-10 px-4 relative overflow-hidden">
@@ -58,8 +63,19 @@ export default function TestimonialSection() {
             aria-hidden={i !== current}
           >
             <div className="flex flex-col items-center bg-white/80 rounded-xl shadow-lg border border-elite-gold/10 px-8 py-6 mx-2">
-              {t.avatarUrl && (
-                <Image src={t.avatarUrl} alt={t.name} width={56} height={56} className="w-14 h-14 rounded-full mb-3 border-2 border-elite-gold object-cover" />
+              {t.avatarUrl && !failedAvatars.has(i) ? (
+                <Image
+                  src={t.avatarUrl}
+                  alt={t.name}
+                  width={56}
+                  height={56}
+                  className="w-14 h-14 rounded-full mb-3 border-2 border-elite-gold object-cover"
+                  onError={() => handleAvatarError(i)}
+                />
+              ) : (
+                <div className="w-14 h-14 rounded-full mb-3 border-2 border-elite-gold bg-elite-navy/20 flex items-center justify-center text-elite-navy font-bold text-xl">
+                  {t.name.charAt(0)}
+                </div>
               )}
               <p className="text-gray-700 text-base mb-3 max-w-xl text-center">“{t.text}”</p>
               <div className="flex gap-1 mb-2">
@@ -107,13 +123,14 @@ export default function TestimonialSection() {
                 : 'opacity-60 hover:opacity-100 hover:scale-105'
             }`}
           >
-            {t.avatarUrl ? (
+            {t.avatarUrl && !failedAvatars.has(i) ? (
               <Image
                 src={t.avatarUrl}
                 alt={t.name}
                 width={44}
                 height={44}
                 className="w-11 h-11 rounded-full object-cover"
+                onError={() => handleAvatarError(i)}
               />
             ) : (
               <div aria-label={`${t.name}'s avatar`} className="w-11 h-11 rounded-full bg-elite-navy/20 flex items-center justify-center text-elite-navy font-bold text-sm">
