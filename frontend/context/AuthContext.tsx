@@ -1,8 +1,19 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
 import { User } from '@/lib/types';
-import { api } from '@/lib/api';
+import { api, API_URL } from '@/lib/api';
+import {
+  clearAuthSession,
+  getRefreshToken,
+  getRemainingAuthSessionTime,
+  hasStoredAuthSession,
+  isAuthSessionExpired,
+  migrateLegacyAuthSession,
+  setAuthSession,
+  touchAuthActivity,
+} from '@/lib/authStorage';
 
 const AUTH_ME_COOLDOWN_KEY = 'auth:meCooldownUntil';
 const AUTH_ME_COOLDOWN_MS = 30_000;
@@ -31,6 +42,21 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [sessionTick, setSessionTick] = useState(0);
+
+  const destroySession = useCallback(async (revokeRemoteToken = true) => {
+    const refreshToken = getRefreshToken();
+
+    try {
+      if (revokeRemoteToken && refreshToken) {
+        await axios.post(`${API_URL}/api/auth/logout`, { refreshToken });
+      }
+    } finally {
+      clearAuthSession();
+      setUser(null);
+      setLoading(false);
+    }
+  }, []);
 
   const fetchMe = useCallback(async () => {
     if (typeof window !== 'undefined') {
@@ -50,11 +76,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       try {
         const { data } = await api.get('/users/me');
         if (typeof window !== 'undefined') sessionStorage.removeItem(AUTH_ME_COOLDOWN_KEY);
+        touchAuthActivity(true);
         setUser(data);
       } catch (error: unknown) {
         const status = (error as { response?: { status?: number } }).response?.status;
         if (typeof window !== 'undefined' && status === 429) {
           sessionStorage.setItem(AUTH_ME_COOLDOWN_KEY, String(Date.now() + AUTH_ME_COOLDOWN_MS));
+        }
+        if (status === 401 && typeof window !== 'undefined') {
+          await destroySession(false);
+          return;
         }
         setUser(null);
       } finally {
@@ -64,40 +95,119 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     })();
 
     await fetchMeRequest;
-  }, []);
+  }, [destroySession]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && sessionStorage.getItem('accessToken')) {
-      fetchMe();
-    } else {
+    if (typeof window === 'undefined') return;
+
+    migrateLegacyAuthSession();
+
+    if (!hasStoredAuthSession()) {
       setLoading(false);
+      return;
     }
-  }, [fetchMe]);
+
+    if (isAuthSessionExpired()) {
+      void destroySession(false);
+      return;
+    }
+
+    touchAuthActivity(true);
+    void fetchMe();
+  }, [destroySession, fetchMe]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !hasStoredAuthSession()) return;
+
+    let inactivityTimeoutId: number | undefined;
+
+    const scheduleInactivityLogout = () => {
+      window.clearTimeout(inactivityTimeoutId);
+
+      const remaining = getRemainingAuthSessionTime();
+      if (remaining <= 0) {
+        void destroySession();
+        return;
+      }
+
+      inactivityTimeoutId = window.setTimeout(() => {
+        void destroySession();
+      }, remaining);
+    };
+
+    const handleActivity = () => {
+      touchAuthActivity();
+      scheduleInactivityLogout();
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        handleActivity();
+      }
+    };
+
+    scheduleInactivityLogout();
+
+    window.addEventListener('pointerdown', handleActivity, { passive: true });
+    window.addEventListener('keydown', handleActivity);
+    window.addEventListener('scroll', handleActivity, { passive: true });
+    window.addEventListener('focus', handleActivity);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      window.clearTimeout(inactivityTimeoutId);
+      window.removeEventListener('pointerdown', handleActivity);
+      window.removeEventListener('keydown', handleActivity);
+      window.removeEventListener('scroll', handleActivity);
+      window.removeEventListener('focus', handleActivity);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [destroySession, sessionTick, user]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const handleStorage = (event: StorageEvent) => {
+      if (!event.key || !['accessToken', 'refreshToken', 'auth:lastActivityAt'].includes(event.key)) return;
+
+      setSessionTick((currentTick) => currentTick + 1);
+
+      if (!hasStoredAuthSession()) {
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+
+      if (isAuthSessionExpired()) {
+        void destroySession(false);
+        return;
+      }
+
+      if (event.key === 'auth:lastActivityAt') return;
+
+      setLoading(true);
+      void fetchMe();
+    };
+
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, [destroySession, fetchMe]);
 
   const login = async (email: string, password: string): Promise<User> => {
     const { data } = await api.post('/auth/login', { email, password });
-    sessionStorage.setItem('accessToken', data.accessToken);
-    sessionStorage.setItem('refreshToken', data.refreshToken);
+    setAuthSession(data.accessToken, data.refreshToken);
     setUser(data.user);
     return data.user as User;
   };
 
   const register = async (formData: RegisterData) => {
     const { data } = await api.post('/auth/register', formData);
-    sessionStorage.setItem('accessToken', data.accessToken);
-    sessionStorage.setItem('refreshToken', data.refreshToken);
+    setAuthSession(data.accessToken, data.refreshToken);
     setUser(data.user);
   };
 
   const logout = async () => {
-    try {
-      const refreshToken = sessionStorage.getItem('refreshToken');
-      await api.post('/auth/logout', { refreshToken });
-    } finally {
-      sessionStorage.removeItem('accessToken');
-      sessionStorage.removeItem('refreshToken');
-      setUser(null);
-    }
+    await destroySession();
   };
 
   const updateUser = (data: Partial<User>) => {

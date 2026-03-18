@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { clearAuthSession, getAccessToken, getRefreshToken, isAuthSessionExpired, setAuthSession } from '@/lib/authStorage';
 
 // Strip trailing slashes so that template literals like `${API_URL}/api`
 // never produce a double-slash (e.g. "https://example.com//api").
-const API_URL = (process.env.NEXT_PUBLIC_API_URL || '').replace(/\/+$/, '');
+export const API_URL = (process.env.NEXT_PUBLIC_API_URL || '').replace(/\/+$/, '');
 
 export const api = axios.create({
   baseURL: `${API_URL}/api`,
@@ -13,7 +14,12 @@ export const api = axios.create({
 // Attach access token to requests
 api.interceptors.request.use((config) => {
   if (typeof window !== 'undefined') {
-    const token = sessionStorage.getItem('accessToken');
+    if (isAuthSessionExpired()) {
+      clearAuthSession();
+      return config;
+    }
+
+    const token = getAccessToken();
     if (token) config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
@@ -27,17 +33,20 @@ api.interceptors.response.use(
     if (error.response?.status === 401 && !original._retry) {
       original._retry = true;
       try {
-        const refreshToken = sessionStorage.getItem('refreshToken');
+        if (typeof window !== 'undefined' && isAuthSessionExpired()) {
+          clearAuthSession();
+          return Promise.reject(error);
+        }
+
+        const refreshToken = getRefreshToken();
         if (refreshToken) {
           const { data } = await axios.post(`${API_URL}/api/auth/refresh`, { refreshToken });
-          sessionStorage.setItem('accessToken', data.accessToken);
-          sessionStorage.setItem('refreshToken', data.refreshToken);
+          setAuthSession(data.accessToken, data.refreshToken);
           original.headers.Authorization = `Bearer ${data.accessToken}`;
           return api(original);
         }
       } catch {
-        sessionStorage.removeItem('accessToken');
-        sessionStorage.removeItem('refreshToken');
+        clearAuthSession();
         if (typeof window !== 'undefined') window.location.href = '/auth/login';
       }
     }

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
+import { setAuthSession } from '@/lib/authStorage';
 import { useAuth } from '@/context/AuthContext';
 
 export default function AdminLoginPage() {
@@ -39,8 +40,7 @@ export default function AdminLoginPage() {
         setError('This account does not have admin access.');
         return;
       }
-      localStorage.setItem('accessToken', data.accessToken);
-      localStorage.setItem('refreshToken', data.refreshToken);
+      setAuthSession(data.accessToken, data.refreshToken);
       updateUser(data.user);
       router.push('/admin');
     } catch (err: unknown) {
