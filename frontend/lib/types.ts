@@ -61,7 +61,7 @@ export interface Listing {
   placement?: Placement;
   placementExpiresAt?: string;
   userId: string;
-  user: { id: string; name: string; avatar?: string; phone?: string; isVerified?: boolean };
+  user: { id: string; name: string; avatar?: string; phone?: string; isVerified?: boolean; role?: Role };
   category: Category;
   categoryId: string;
   productImages?: { id: string; cdnUrl: string | null; uploadedAt: string }[];
