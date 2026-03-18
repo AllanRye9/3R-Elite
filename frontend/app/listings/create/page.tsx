@@ -191,31 +191,15 @@ export default function CreateListingPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-6 sm:py-10">
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-elite-navy via-sky-600 to-sky-400 px-6 py-8 text-white shadow-xl sm:px-8">
-        <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
-        <div className="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-2xl">
-            <p className="inline-flex items-center rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white/85">
-              Product Publishing
+      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-elite-navy to-sky-600 px-5 py-4 text-white shadow-md sm:px-6 sm:py-5">
+        <div className="absolute right-0 top-0 h-24 w-24 rounded-full bg-white/10 blur-2xl" />
+        <div className="relative flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 className="text-lg font-extrabold tracking-tight sm:text-xl">Post your product in the right category</h1>
+            <p className="mt-0.5 text-xs text-white/80">
+              Signed in as <span className="font-semibold text-white">{user.name}</span> · {form.country === 'UAE' ? 'UAE' : 'Uganda'} · {listingCurrency}
+              {selectedCategoryLabel && <> · <span className="text-white/90">{selectedCategoryLabel}</span></>}
             </p>
-            <h1 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl">Post your product in the right category</h1>
-            <p className="mt-3 text-sm text-white/85 sm:text-base">
-              Signed in as <span className="font-semibold text-white">{user.name}</span>. Your product will be saved under the category you choose and reviewed before it goes live.
-            </p>
-          </div>
-          <div className="grid gap-3 sm:grid-cols-3 lg:w-[420px]">
-            <div className="rounded-2xl border border-white/15 bg-white/10 p-4">
-              <p className="text-xs uppercase tracking-[0.18em] text-white/70">Market</p>
-              <p className="mt-2 text-lg font-bold">{form.country === 'UAE' ? 'United Arab Emirates' : 'Uganda'}</p>
-            </div>
-            <div className="rounded-2xl border border-white/15 bg-white/10 p-4">
-              <p className="text-xs uppercase tracking-[0.18em] text-white/70">Currency</p>
-              <p className="mt-2 text-lg font-bold">{listingCurrency}</p>
-            </div>
-            <div className="rounded-2xl border border-white/15 bg-white/10 p-4">
-              <p className="text-xs uppercase tracking-[0.18em] text-white/70">Category</p>
-              <p className="mt-2 text-sm font-semibold text-white">{selectedCategoryLabel || 'Choose one below'}</p>
-            </div>
           </div>
         </div>
       </section>

@@ -17,10 +17,9 @@ const mobileNavItems = [
   { href: '/help', label: 'Help / FAQ', icon: '❓' },
 ];
 
-// Heights used in mobile drawer nav scroll area.
-// 68px = drawer header only (guest); 130px = drawer header + user-info strip (logged in)
+// 68px = drawer header only (guest); 140px = drawer header + user-info strip (logged in)
 const DRAWER_HEADER_H = '68px';
-const DRAWER_HEADER_WITH_USER_H = '130px';
+const DRAWER_HEADER_WITH_USER_H = '140px';
 
 export default function Header() {
   const { user, logout } = useAuth();
@@ -170,7 +169,7 @@ export default function Header() {
               <div ref={profileDropRef} className="relative hidden sm:block">
                 <button
                   onClick={() => setProfileDropOpen((p) => !p)}
-                  className={`flex items-center gap-1.5 text-sm rounded-lg p-1.5 transition-colors ${scrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-white hover:bg-white/20'}`}
+                  className={`flex items-center gap-1.5 text-sm rounded-lg p-1.5 transition-all ${scrolled ? 'text-gray-700 hover:bg-gray-100 ring-1 ring-gray-200' : 'text-white hover:bg-white/20'}`}
                   aria-label="My Account"
                   aria-expanded={profileDropOpen}
                 >
@@ -188,42 +187,51 @@ export default function Header() {
 
                 {/* Profile dropdown */}
                 {profileDropOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 z-50 animate-scale-in">
-                    <div className="px-3 py-2 border-b border-gray-100">
-                      <p className="text-sm font-semibold text-gray-900 truncate">{user.name}</p>
-                      <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                  <div className="absolute right-0 top-full mt-2 w-60 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 animate-scale-in">
+                    {/* User identity strip */}
+                    <div className="px-4 py-3 bg-gradient-to-r from-elite-navy to-sky-600">
+                      <div className="flex items-center gap-3">
+                        <UserAvatar user={user} size="sm" />
+                        <div className="min-w-0">
+                          <p className="text-sm font-bold text-white truncate">{user.name}</p>
+                          <p className="text-xs text-white/70 truncate">{user.email}</p>
+                        </div>
+                      </div>
                     </div>
-                    <Link href="/profile" className="flex items-center gap-2.5 px-3 py-2 text-sm text-gray-700 hover:bg-brand-50 hover:text-brand-600 transition-colors" onClick={() => setProfileDropOpen(false)}>
-                      <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                      My Profile
-                    </Link>
-                    <Link href="/profile/listings" className="flex items-center gap-2.5 px-3 py-2 text-sm text-gray-700 hover:bg-brand-50 hover:text-brand-600 transition-colors" onClick={() => setProfileDropOpen(false)}>
-                      <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
-                      My Listings
-                    </Link>
-                    <Link href="/profile/favorites" className="flex items-center gap-2.5 px-3 py-2 text-sm text-gray-700 hover:bg-brand-50 hover:text-brand-600 transition-colors" onClick={() => setProfileDropOpen(false)}>
-                      <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-                      Saved Items
-                    </Link>
-                    <Link href="/messages" className="flex items-center gap-2.5 px-3 py-2 text-sm text-gray-700 hover:bg-brand-50 hover:text-brand-600 transition-colors" onClick={() => setProfileDropOpen(false)}>
-                      <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
-                      Messages
-                    </Link>
-                    {user.role === 'ADMIN' && (
-                      <Link href="/admin" className="flex items-center gap-2.5 px-3 py-2 text-sm text-gray-700 hover:bg-brand-50 hover:text-brand-600 transition-colors" onClick={() => setProfileDropOpen(false)}>
-                        <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        Admin Panel
+                    <div className="py-1.5">
+                      <Link href="/profile" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-sky-50 hover:text-sky-700 transition-colors" onClick={() => setProfileDropOpen(false)}>
+                        <svg className="w-4 h-4 shrink-0 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                        My Profile
                       </Link>
-                    )}
-                    <div className="border-t border-gray-100 mt-1">
+                      <Link href="/profile/listings" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-sky-50 hover:text-sky-700 transition-colors" onClick={() => setProfileDropOpen(false)}>
+                        <svg className="w-4 h-4 shrink-0 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                        My Listings
+                      </Link>
+                      <Link href="/profile/favorites" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-sky-50 hover:text-sky-700 transition-colors" onClick={() => setProfileDropOpen(false)}>
+                        <svg className="w-4 h-4 shrink-0 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                        Saved Items
+                      </Link>
+                      <Link href="/messages" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-sky-50 hover:text-sky-700 transition-colors" onClick={() => setProfileDropOpen(false)}>
+                        <svg className="w-4 h-4 shrink-0 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
+                        Messages
+                      </Link>
+                      {user.role === 'ADMIN' && (
+                        <Link href="/admin" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-purple-700 hover:bg-purple-50 transition-colors" onClick={() => setProfileDropOpen(false)}>
+                          <svg className="w-4 h-4 shrink-0 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                          Admin Panel
+                        </Link>
+                      )}
+                    </div>
+                    {/* Prominent Sign Out */}
+                    <div className="px-3 pb-3">
                       <button
                         onClick={() => { logout(); setProfileDropOpen(false); }}
-                        className="flex w-full items-center gap-2.5 px-3 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                        className="flex w-full items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 font-semibold text-sm transition-colors border border-red-100"
                       >
-                        <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                        <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
                         Sign Out
                       </button>
                     </div>
@@ -231,8 +239,8 @@ export default function Header() {
                 )}
               </div>
             ) : (
-              <div className="flex items-center gap-1">
-                <Link href="/auth/login" className={`text-xs font-medium px-2 py-1.5 rounded-lg transition-colors ${scrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-white/90 hover:text-white'}`}>Login</Link>
+              <div className="flex items-center gap-1.5">
+                <Link href="/auth/login" className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${scrolled ? 'text-gray-700 hover:bg-gray-100 border border-gray-200' : 'text-white/90 hover:text-white hover:bg-white/10 border border-white/30'}`}>Login</Link>
                 <Link href="/auth/register" className={`hidden sm:flex text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${scrolled ? 'bg-elite-gold text-white hover:bg-elite-gold-light' : 'bg-white text-elite-navy hover:bg-sky-50 border border-white/70'}`}>Register</Link>
               </div>
             )}
@@ -295,13 +303,23 @@ export default function Header() {
 
         {/* User info strip (logged in) */}
         {user && (
-          <div className="px-4 py-3 bg-brand-50 border-b border-brand-100">
-            <div className="flex items-center gap-3">
-              <UserAvatar user={user} size="md" />
-              <div className="min-w-0">
-                <p className="text-sm font-semibold text-gray-900 truncate">{user.name}</p>
-                <p className="text-xs text-gray-500 truncate">{user.email}</p>
+          <div className="px-4 py-3 bg-gradient-to-r from-elite-navy to-sky-600 border-b border-white/10">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3 min-w-0">
+                <UserAvatar user={user} size="md" />
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-white truncate">{user.name}</p>
+                  <p className="text-xs text-white/70 truncate">{user.email}</p>
+                </div>
               </div>
+              <button
+                onClick={() => { logout(); setMenuOpen(false); }}
+                className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/15 hover:bg-red-500 text-white text-xs font-semibold transition-colors"
+                aria-label="Sign out"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                Sign Out
+              </button>
             </div>
           </div>
         )}
@@ -330,17 +348,6 @@ export default function Header() {
               <span className="text-xl w-6 text-center" aria-hidden="true">⚙️</span>
               Admin Panel
             </Link>
-          )}
-
-          {/* Sign out */}
-          {user && (
-            <button
-              onClick={() => { logout(); setMenuOpen(false); }}
-              className="flex w-full items-center gap-3 px-4 py-3.5 text-red-600 hover:bg-red-50 transition-colors font-medium text-sm border-t border-gray-100 mt-2"
-            >
-              <span className="text-xl w-6 text-center" aria-hidden="true">🚪</span>
-              Sign Out
-            </button>
           )}
 
           {/* Login / Register (guest) */}
