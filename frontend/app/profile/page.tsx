@@ -8,6 +8,16 @@ import AvatarCropper from '@/components/ui/AvatarCropper';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
+interface ListingSummary {
+  id: string;
+  title: string;
+  price: number;
+  currency: string;
+  status: string;
+  images: string[];
+  createdAt: string;
+}
+
 export default function ProfilePage() {
   const { user, updateUser, loading } = useAuth();
   const router = useRouter();
@@ -17,10 +27,19 @@ export default function ProfilePage() {
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [cropSrc, setCropSrc] = useState<string | null>(null);
   const avatarInputRef = useRef<HTMLInputElement>(null);
+  const [myListings, setMyListings] = useState<ListingSummary[]>([]);
+  const [listingsLoading, setListingsLoading] = useState(false);
 
   useEffect(() => {
     if (!loading && !user) router.push('/auth/login');
-    if (user) setForm({ name: user.name, phone: user.phone || '', country: user.country });
+    if (user) {
+      setForm({ name: user.name, phone: user.phone || '', country: user.country });
+      setListingsLoading(true);
+      api.get('/listings?limit=6&sort=createdAt&mine=true')
+        .then(({ data }) => setMyListings(data.listings || []))
+        .catch(() => setMyListings([]))
+        .finally(() => setListingsLoading(false));
+    }
   }, [user, loading, router]);
 
   const handleSave = async (e: React.FormEvent) => {
@@ -113,8 +132,19 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8 animate-fade-in">
-      <h1 className="text-2xl font-extrabold text-gray-900 mb-6">My Profile</h1>
+    <div className="max-w-3xl mx-auto px-4 py-8 animate-fade-in">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-extrabold text-gray-900">My Profile</h1>
+        <Link
+          href="/listings"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-elite-navy text-white text-sm font-semibold rounded-xl hover:bg-elite-charcoal transition-colors shadow-sm"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          Visit Marketplace
+        </Link>
+      </div>
 
       {/* Avatar cropper modal */}
       {cropSrc && (
@@ -127,12 +157,12 @@ export default function ProfilePage() {
 
       {/* Profile header */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-4">
-        {/* Banner */}
-        <div className="h-20 bg-gradient-to-r from-[#0EA5E9] to-[#0284c7]" />
-        <div className="px-4 sm:px-6 pb-4 sm:pb-6 -mt-10">
+        {/* Banner with gold gradient */}
+        <div className="h-24 bg-gradient-to-r from-elite-navy via-[#0369a1] to-[#C5A059]" />
+        <div className="px-4 sm:px-6 pb-4 sm:pb-6 -mt-12">
           <div className="flex flex-col sm:flex-row items-start sm:items-end gap-3 sm:gap-4">
             <div className="relative group">
-              <div className="ring-4 ring-white rounded-full shadow-lg overflow-hidden w-24 h-24">
+              <div className="ring-4 ring-white rounded-full shadow-lg overflow-hidden w-24 h-24 border-2 border-elite-gold/30">
                 <UserAvatar user={user} size="lg" />
               </div>
               <input
@@ -248,23 +278,97 @@ export default function ProfilePage() {
       </div>
 
       {/* Quick links */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         {[
-          { href: '/profile/listings', icon: '📋', label: 'My Listings', desc: 'Manage your ads' },
-          { href: '/profile/favorites', icon: '❤️', label: 'Favorites', desc: 'Saved items' },
-          { href: '/messages', icon: '💬', label: 'Messages', desc: 'Chat with buyers' },
-          { href: '/listings/create', icon: '➕', label: 'Post Ad', desc: 'Sell something' },
+          { href: '/profile/listings', icon: '📋', label: 'My Listings', desc: 'Manage your ads', accent: 'border-sky-200 hover:border-[#0EA5E9]' },
+          { href: '/profile/favorites', icon: '❤️', label: 'Favorites', desc: 'Saved items', accent: 'border-pink-200 hover:border-pink-400' },
+          { href: '/messages', icon: '💬', label: 'Messages', desc: 'Chat with buyers', accent: 'border-green-200 hover:border-green-400' },
+          { href: '/listings/create', icon: '➕', label: 'Post Ad', desc: 'Sell something', accent: 'border-elite-gold/40 hover:border-elite-gold' },
         ].map((item) => (
           <Link
             key={item.href}
             href={item.href}
-            className="bg-white rounded-2xl border border-gray-100 p-4 hover:border-sky-200 hover:shadow-md transition-all group interactive"
+            className={`bg-white rounded-2xl border ${item.accent} p-4 hover:shadow-md transition-all group interactive`}
           >
             <p className="text-2xl mb-1 group-hover:scale-110 transition-transform inline-block">{item.icon}</p>
             <p className="font-bold text-gray-900 text-sm">{item.label}</p>
             <p className="text-xs text-gray-400">{item.desc}</p>
           </Link>
         ))}
+      </div>
+
+      {/* My Listed Items */}
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-gray-100">
+          <h2 className="font-bold text-gray-900 flex items-center gap-2">
+            <span className="w-2 h-5 bg-elite-gold rounded-full inline-block" />
+            My Listed Items
+          </h2>
+          <Link
+            href="/profile/listings"
+            className="text-xs font-semibold text-elite-navy hover:text-elite-charcoal flex items-center gap-1 transition-colors"
+          >
+            View all
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
+        </div>
+
+        {listingsLoading ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 p-4">
+            {[1,2,3].map(i => (
+              <div key={i} className="animate-pulse">
+                <div className="aspect-[4/3] bg-gray-100 rounded-lg mb-2 shimmer" />
+                <div className="h-3 bg-gray-100 rounded shimmer mb-1" />
+                <div className="h-3 bg-gray-100 rounded shimmer w-2/3" />
+              </div>
+            ))}
+          </div>
+        ) : myListings.length > 0 ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 p-4">
+            {myListings.map((listing) => (
+              <Link key={listing.id} href={`/listings/${listing.id}`} className="group block">
+                <div className="aspect-[4/3] relative overflow-hidden rounded-lg bg-gray-50 border border-gray-100 mb-2">
+                  {listing.images?.[0] ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={listing.images[0]}
+                      alt={listing.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-gray-300 text-3xl">🖼️</div>
+                  )}
+                  <span className={`absolute top-1.5 right-1.5 text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${
+                    listing.status === 'ACTIVE' ? 'bg-green-100 text-green-700' :
+                    listing.status === 'PENDING' ? 'bg-yellow-100 text-yellow-700' :
+                    'bg-gray-100 text-gray-600'
+                  }`}>
+                    {listing.status}
+                  </span>
+                </div>
+                <p className="text-xs font-bold text-gray-900 line-clamp-1">{listing.title}</p>
+                <p className="text-xs text-elite-charcoal font-semibold">{listing.currency} {listing.price?.toLocaleString()}</p>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center py-10 px-4 text-center">
+            <div className="w-14 h-14 bg-elite-gold/10 rounded-full flex items-center justify-center text-3xl mb-3">📦</div>
+            <p className="font-semibold text-gray-700 mb-1">No listings yet</p>
+            <p className="text-xs text-gray-400 mb-4">Start selling on 3R Elite marketplace</p>
+            <Link
+              href="/listings/create"
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-elite-navy text-white text-xs font-bold rounded-xl hover:bg-elite-charcoal transition-colors"
+            >
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+              </svg>
+              Post Your First Ad
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

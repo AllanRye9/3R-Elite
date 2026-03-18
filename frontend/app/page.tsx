@@ -250,6 +250,28 @@ export default async function HomePage() {
           </div>
           {/* Center Slideshow and Hero Content */}
           <div className="flex-1 flex flex-col items-center justify-center px-2">
+            {/* Blue Reflective Title */}
+            <div className="text-center mb-2 xs:mb-3 relative z-10">
+              <h1
+                className="text-2xl xs:text-3xl sm:text-4xl font-black tracking-tight leading-tight"
+                style={{
+                  background: 'linear-gradient(180deg, #ffffff 0%, #90D5FF 40%, #0EA5E9 70%, #0284c7 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  filter: 'drop-shadow(0 0 18px rgba(14,165,233,0.55))',
+                  textShadow: 'none',
+                }}
+              >
+                3R <span style={{
+                  background: 'linear-gradient(180deg, #FFE5A0 0%, #C5A059 50%, #A8863D 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}>Elite</span>
+              </h1>
+              <p className="text-white/70 text-[10px] xs:text-xs font-medium tracking-widest uppercase mt-1">UAE &amp; Uganda Premium Marketplace</p>
+            </div>
             <div className="relative w-[108%] max-w-[112%] left-[-4%] aspect-[2.5/1] rounded-2xl overflow-hidden shadow-lg mb-3">
               <HeroSlideshow />
             </div>
@@ -505,8 +527,11 @@ export default async function HomePage() {
         <section>
           <div className="flex items-center justify-between mb-3 xs:mb-4">
             <div>
-              <h2 className="text-lg xs:text-xl font-extrabold text-elite-navy">Latest Collections</h2>
-              <p className="text-xs xs:text-sm text-gray-500 mt-0.5">Recently curated premium items</p>
+              <div className="flex items-center gap-2 mb-0.5">
+                <span className="w-1 h-6 bg-elite-gold rounded-full inline-block" />
+                <h2 className="text-lg xs:text-xl font-extrabold text-elite-navy">Premium Collections</h2>
+              </div>
+              <p className="text-xs xs:text-sm text-gray-500 mt-0.5 pl-3">Recently curated premium items</p>
             </div>
             <Link href="/listings" className="text-xs xs:text-sm font-semibold text-elite-gold hover:text-elite-gold-dark flex items-center gap-1 interactive">
               View all
@@ -519,7 +544,7 @@ export default async function HomePage() {
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
               {latestPlaceholders.map((item) => (
                 <Link key={item.id} href="/listings" className="block group">
-                  <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300">
+                  <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-lg hover:border-elite-gold/30 transition-all duration-300">
                     <div className="aspect-[4/3] relative overflow-hidden bg-gray-50">
                       <Image
                         src={item.img}
@@ -529,13 +554,14 @@ export default async function HomePage() {
                         loading="lazy"
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>
                     <div className="p-3">
-                      <p className="text-xs text-gray-500 font-medium mb-0.5">3R Elite Store</p>
-                      <h3 className="text-sm font-bold text-gray-900 line-clamp-2 mb-2">{item.title}</h3>
+                      <p className="text-[10px] text-elite-gold font-semibold mb-0.5 uppercase tracking-wide">3R Elite Store</p>
+                      <h3 className="text-xs font-bold text-gray-900 line-clamp-2 mb-2">{item.title}</h3>
                       <div className="flex items-center gap-2">
-                        <span className="text-gray-400 line-through text-xs">AED 899</span>
-                        <span className="text-[#0369a1] font-extrabold text-base">{item.price}</span>
+                        <span className="text-gray-400 line-through text-[10px]">AED 899</span>
+                        <span className="text-elite-charcoal font-extrabold text-sm">{item.price}</span>
                       </div>
                     </div>
                   </div>
