@@ -250,29 +250,20 @@ export default async function HomePage() {
           </div>
           {/* Center Slideshow and Hero Content */}
           <div className="flex-1 flex flex-col items-center justify-center px-2">
-            {/* Blue Reflective Title */}
+            {/* Tagline – top of hero */}
             <div className="text-center mb-2 xs:mb-3 relative z-10">
-              <Link href="/" className="inline-block" aria-label="Go to homepage">
-                <h1
-                  className="text-2xl xs:text-3xl sm:text-4xl font-black tracking-tight leading-tight"
-                  style={{
-                    background: 'linear-gradient(180deg, #ffffff 0%, #90D5FF 40%, #0EA5E9 70%, #0284c7 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    filter: 'drop-shadow(0 0 18px rgba(14,165,233,0.55))',
-                    textShadow: 'none',
-                  }}
-                >
-                  3R <span style={{
-                    background: 'linear-gradient(180deg, #FFE5A0 0%, #C5A059 50%, #A8863D 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                  }}>Elite</span>
-                </h1>
-              </Link>
-              <p className="text-white/70 text-[10px] xs:text-xs font-medium tracking-widest uppercase mt-1">UAE &amp; Uganda Premium Marketplace</p>
+              <p
+                className="font-black tracking-widest uppercase text-sm xs:text-base sm:text-lg"
+                style={{
+                  background: 'linear-gradient(90deg, #ffffff 0%, #90D5FF 40%, #FFE5A0 70%, #C5A059 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  filter: 'drop-shadow(0 0 12px rgba(14,165,233,0.45))',
+                }}
+              >
+                UAE &amp; Uganda Premium Marketplace
+              </p>
             </div>
             <div className="relative w-[108%] max-w-[112%] left-[-4%] aspect-[2.5/1] rounded-2xl overflow-hidden shadow-lg mb-3">
               <HeroSlideshow />
