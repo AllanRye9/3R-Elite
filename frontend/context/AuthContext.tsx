@@ -39,7 +39,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && localStorage.getItem('accessToken')) {
+    if (typeof window !== 'undefined' && sessionStorage.getItem('accessToken')) {
       fetchMe();
     } else {
       setLoading(false);
@@ -48,25 +48,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (email: string, password: string) => {
     const { data } = await api.post('/auth/login', { email, password });
-    localStorage.setItem('accessToken', data.accessToken);
-    localStorage.setItem('refreshToken', data.refreshToken);
+    sessionStorage.setItem('accessToken', data.accessToken);
+    sessionStorage.setItem('refreshToken', data.refreshToken);
     setUser(data.user);
   };
 
   const register = async (formData: RegisterData) => {
     const { data } = await api.post('/auth/register', formData);
-    localStorage.setItem('accessToken', data.accessToken);
-    localStorage.setItem('refreshToken', data.refreshToken);
+    sessionStorage.setItem('accessToken', data.accessToken);
+    sessionStorage.setItem('refreshToken', data.refreshToken);
     setUser(data.user);
   };
 
   const logout = async () => {
     try {
-      const refreshToken = localStorage.getItem('refreshToken');
+      const refreshToken = sessionStorage.getItem('refreshToken');
       await api.post('/auth/logout', { refreshToken });
     } finally {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
+      sessionStorage.removeItem('accessToken');
+      sessionStorage.removeItem('refreshToken');
       setUser(null);
     }
   };
