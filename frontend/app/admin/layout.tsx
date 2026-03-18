@@ -178,17 +178,16 @@ export default function AdminLayout({
 
       {/* Main content area */}
       <div className={`flex flex-1 flex-col transition-all duration-300 ${mainMargin}`}>
-        {/* Top bar */}
-        <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-gray-200 bg-white px-4">
-          {/* Mobile hamburger */}
+        {/* Mobile-only nav strip — opens the admin sidebar; hidden on desktop where the sidebar is always visible */}
+        <div className="md:hidden flex items-center gap-2 px-4 py-3 bg-white border-b border-gray-200">
           <button
             type="button"
             onClick={() => setSidebarOpen(true)}
-            className="md:hidden rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+            className="rounded-md p-1.5 text-gray-600 hover:bg-gray-100 hover:text-gray-900"
             aria-label="Open sidebar"
           >
             <svg
-              className="h-6 w-6"
+              className="h-5 w-5"
               fill="none"
               stroke="currentColor"
               strokeWidth={2}
@@ -201,29 +200,8 @@ export default function AdminLayout({
               />
             </svg>
           </button>
-          <span className="md:hidden ml-2 text-sm font-semibold text-gray-800">Admin Panel</span>
-
-          {/* Desktop breadcrumb/title placeholder */}
-          <div className="hidden md:block" />
-
-          {/* Right side: admin badge + site link */}
-          <div className="flex items-center gap-3 ml-auto">
-            {user && (
-              <div className="hidden sm:flex items-center gap-2">
-                <span className="text-xs font-bold bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">
-                  ADMIN
-                </span>
-                <span className="text-sm text-gray-700 font-medium">{user.name}</span>
-              </div>
-            )}
-            <Link
-              href="/"
-              className="text-xs text-gray-500 hover:text-gray-800 font-medium transition-colors"
-            >
-              ← View Site
-            </Link>
-          </div>
-        </header>
+          <span className="text-sm font-semibold text-gray-800">Admin Panel</span>
+        </div>
 
         <main className="flex-1 bg-gray-50 p-4 sm:p-6">
           {children}
