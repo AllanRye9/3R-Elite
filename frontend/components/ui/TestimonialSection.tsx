@@ -93,19 +93,35 @@ export default function TestimonialSection() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
           </svg>
         </button>
-        {/* Slide indicators */}
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
-          {testimonials.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrent(i)}
-              aria-label={`Go to testimonial ${i + 1}`}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === current ? 'w-6 bg-elite-gold' : 'w-1.5 bg-elite-navy/20 hover:bg-elite-gold/50'
-              }`}
-            />
-          ))}
-        </div>
+      </div>
+      {/* Avatar navigation — witnesses at the bottom */}
+      <div className="flex justify-center gap-4 mt-6">
+        {testimonials.map((t, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            aria-label={`View testimonial from ${t.name}`}
+            className={`relative rounded-full transition-all duration-300 focus:outline-none ${
+              i === current
+                ? 'ring-2 ring-elite-gold ring-offset-2 scale-110'
+                : 'opacity-60 hover:opacity-100 hover:scale-105'
+            }`}
+          >
+            {t.avatarUrl ? (
+              <Image
+                src={t.avatarUrl}
+                alt={t.name}
+                width={44}
+                height={44}
+                className="w-11 h-11 rounded-full object-cover"
+              />
+            ) : (
+              <div aria-label={`${t.name}'s avatar`} className="w-11 h-11 rounded-full bg-elite-navy/20 flex items-center justify-center text-elite-navy font-bold text-sm">
+                {t.name.charAt(0)}
+              </div>
+            )}
+          </button>
+        ))}
       </div>
     </section>
   );
