@@ -184,7 +184,14 @@ export default function Header() {
                   aria-expanded={profileDropOpen}
                 >
                   <UserAvatar user={user} size="sm" />
-                  <span className="hidden md:block font-medium">{user.name.split(' ')[0]}</span>
+                  <div className="hidden md:flex flex-col items-start leading-none gap-0.5">
+                    <span className="font-medium">{user.name.split(' ')[0]}</span>
+                    {user.role === 'ADMIN' && (
+                      <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full leading-none ${scrolled ? 'bg-purple-100 text-purple-700' : 'bg-purple-400/30 text-purple-100'}`}>
+                        ADMIN
+                      </span>
+                    )}
+                  </div>
                   <svg
                     className={`w-3.5 h-3.5 hidden md:block opacity-60 transition-transform duration-200 ${profileDropOpen ? 'rotate-180' : ''}`}
                     fill="none"

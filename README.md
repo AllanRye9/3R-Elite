@@ -1,23 +1,159 @@
-# 3R-Elite
+# 3R Elite — Modern Marketplace Platform
 
-## Repository Description
-3R-Elite is a cutting-edge repository focused on enhancing performance and providing advanced solutions to traditional challenges. This repository is designed for developers looking to integrate modern techniques in their projects.
+**3R Elite** is a full-stack, multi-country online marketplace built for buyers and sellers in the UAE and Uganda. It features real-time listings, admin moderation tools, image management, reviews, and a rich admin dashboard.
 
-## Language Composition
-- JavaScript
-- Python
-- HTML
+---
 
-## Comprehensive Project Information
-This project utilizes state-of-the-art technologies and frameworks to ensure optimal performance. The focus is on modularity and reusability, allowing for easy integration into existing systems.
+## 🛠 Tech Stack
 
-### Project Features
-- High efficiency in data handling.
-- Flexible architecture.
-- Extensive documentation.
+| Layer | Technology |
+|---|---|
+| **Frontend** | Next.js 14 (App Router), React, Tailwind CSS |
+| **Backend** | Node.js, Express.js, TypeScript |
+| **Database** | PostgreSQL (via Prisma ORM) |
+| **Auth** | JWT (access + refresh tokens) |
+| **CDN** | Cloudinary (with local fallback) |
+| **Containerization** | Docker / Docker Compose |
 
-### Installation
-To install, simply clone the repository and run the setup script.
+---
 
-### Usage
-Refer to the documentation for usage guidelines and examples.
+## 🚀 Features
+
+### For Users
+- **Browse & Search** listings by keyword, category, and country (UAE / Uganda)
+- **Post Listings** with multiple images and rich product details
+- **Favorites / Saved Items** — bookmark listings for later
+- **Messaging** — chat directly with sellers
+- **Profile Management** — avatar, bio, and listing history
+
+### For Admins
+- **Admin Dashboard** — real-time KPI cards, listing & user stats, approval rate
+- **Content Moderation** — approve, reject, or feature listings
+- **Image Moderation** — review uploaded images before they go live
+- **User Management** — search, view, and manage all accounts
+- **Reviews Management** — approve or reject product reviews
+- **Reports** — handle flagged listings and user reports
+- **Categories** — create and manage product categories
+- **Analytics** — platform-wide usage metrics
+- **Site Settings** — maintenance mode, registration toggle, defaults
+
+---
+
+## 🔐 Admin Access
+
+There are two ways to access the admin panel:
+
+### Option 1 — Admin Login Portal (`/admin/auth/login`)
+Go directly to `/admin/auth/login` and sign in with an administrator account. Only users with the `ADMIN` role can log in through this portal.
+
+### Option 2 — Normal Login (`/auth/login`)
+Log in through the standard login page. If your account has the `ADMIN` role, you will be automatically redirected to the admin dashboard (`/admin`), and your profile in the site header will display an **ADMIN** badge.
+
+### Creating an Admin Account
+Admin accounts are created at `/admin/auth/register` using a secret key (`ADMIN_SECRET`) set in the backend environment variables. Contact the system administrator for this key.
+
+---
+
+## 🗂 Project Structure
+
+```
+3R-Elite/
+├── frontend/               # Next.js 14 frontend
+│   ├── app/
+│   │   ├── admin/          # Admin panel (dashboard, users, listings, etc.)
+│   │   ├── auth/           # User login & registration
+│   │   ├── listings/       # Listing browse, detail, create pages
+│   │   ├── messages/       # In-app messaging
+│   │   └── profile/        # User profile & favorites
+│   ├── components/
+│   │   ├── layout/         # Header, CategoryBar
+│   │   ├── admin/          # Admin-specific components
+│   │   └── ui/             # Shared UI components
+│   └── context/            # Auth & Country context providers
+│
+├── backend/                # Express.js API
+│   ├── src/
+│   │   ├── routes/         # API route handlers
+│   │   ├── middleware/      # Auth, error handling
+│   │   └── utils/          # Prisma, JWT, CDN, logger
+│   └── prisma/             # Database schema & migrations
+│
+└── docker-compose.yml      # Full-stack Docker setup
+```
+
+---
+
+## ⚙️ Setup & Installation
+
+### Prerequisites
+- Node.js 18+
+- PostgreSQL database (or use Docker Compose)
+- (Optional) Cloudinary account for image hosting
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/AllanRye9/3R-Elite.git
+cd 3R-Elite
+```
+
+### 2. Configure environment variables
+
+**Backend** (`backend/.env`):
+```env
+DATABASE_URL=postgresql://user:password@localhost:5432/3relite
+JWT_SECRET=your_jwt_secret
+JWT_REFRESH_SECRET=your_refresh_secret
+ADMIN_SECRET=your_admin_registration_secret
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+CORS_ORIGIN=http://localhost:3000
+PORT=4000
+```
+
+**Frontend** (`frontend/.env.local`):
+```env
+NEXT_PUBLIC_API_URL=http://localhost:4000/api
+```
+
+### 3. Start with Docker Compose (recommended)
+```bash
+docker-compose up --build
+```
+This starts PostgreSQL, the backend API, and the Next.js frontend together.
+
+### 4. Manual setup
+
+**Backend:**
+```bash
+cd backend
+npm install
+npx prisma generate
+npx prisma migrate deploy
+npm run dev
+```
+
+**Frontend:**
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+---
+
+## 🧪 Development
+
+```bash
+# Type-check the backend
+cd backend && npx tsc --noEmit
+
+# Build the frontend
+cd frontend && npx next build
+```
+
+---
+
+## 📄 License
+
+MIT © 3R Elite
