@@ -4,6 +4,7 @@ export type Currency = 'AED' | 'UGX';
 export type Condition = 'NEW' | 'USED';
 export type ListingStatus = 'ACTIVE' | 'PENDING' | 'SOLD' | 'EXPIRED' | 'HIDDEN' | 'REJECTED';
 export type Placement = 'NONE' | 'LATEST_COLLECTIONS' | 'FEATURED_DEAL';
+export type ImageStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 
 export interface User {
   id: string;
@@ -27,6 +28,22 @@ export interface Category {
   children?: Category[];
 }
 
+export interface ProductImage {
+  id: string;
+  listingId?: string | null;
+  sellerId: string;
+  seller?: { id: string; name: string; email: string };
+  listing?: { id: string; title: string } | null;
+  tempPath: string;
+  status: ImageStatus;
+  cdnUrl?: string | null;
+  previewUrl?: string;
+  uploadedAt: string;
+  reviewedAt?: string | null;
+  reviewedBy?: string | null;
+  rejectionReason?: string | null;
+}
+
 export interface Listing {
   id: string;
   title: string;
@@ -47,6 +64,7 @@ export interface Listing {
   user: { id: string; name: string; avatar?: string; phone?: string; isVerified?: boolean };
   category: Category;
   categoryId: string;
+  productImages?: { id: string; cdnUrl: string | null; uploadedAt: string }[];
 }
 
 export interface Message {

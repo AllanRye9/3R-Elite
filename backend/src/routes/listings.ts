@@ -121,10 +121,23 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
 
 router.post('/', authenticate, async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
-    const { title, description, price, currency, condition, images, location, country, categoryId, expiresAt } = req.body;
+    const { title, description, price, currency, condition, images, imageIds, location, country, categoryId, expiresAt } = req.body;
 
     if (!title || !description || price == null || !location || !country || !categoryId) {
       return next(createError('Missing required fields', 400));
+    }
+
+    // Build the initial images array: use provided URLs or temp preview URLs from imageIds.
+    let initialImages: string[] = images || [];
+
+    // If imageIds supplied, resolve temp preview URLs for backward-compat display.
+    if (Array.isArray(imageIds) && imageIds.length > 0) {
+      const productImages = await prisma.productImage.findMany({
+        where: { id: { in: imageIds as string[] }, sellerId: req.user!.userId },
+      });
+      const baseUrl = process.env.API_BASE_URL || `http://localhost:${process.env.PORT || 5000}`;
+      const tempUrls = productImages.map((pi) => `${baseUrl}/uploads/temp/${pi.tempPath}`);
+      initialImages = [...initialImages, ...tempUrls];
     }
 
     const listing = await prisma.listing.create({
@@ -134,7 +147,7 @@ router.post('/', authenticate, async (req: AuthRequest, res: Response, next: Nex
         currency: currency || 'AED',
         condition: condition || 'USED',
         status: 'PENDING',
-        images: images || [],
+        images: initialImages,
         location, country,
         userId: req.user!.userId,
         categoryId,
@@ -145,6 +158,14 @@ router.post('/', authenticate, async (req: AuthRequest, res: Response, next: Nex
         user: { select: { id: true, name: true, avatar: true } },
       },
     });
+
+    // Link ProductImage records to this listing.
+    if (Array.isArray(imageIds) && imageIds.length > 0) {
+      await prisma.productImage.updateMany({
+        where: { id: { in: imageIds as string[] }, sellerId: req.user!.userId },
+        data: { listingId: listing.id },
+      });
+    }
 
     res.status(201).json(listing);
   } catch (err) {
@@ -159,6 +180,11 @@ router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
       include: {
         category: true,
         user: { select: { id: true, name: true, avatar: true, phone: true, country: true, createdAt: true } },
+        productImages: {
+          where: { status: 'APPROVED' },
+          select: { id: true, cdnUrl: true, uploadedAt: true },
+          orderBy: { uploadedAt: 'asc' },
+        },
       },
     });
 
