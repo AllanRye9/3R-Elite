@@ -5,6 +5,7 @@ export type Condition = 'NEW' | 'USED';
 export type ListingStatus = 'ACTIVE' | 'PENDING' | 'SOLD' | 'EXPIRED' | 'HIDDEN' | 'REJECTED';
 export type Placement = 'NONE' | 'LATEST_COLLECTIONS' | 'FEATURED_DEAL';
 export type ImageStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
+export type ReviewStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 
 export interface User {
   id: string;
@@ -88,6 +89,29 @@ export interface Review {
   reviewerId: string;
   revieweeId: string;
   reviewer: { id: string; name: string; avatar?: string };
+}
+
+export interface ProductReview {
+  id: string;
+  listingId: string;
+  userId: string;
+  user: { id: string; name: string; avatar?: string; email?: string };
+  rating: number;
+  title?: string | null;
+  content: string;
+  status: ReviewStatus;
+  helpfulCount: number;
+  verifiedPurchase: boolean;
+  rejectionReason?: string | null;
+  createdAt: string;
+  updatedAt: string;
+  listing?: { id: string; title: string };
+}
+
+export interface ReviewAggregate {
+  averageRating: number;
+  total: number;
+  breakdown: Record<number, { count: number; pct: number }>;
 }
 
 export interface PaginatedResponse<T> {

@@ -1,16 +1,17 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { api } from '@/lib/api';
-import { Listing } from '@/lib/types';
+import { Listing, ProductReview, ReviewAggregate } from '@/lib/types';
 import { CurrencyDisplay } from '@/components/ui/CurrencyDisplay';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { FavoriteButton } from '@/components/listings/FavoriteButton';
 import { ContactSellerModal } from '@/components/listings/ContactSellerModal';
-import { formatDate } from '@/lib/utils';
+import { formatDate, timeAgo } from '@/lib/utils';
+import { useAuth } from '@/context/AuthContext';
 
 function SkeletonDetail() {
   return (
@@ -33,9 +34,48 @@ function SkeletonDetail() {
 export default function ListingDetailPage() {
   const params = useParams<{ id: string }>();
   const id = params?.id;
+  const { user } = useAuth();
   const [listing, setListing] = useState<Listing | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeImage, setActiveImage] = useState(0);
+
+  // Reviews state
+  const [reviews, setReviews] = useState<ProductReview[]>([]);
+  const [aggregate, setAggregate] = useState<ReviewAggregate | null>(null);
+  const [reviewsLoading, setReviewsLoading] = useState(false);
+  const [reviewSort, setReviewSort] = useState<'recent' | 'helpful' | 'highest' | 'lowest'>('recent');
+  const [reviewPage, setReviewPage] = useState(1);
+  const [reviewTotalPages, setReviewTotalPages] = useState(1);
+
+  // Review form state
+  const [showForm, setShowForm] = useState(false);
+  const [formRating, setFormRating] = useState(0);
+  const [formHoverRating, setFormHoverRating] = useState(0);
+  const [formTitle, setFormTitle] = useState('');
+  const [formContent, setFormContent] = useState('');
+  const [formSubmitting, setFormSubmitting] = useState(false);
+  const [formError, setFormError] = useState('');
+  const [formSuccess, setFormSuccess] = useState('');
+
+  // Helpful vote tracking
+  const [helpfulLoading, setHelpfulLoading] = useState<string | null>(null);
+
+  const fetchReviews = useCallback(async () => {
+    if (!id) return;
+    setReviewsLoading(true);
+    try {
+      const { data } = await api.get(`/reviews/listing/${id}`, {
+        params: { sort: reviewSort, page: reviewPage, limit: 10 },
+      });
+      setReviews(data.reviews);
+      setAggregate(data.aggregate);
+      setReviewTotalPages(data.pagination.pages);
+    } catch {
+      // ignore
+    } finally {
+      setReviewsLoading(false);
+    }
+  }, [id, reviewSort, reviewPage]);
 
   useEffect(() => {
     api.get(`/listings/${id}`)
@@ -43,6 +83,49 @@ export default function ListingDetailPage() {
       .catch(() => setListing(null))
       .finally(() => setLoading(false));
   }, [id]);
+
+  useEffect(() => {
+    fetchReviews();
+  }, [fetchReviews]);
+
+  const handleReviewSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formRating) { setFormError('Please select a rating.'); return; }
+    if (!formContent.trim()) { setFormError('Please write your review.'); return; }
+    setFormError('');
+    setFormSubmitting(true);
+    try {
+      await api.post(`/reviews/listing/${id}`, {
+        rating: formRating,
+        title: formTitle || undefined,
+        content: formContent,
+      });
+      setFormSuccess('Thank you! Your review has been submitted and is awaiting moderation.');
+      setShowForm(false);
+      setFormRating(0);
+      setFormTitle('');
+      setFormContent('');
+      fetchReviews();
+    } catch (err: unknown) {
+      const msg = (err as { response?: { data?: { message?: string } } })?.response?.data?.message;
+      setFormError(msg || 'Failed to submit review. Please try again.');
+    } finally {
+      setFormSubmitting(false);
+    }
+  };
+
+  const handleHelpful = async (reviewId: string) => {
+    if (!user) return;
+    setHelpfulLoading(reviewId);
+    try {
+      await api.post(`/reviews/${reviewId}/helpful`);
+      fetchReviews();
+    } catch {
+      // ignore
+    } finally {
+      setHelpfulLoading(null);
+    }
+  };
 
   if (loading) return <SkeletonDetail />;
 
@@ -315,6 +398,281 @@ export default function ListingDetailPage() {
             Report this listing
           </button>
         </div>
+      </div>
+
+      {/* ── Reviews Section ─────────────────────────────────────────────────── */}
+      <div className="mt-8">
+        <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <svg className="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+          </svg>
+          Customer Reviews
+        </h2>
+
+        {/* Aggregated Rating Summary */}
+        {aggregate && aggregate.total > 0 && (
+          <div className="bg-white rounded-2xl p-5 border border-gray-100 mb-5">
+            <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
+              {/* Average score */}
+              <div className="text-center shrink-0">
+                <div className="text-5xl font-extrabold text-gray-900">{aggregate.averageRating.toFixed(1)}</div>
+                <div className="flex justify-center gap-0.5 mt-1">
+                  {[1,2,3,4,5].map((s) => (
+                    <svg key={s} className={`w-4 h-4 ${s <= Math.round(aggregate.averageRating) ? 'text-amber-400' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                    </svg>
+                  ))}
+                </div>
+                <div className="text-xs text-gray-500 mt-1">{aggregate.total} review{aggregate.total !== 1 ? 's' : ''}</div>
+              </div>
+
+              {/* Star breakdown bars */}
+              <div className="flex-1 w-full space-y-1.5">
+                {[5,4,3,2,1].map((s) => {
+                  const info = aggregate.breakdown[s] || { count: 0, pct: 0 };
+                  return (
+                    <div key={s} className="flex items-center gap-2 text-xs">
+                      <span className="text-gray-500 w-3 text-right">{s}</span>
+                      <svg className="w-3 h-3 text-amber-400 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                      </svg>
+                      <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                        <div className="h-full bg-amber-400 rounded-full transition-all" style={{ width: `${info.pct}%` }} />
+                      </div>
+                      <span className="text-gray-400 w-8 text-right">{info.count}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Write a Review prompt / success */}
+        {formSuccess && (
+          <div className="bg-green-50 border border-green-200 text-green-800 rounded-xl p-4 mb-4 text-sm">
+            {formSuccess}
+          </div>
+        )}
+
+        {user && !formSuccess && (
+          <div className="mb-5">
+            {!showForm ? (
+              <button
+                onClick={() => setShowForm(true)}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-sm font-semibold transition-colors interactive shadow-sm"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+                Write a Review
+              </button>
+            ) : (
+              <form onSubmit={handleReviewSubmit} className="bg-white rounded-2xl border border-gray-100 p-5 space-y-4">
+                <h3 className="font-bold text-gray-900">Write Your Review</h3>
+
+                {/* Star Rating Selector */}
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-2">Rating <span className="text-red-500">*</span></label>
+                  <div className="flex gap-1">
+                    {[1,2,3,4,5].map((s) => (
+                      <button
+                        key={s}
+                        type="button"
+                        onMouseEnter={() => setFormHoverRating(s)}
+                        onMouseLeave={() => setFormHoverRating(0)}
+                        onClick={() => setFormRating(s)}
+                        className="p-0.5 interactive"
+                        aria-label={`${s} star${s !== 1 ? 's' : ''}`}
+                      >
+                        <svg className={`w-7 h-7 transition-colors ${s <= (formHoverRating || formRating) ? 'text-amber-400' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                        </svg>
+                      </button>
+                    ))}
+                    {formRating > 0 && (
+                      <span className="ml-2 text-sm text-gray-500 self-center">
+                        {['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'][formRating]}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Title */}
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">Review Title <span className="text-gray-400">(optional)</span></label>
+                  <input
+                    type="text"
+                    value={formTitle}
+                    onChange={(e) => setFormTitle(e.target.value)}
+                    maxLength={150}
+                    placeholder="Summarize your experience"
+                    className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-400"
+                  />
+                </div>
+
+                {/* Content */}
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">Review <span className="text-red-500">*</span></label>
+                  <textarea
+                    value={formContent}
+                    onChange={(e) => setFormContent(e.target.value)}
+                    minLength={10}
+                    maxLength={2000}
+                    rows={4}
+                    placeholder="Share your experience with this listing..."
+                    className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-400 resize-none"
+                    required
+                  />
+                  <div className="text-right text-[10px] text-gray-400 mt-0.5">{formContent.length}/2000</div>
+                </div>
+
+                {formError && <p className="text-xs text-red-600">{formError}</p>}
+
+                <div className="flex gap-2 justify-end">
+                  <button
+                    type="button"
+                    onClick={() => { setShowForm(false); setFormError(''); }}
+                    className="px-4 py-2 rounded-xl text-sm font-medium text-gray-600 border border-gray-200 hover:bg-gray-50 transition-colors interactive"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={formSubmitting}
+                    className="px-5 py-2 rounded-xl text-sm font-semibold bg-sky-600 hover:bg-sky-700 text-white transition-colors disabled:opacity-50 interactive"
+                  >
+                    {formSubmitting ? 'Submitting…' : 'Submit Review'}
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        )}
+
+        {!user && (
+          <p className="text-sm text-gray-500 mb-5">
+            <Link href="/auth/login" className="text-sky-600 hover:underline font-medium">Sign in</Link> to write a review.
+          </p>
+        )}
+
+        {/* Sort Controls */}
+        {aggregate && aggregate.total > 0 && (
+          <div className="flex items-center gap-2 flex-wrap mb-4">
+            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Sort by:</span>
+            {(['recent', 'helpful', 'highest', 'lowest'] as const).map((s) => (
+              <button
+                key={s}
+                onClick={() => { setReviewSort(s); setReviewPage(1); }}
+                className={`px-3 py-1 rounded-full text-xs font-medium transition-colors interactive ${
+                  reviewSort === s
+                    ? 'bg-sky-600 text-white'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                {s === 'recent' ? 'Most Recent' : s === 'helpful' ? 'Most Helpful' : s === 'highest' ? 'Highest Rated' : 'Lowest Rated'}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Review List */}
+        {reviewsLoading ? (
+          <div className="space-y-3">
+            {[1,2,3].map((i) => (
+              <div key={i} className="bg-white rounded-2xl p-5 border border-gray-100 animate-pulse">
+                <div className="flex gap-3 mb-3">
+                  <div className="w-9 h-9 rounded-full shimmer" />
+                  <div className="flex-1 space-y-2">
+                    <div className="h-3 shimmer rounded w-1/4" />
+                    <div className="h-2.5 shimmer rounded w-1/5" />
+                  </div>
+                </div>
+                <div className="space-y-1.5">
+                  <div className="h-3 shimmer rounded w-3/4" />
+                  <div className="h-3 shimmer rounded w-full" />
+                  <div className="h-3 shimmer rounded w-2/3" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : reviews.length === 0 ? (
+          <div className="bg-white rounded-2xl p-10 border border-gray-100 text-center">
+            <div className="text-4xl mb-3">💬</div>
+            <p className="text-gray-500 text-sm">No reviews yet. Be the first to review this listing!</p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {reviews.map((review) => (
+              <div key={review.id} className="bg-white rounded-2xl p-5 border border-gray-100">
+                <div className="flex items-start gap-3 mb-3">
+                  <UserAvatar user={review.user} size="sm" />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-semibold text-sm text-gray-900">{review.user.name}</span>
+                      {review.verifiedPurchase && (
+                        <span className="inline-flex items-center gap-1 bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full">
+                          ✓ Verified Buyer
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <div className="flex gap-0.5">
+                        {[1,2,3,4,5].map((s) => (
+                          <svg key={s} className={`w-3 h-3 ${s <= review.rating ? 'text-amber-400' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                          </svg>
+                        ))}
+                      </div>
+                      <span className="text-[10px] text-gray-400">{timeAgo(review.createdAt)}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {review.title && (
+                  <h4 className="font-semibold text-sm text-gray-900 mb-1">{review.title}</h4>
+                )}
+                <p className="text-sm text-gray-600 leading-relaxed">{review.content}</p>
+
+                {/* Helpful button */}
+                <div className="mt-3 flex items-center gap-2">
+                  <button
+                    onClick={() => handleHelpful(review.id)}
+                    disabled={!user || helpfulLoading === review.id}
+                    className="inline-flex items-center gap-1.5 text-xs text-gray-400 hover:text-sky-600 transition-colors disabled:opacity-50 interactive"
+                    title={user ? 'Mark as helpful' : 'Sign in to vote'}
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                    </svg>
+                    Helpful ({review.helpfulCount})
+                  </button>
+                </div>
+              </div>
+            ))}
+
+            {/* Pagination */}
+            {reviewTotalPages > 1 && (
+              <div className="flex items-center justify-center gap-2 pt-2">
+                <button
+                  onClick={() => setReviewPage((p) => Math.max(1, p - 1))}
+                  disabled={reviewPage === 1}
+                  className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 transition-colors interactive"
+                >
+                  ← Previous
+                </button>
+                <span className="text-xs text-gray-500">Page {reviewPage} of {reviewTotalPages}</span>
+                <button
+                  onClick={() => setReviewPage((p) => Math.min(reviewTotalPages, p + 1))}
+                  disabled={reviewPage === reviewTotalPages}
+                  className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 transition-colors interactive"
+                >
+                  Next →
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
