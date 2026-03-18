@@ -158,7 +158,7 @@ export default function ProfilePage() {
       {/* Profile header */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-4">
         {/* Banner with gold gradient */}
-        <div className="h-24 bg-gradient-to-r from-elite-navy via-[#0369a1] to-[#C5A059]" />
+        <div className="h-24 bg-gradient-to-r from-elite-navy via-[#0369a1] to-elite-gold" />
         <div className="px-4 sm:px-6 pb-4 sm:pb-6 -mt-12">
           <div className="flex flex-col sm:flex-row items-start sm:items-end gap-3 sm:gap-4">
             <div className="relative group">

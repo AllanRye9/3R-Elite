@@ -6,7 +6,7 @@ interface Banner {
   cta: string;
   href: string;
   emoji: string;
-  bg: string;
+  bgGradient: string;
   cities: string;
   flag: string;
 }
@@ -19,7 +19,7 @@ const banners: Banner[] = [
     href: '/listings?country=UAE',
     emoji: '🏙️',
     flag: '🇦🇪',
-    bg: 'from-[#0284c7] to-[#0369a1]',
+    bgGradient: 'from-[#0284c7] to-[#0369a1]',
     cities: 'Dubai · Abu Dhabi · Sharjah · Ajman',
   },
   {
@@ -29,7 +29,7 @@ const banners: Banner[] = [
     href: '/listings?country=UGANDA',
     emoji: '🌿',
     flag: '🇺🇬',
-    bg: 'from-[#0369a1] to-[#075985]',
+    bgGradient: 'from-[#0369a1] to-[#075985]',
     cities: 'Kampala · Jinja · Gulu · Mbarara',
   },
 ];
@@ -41,7 +41,7 @@ export default function PromoBanners() {
         <Link
           key={banner.title}
           href={banner.href}
-          className={`group relative overflow-hidden rounded-xl p-5 sm:p-6 bg-gradient-to-br ${banner.bg} text-white hover:shadow-2xl transition-all duration-300 interactive`}
+          className={`group relative overflow-hidden rounded-xl p-5 sm:p-6 bg-gradient-to-br ${banner.bgGradient} text-white hover:shadow-2xl transition-all duration-300 interactive`}
         >
           {/* Reflective gold glow top-right */}
           <div
