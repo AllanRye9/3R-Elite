@@ -130,6 +130,16 @@ export default function Header() {
           {/* Desktop Navigation */}
           <nav className="flex items-center gap-2 sm:gap-3 ml-auto">
             <Link
+              href="/"
+              className={`relative p-2 rounded-lg hidden sm:flex items-center justify-center transition-colors ${scrolled ? 'text-gray-600 hover:bg-gray-100' : 'text-white hover:bg-white/20'}`}
+              aria-label="Home"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 22V12h6v10" />
+              </svg>
+            </Link>
+            <Link
               href="/listings/create"
               className={`hidden sm:flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${scrolled ? 'bg-elite-navy text-elite-gold hover:bg-elite-charcoal' : 'bg-elite-gold text-white hover:bg-elite-gold-light'}`}
             >
