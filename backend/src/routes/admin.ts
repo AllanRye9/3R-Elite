@@ -702,4 +702,77 @@ router.put('/images/bulk', async (req: AuthRequest, res: Response, next: NextFun
   }
 });
 
+// ─── Review Moderation ─────────────────────────────────────────────────────────
+
+router.get('/reviews', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const page = Math.max(1, parseInt(req.query.page as string || '1'));
+    const limit = Math.min(100, parseInt(req.query.limit as string || '20'));
+    const status = (req.query.status as string || 'PENDING').toUpperCase();
+
+    const where: Record<string, unknown> = { status };
+
+    const [reviews, total] = await Promise.all([
+      prisma.productReview.findMany({
+        where,
+        include: {
+          user: { select: { id: true, name: true, email: true } },
+          listing: { select: { id: true, title: true } },
+        },
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+      }),
+      prisma.productReview.count({ where }),
+    ]);
+
+    res.json({ reviews, pagination: { total, page, limit } });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put('/reviews/:id/approve', async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const review = await prisma.productReview.findUnique({ where: { id: req.params.id } });
+    if (!review) throw createError('Review not found', 404);
+    if (review.status !== 'PENDING') throw createError('Review is not pending', 400);
+
+    const updated = await prisma.productReview.update({
+      where: { id: req.params.id },
+      data: { status: 'APPROVED', rejectionReason: null },
+      include: {
+        user: { select: { id: true, name: true, email: true } },
+        listing: { select: { id: true, title: true } },
+      },
+    });
+
+    res.json(updated);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put('/reviews/:id/reject', async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const { reason } = req.body;
+    const review = await prisma.productReview.findUnique({ where: { id: req.params.id } });
+    if (!review) throw createError('Review not found', 404);
+    if (review.status !== 'PENDING') throw createError('Review is not pending', 400);
+
+    const updated = await prisma.productReview.update({
+      where: { id: req.params.id },
+      data: { status: 'REJECTED', rejectionReason: reason || null },
+      include: {
+        user: { select: { id: true, name: true, email: true } },
+        listing: { select: { id: true, title: true } },
+      },
+    });
+
+    res.json(updated);
+  } catch (err) {
+    next(err);
+  }
+});
+
 export default router;

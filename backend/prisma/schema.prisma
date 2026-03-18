@@ -50,6 +50,12 @@ enum ImageStatus {
   REJECTED
 }
 
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model User {
   id               String    @id @default(uuid())
   email            String    @unique
@@ -74,6 +80,8 @@ model User {
   receivedReviews  Review[]  @relation("ReceivedReviews")
   savedSearches    SavedSearch[]
   uploadedImages   ProductImage[] @relation("SellerImages")
+  productReviews   ProductReview[] @relation("UserProductReviews")
+  helpfulVotes     HelpfulVote[]   @relation("UserHelpfulVotes")
 }
 
 model Category {
@@ -115,6 +123,7 @@ model Listing {
   reports     Report[]
   reviews     Review[]
   productImages ProductImage[]
+  productReviews ProductReview[]
 }
 
 model Message {
@@ -192,4 +201,35 @@ model ProductImage {
   reviewedAt      DateTime?
   reviewedBy      String?
   rejectionReason String?
+}
+
+model ProductReview {
+  id               String        @id @default(uuid())
+  listingId        String
+  listing          Listing       @relation(fields: [listingId], references: [id])
+  userId           String
+  user             User          @relation("UserProductReviews", fields: [userId], references: [id])
+  rating           Int
+  title            String?
+  content          String
+  status           ReviewStatus  @default(PENDING)
+  helpfulCount     Int           @default(0)
+  verifiedPurchase Boolean       @default(false)
+  rejectionReason  String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  helpfulVotes     HelpfulVote[]
+
+  @@unique([userId, listingId])
+}
+
+model HelpfulVote {
+  id        String        @id @default(uuid())
+  reviewId  String
+  review    ProductReview @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User          @relation("UserHelpfulVotes", fields: [userId], references: [id])
+  createdAt DateTime      @default(now())
+
+  @@unique([reviewId, userId])
 }
