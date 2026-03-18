@@ -44,6 +44,12 @@ enum Placement {
   FEATURED_DEAL
 }
 
+enum ImageStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model User {
   id               String    @id @default(uuid())
   email            String    @unique
@@ -67,6 +73,7 @@ model User {
   givenReviews     Review[]  @relation("GivenReviews")
   receivedReviews  Review[]  @relation("ReceivedReviews")
   savedSearches    SavedSearch[]
+  uploadedImages   ProductImage[] @relation("SellerImages")
 }
 
 model Category {
@@ -107,6 +114,7 @@ model Listing {
   favorites   Favorite[]
   reports     Report[]
   reviews     Review[]
+  productImages ProductImage[]
 }
 
 model Message {
@@ -169,4 +177,19 @@ model SavedSearch {
 
   userId      String
   user        User     @relation(fields: [userId], references: [id])
+}
+
+model ProductImage {
+  id              String      @id @default(uuid())
+  listingId       String?
+  listing         Listing?    @relation(fields: [listingId], references: [id], onDelete: SetNull)
+  sellerId        String
+  seller          User        @relation("SellerImages", fields: [sellerId], references: [id])
+  tempPath        String
+  status          ImageStatus @default(PENDING)
+  cdnUrl          String?
+  uploadedAt      DateTime    @default(now())
+  reviewedAt      DateTime?
+  reviewedBy      String?
+  rejectionReason String?
 }

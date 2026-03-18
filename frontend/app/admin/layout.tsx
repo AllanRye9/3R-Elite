@@ -8,6 +8,7 @@ const navItems = [
   { href: '/admin', label: 'Dashboard', icon: '📊' },
   { href: '/admin/analytics', label: 'Analytics', icon: '📈' },
   { href: '/admin/submissions', label: 'Submissions', icon: '📥' },
+  { href: '/admin/images', label: 'Image Moderation', icon: '🖼️' },
   { href: '/admin/users', label: 'Users', icon: '👥' },
   { href: '/admin/listings', label: 'Listings', icon: '📋' },
   { href: '/admin/categories', label: 'Categories', icon: '🏷️' },

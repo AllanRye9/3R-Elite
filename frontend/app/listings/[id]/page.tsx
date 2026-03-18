@@ -57,9 +57,16 @@ export default function ListingDetailPage() {
     );
   }
 
-  const images = listing.images.length > 0
-    ? listing.images
-    : [`https://picsum.photos/seed/${listing.id}/800/600`];
+  const images = (() => {
+    // Prefer approved CDN images from the productImages relation
+    const approvedCdnUrls = (listing.productImages || [])
+      .filter((pi) => pi.cdnUrl)
+      .map((pi) => pi.cdnUrl as string);
+    if (approvedCdnUrls.length > 0) return approvedCdnUrls;
+    // Fall back to listing.images[] (may include temp preview URLs)
+    if (listing.images.length > 0) return listing.images;
+    return [`https://picsum.photos/seed/${listing.id}/800/600`];
+  })();
 
   const detailItems = [
     { label: 'Category', value: listing.category.name },

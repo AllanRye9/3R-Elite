@@ -3,6 +3,9 @@ import { prisma } from '../utils/prisma';
 import { authenticate, authorize } from '../middleware/auth';
 import { AuthRequest } from '../middleware/auth';
 import { createError } from '../middleware/errorHandler';
+import { uploadToCDN } from '../utils/cdn';
+import fs from 'fs';
+import path from 'path';
 
 const router = Router();
 
@@ -489,6 +492,211 @@ router.put('/settings', async (req: Request, res: Response, next: NextFunction) 
       }
     }
     res.json(siteSettings);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ─── Image Moderation ──────────────────────────────────────────────────────────
+
+router.get('/images', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const page = Math.max(1, parseInt(req.query.page as string || '1'));
+    const limit = Math.min(100, parseInt(req.query.limit as string || '20'));
+    const status = (req.query.status as string || 'PENDING').toUpperCase();
+    const sellerId = req.query.sellerId as string | undefined;
+
+    const where: Record<string, unknown> = { status };
+    if (sellerId) where.sellerId = sellerId;
+
+    const [images, total] = await Promise.all([
+      prisma.productImage.findMany({
+        where,
+        include: {
+          seller: { select: { id: true, name: true, email: true } },
+          listing: { select: { id: true, title: true } },
+        },
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { uploadedAt: 'desc' },
+      }),
+      prisma.productImage.count({ where }),
+    ]);
+
+    const baseUrl = process.env.API_BASE_URL || `http://localhost:${process.env.PORT || 5000}`;
+    const imagesWithUrls = images.map((img) => ({
+      ...img,
+      previewUrl: img.cdnUrl || `${baseUrl}/uploads/temp/${img.tempPath}`,
+    }));
+
+    res.json({ images: imagesWithUrls, pagination: { total, page, limit } });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put('/images/:id/approve', async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const image = await prisma.productImage.findUnique({ where: { id: req.params.id } });
+    if (!image) throw createError('Image not found', 404);
+    if (image.status !== 'PENDING') throw createError('Image is not pending review', 400);
+
+    const tempFilePath = path.join(process.cwd(), 'uploads', 'temp', image.tempPath);
+    if (!fs.existsSync(tempFilePath)) {
+      throw createError('Temporary file not found; it may have already been processed', 404);
+    }
+
+    let cdnUrl: string;
+    try {
+      cdnUrl = await uploadToCDN(tempFilePath, image.tempPath);
+    } catch (cdnErr) {
+      throw createError(`CDN upload failed: ${(cdnErr as Error).message}`, 502);
+    }
+
+    // Delete temp file after successful CDN upload.
+    try { fs.unlinkSync(tempFilePath); } catch { /* best-effort */ }
+
+    const updated = await prisma.productImage.update({
+      where: { id: req.params.id },
+      data: {
+        status: 'APPROVED',
+        cdnUrl,
+        reviewedAt: new Date(),
+        reviewedBy: req.user!.userId,
+      },
+    });
+
+    // Update the listing's images array to replace the temp preview URL with the CDN URL.
+    if (image.listingId) {
+      const listing = await prisma.listing.findUnique({ where: { id: image.listingId } });
+      if (listing) {
+        const baseUrl = process.env.API_BASE_URL || `http://localhost:${process.env.PORT || 5000}`;
+        const tempPreviewUrl = `${baseUrl}/uploads/temp/${image.tempPath}`;
+        // Replace the temp preview URL with the CDN URL; add CDN URL if not already present.
+        const alreadyHasTemp = listing.images.includes(tempPreviewUrl);
+        const updatedImages = alreadyHasTemp
+          ? listing.images.map((u) => (u === tempPreviewUrl ? cdnUrl : u))
+          : [...listing.images, cdnUrl];
+        await prisma.listing.update({
+          where: { id: image.listingId },
+          data: { images: updatedImages },
+        });
+      }
+    }
+
+    res.json(updated);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put('/images/:id/reject', async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const { reason } = req.body;
+    const image = await prisma.productImage.findUnique({ where: { id: req.params.id } });
+    if (!image) throw createError('Image not found', 404);
+    if (image.status !== 'PENDING') throw createError('Image is not pending review', 400);
+
+    // Delete temp file.
+    const tempFilePath = path.join(process.cwd(), 'uploads', 'temp', image.tempPath);
+    try { fs.unlinkSync(tempFilePath); } catch { /* best-effort */ }
+
+    const updated = await prisma.productImage.update({
+      where: { id: req.params.id },
+      data: {
+        status: 'REJECTED',
+        reviewedAt: new Date(),
+        reviewedBy: req.user!.userId,
+        rejectionReason: reason || null,
+      },
+    });
+
+    // Remove temp preview URL from the listing's images array.
+    if (image.listingId) {
+      const listing = await prisma.listing.findUnique({ where: { id: image.listingId } });
+      if (listing) {
+        const baseUrl = process.env.API_BASE_URL || `http://localhost:${process.env.PORT || 5000}`;
+        const tempPreviewUrl = `${baseUrl}/uploads/temp/${image.tempPath}`;
+        await prisma.listing.update({
+          where: { id: image.listingId },
+          data: { images: listing.images.filter((u) => u !== tempPreviewUrl) },
+        });
+      }
+    }
+
+    res.json(updated);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put('/images/bulk', async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const { ids, action, reason } = req.body as { ids: string[]; action: 'approve' | 'reject'; reason?: string };
+    if (!Array.isArray(ids) || ids.length === 0) throw createError('ids array is required', 400);
+    if (!['approve', 'reject'].includes(action)) throw createError('action must be approve or reject', 400);
+
+    const baseUrl = process.env.API_BASE_URL || `http://localhost:${process.env.PORT || 5000}`;
+    const adminUserId = req.user!.userId;
+
+    const processOne = async (id: string): Promise<{ id: string; success: boolean; error?: string }> => {
+      const image = await prisma.productImage.findUnique({ where: { id } });
+      if (!image || image.status !== 'PENDING') {
+        return { id, success: false, error: 'Not found or not pending' };
+      }
+
+      if (action === 'approve') {
+        const tempFilePath = path.join(process.cwd(), 'uploads', 'temp', image.tempPath);
+        if (!fs.existsSync(tempFilePath)) {
+          return { id, success: false, error: 'Temp file missing' };
+        }
+        const cdnUrl = await uploadToCDN(tempFilePath, image.tempPath);
+        try { fs.unlinkSync(tempFilePath); } catch { /* best-effort */ }
+        await prisma.productImage.update({
+          where: { id },
+          data: { status: 'APPROVED', cdnUrl, reviewedAt: new Date(), reviewedBy: adminUserId },
+        });
+        if (image.listingId) {
+          const listing = await prisma.listing.findUnique({ where: { id: image.listingId } });
+          if (listing) {
+            const tempPreviewUrl = `${baseUrl}/uploads/temp/${image.tempPath}`;
+            const alreadyHasTemp = listing.images.includes(tempPreviewUrl);
+            const updatedImages = alreadyHasTemp
+              ? listing.images.map((u) => (u === tempPreviewUrl ? cdnUrl : u))
+              : [...listing.images, cdnUrl];
+            await prisma.listing.update({ where: { id: image.listingId }, data: { images: updatedImages } });
+          }
+        }
+      } else {
+        const tempFilePath = path.join(process.cwd(), 'uploads', 'temp', image.tempPath);
+        try { fs.unlinkSync(tempFilePath); } catch { /* best-effort */ }
+        await prisma.productImage.update({
+          where: { id },
+          data: { status: 'REJECTED', reviewedAt: new Date(), reviewedBy: adminUserId, rejectionReason: reason || null },
+        });
+        if (image.listingId) {
+          const listing = await prisma.listing.findUnique({ where: { id: image.listingId } });
+          if (listing) {
+            const tempPreviewUrl = `${baseUrl}/uploads/temp/${image.tempPath}`;
+            await prisma.listing.update({
+              where: { id: image.listingId },
+              data: { images: listing.images.filter((u) => u !== tempPreviewUrl) },
+            });
+          }
+        }
+      }
+
+      return { id, success: true };
+    };
+
+    const settled = await Promise.allSettled(ids.map(processOne));
+    const results = settled.map((s) =>
+      s.status === 'fulfilled'
+        ? s.value
+        : { id: 'unknown', success: false, error: (s.reason as Error).message },
+    );
+
+    res.json({ results });
   } catch (err) {
     next(err);
   }

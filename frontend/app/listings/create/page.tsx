@@ -20,6 +20,8 @@ export default function CreateListingPage() {
   const [submitted, setSubmitted] = useState(false);
   const [uploadingImages, setUploadingImages] = useState(false);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const [pendingImageIds, setPendingImageIds] = useState<string[]>([]);
+  const [uploadedCount, setUploadedCount] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [form, setForm] = useState({
     title: '',
@@ -28,7 +30,6 @@ export default function CreateListingPage() {
     condition: 'USED',
     location: '',
     categoryId: '',
-    images: [] as string[],
   });
 
   useEffect(() => {
@@ -39,14 +40,14 @@ export default function CreateListingPage() {
   const handleImageFiles = async (files: FileList | null) => {
     if (!files || files.length === 0) return;
 
-    // Show local previews immediately
+    // Show local previews immediately (blob URLs – no server round trip needed)
     const newPreviews: string[] = [];
     for (const file of Array.from(files)) {
       newPreviews.push(URL.createObjectURL(file));
     }
     setImagePreviews((prev) => [...prev, ...newPreviews]);
 
-    // Upload to server
+    // Upload to server; receive imageIds for pending moderation records.
     setUploadingImages(true);
     try {
       const formData = new FormData();
@@ -56,7 +57,9 @@ export default function CreateListingPage() {
       const { data } = await api.post('/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      setForm((prev) => ({ ...prev, images: [...prev.images, ...data.urls] }));
+      const ids: string[] = data.imageIds || [];
+      setPendingImageIds((prev) => [...prev, ...ids]);
+      setUploadedCount((prev) => prev + ids.length);
     } catch {
       setError('Image upload failed. Please try again.');
       setImagePreviews((prev) => prev.slice(0, prev.length - newPreviews.length));
@@ -67,7 +70,8 @@ export default function CreateListingPage() {
 
   const removeImage = (index: number) => {
     setImagePreviews((prev) => prev.filter((_, i) => i !== index));
-    setForm((prev) => ({ ...prev, images: prev.images.filter((_, i) => i !== index) }));
+    setPendingImageIds((prev) => prev.filter((_, i) => i !== index));
+    if (uploadedCount > 0) setUploadedCount((prev) => prev - 1);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -88,6 +92,7 @@ export default function CreateListingPage() {
         price: parseFloat(form.price),
         country,
         currency,
+        imageIds: pendingImageIds,
       });
       setSubmitted(true);
     } catch (err: unknown) {
@@ -213,7 +218,19 @@ export default function CreateListingPage() {
         {/* Photo Upload */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Photos (optional)</label>
-          <p className="text-xs text-gray-500 mb-3">Upload up to 10 images. Max 5 MB each.</p>
+          <p className="text-xs text-gray-500 mb-3">Upload up to 10 images. JPEG, PNG, or GIF. Max 10 MB each.</p>
+
+          {/* Uploaded count notice */}
+          {uploadedCount > 0 && (
+            <div className="flex items-start gap-2 mb-3 rounded-lg bg-amber-50 border border-amber-200 p-3">
+              <svg className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="text-xs text-amber-700">
+                <span className="font-semibold">{uploadedCount} image{uploadedCount !== 1 ? 's' : ''} received</span> — awaiting admin approval before becoming publicly visible.
+              </p>
+            </div>
+          )}
 
           {/* Image previews */}
           {imagePreviews.length > 0 && (
@@ -251,14 +268,14 @@ export default function CreateListingPage() {
               <>
                 <p className="text-3xl mb-1">📷</p>
                 <p className="text-sm text-gray-600 font-medium">Click to upload photos</p>
-                <p className="text-xs text-gray-400 mt-1">JPG, PNG, WEBP up to 5 MB</p>
+                <p className="text-xs text-gray-400 mt-1">JPG, PNG, GIF up to 10 MB</p>
               </>
             )}
           </div>
           <input
             ref={fileInputRef}
             type="file"
-            accept="image/*"
+            accept="image/jpeg,image/png,image/gif"
             multiple
             className="hidden"
             onChange={(e) => handleImageFiles(e.target.files)}
