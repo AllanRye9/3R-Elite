@@ -7,6 +7,7 @@ import { useCountry } from '@/context/CountryContext';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { useRouter, usePathname } from 'next/navigation';
 import CategoryBar from '@/components/layout/CategoryBar';
+import { CountrySelector } from '@/components/ui/CountrySelector';
 
 const mobileNavItems = [
   { href: '/', label: 'Home', icon: '🏠' },
@@ -20,6 +21,35 @@ const mobileNavItems = [
 // 68px = drawer header only (guest); 140px = drawer header + user-info strip (logged in)
 const DRAWER_HEADER_H = '68px';
 const DRAWER_HEADER_WITH_USER_H = '140px';
+
+const MOBILE_COUNTRY_OPTIONS = [
+  { value: 'UAE' as const, flag: '🇦🇪', label: 'UAE', sub: 'United Arab Emirates' },
+  { value: 'UGANDA' as const, flag: '🇺🇬', label: 'Uganda', sub: 'East Africa' },
+];
+
+function MobileCountryPicker({ onClose }: { onClose: () => void }) {
+  const { country, setCountry } = useCountry();
+  return (
+    <div className="grid grid-cols-2 gap-2">
+      {MOBILE_COUNTRY_OPTIONS.map((opt) => (
+        <button
+          key={opt.value}
+          type="button"
+          onClick={() => { setCountry(opt.value); onClose(); }}
+          className={`flex flex-col items-center gap-1.5 py-3 px-2 rounded-xl border-2 transition-all text-sm font-semibold ${
+            opt.value === country
+              ? 'border-sky-500 bg-sky-50 text-sky-700'
+              : 'border-gray-200 text-gray-600 hover:border-sky-200 hover:bg-sky-50/60'
+          }`}
+        >
+          <span className="text-3xl leading-none" aria-hidden="true">{opt.flag}</span>
+          <span>{opt.label}</span>
+          <span className="text-[10px] font-normal text-gray-400">{opt.sub}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
 
 export default function Header() {
   const { user, logout } = useAuth();
@@ -70,7 +100,7 @@ export default function Header() {
     <>
       <header className={`sticky top-0 z-50 shadow-sm transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md border-b border-gray-100' : 'bg-elite-navy'}`}>
         {/* Top utility bar — desktop only */}
-        <div className="hidden sm:flex justify-between items-center max-w-7xl mx-auto px-4 h-8 text-xs text-white/80 bg-elite-navy">
+        <div className="hidden sm:flex justify-between items-center max-w-7xl mx-auto px-4 h-10 text-xs text-white/80 bg-elite-navy relative z-10">
           <div className="flex items-center gap-4">
             <Link href="/listings/create" className="hover:text-white flex items-center gap-1 transition-colors">
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
@@ -80,6 +110,8 @@ export default function Header() {
             </Link>
             <Link href="/help" className="hover:text-white transition-colors">Help / FAQ</Link>
           </div>
+          {/* Country selector — allows switching between UAE and Uganda */}
+          <CountrySelector />
         </div>
 
         {/* Main header row */}
@@ -386,6 +418,12 @@ export default function Header() {
               </Link>
             </div>
           )}
+
+          {/* Country selector — mobile */}
+          <div className="px-4 py-4 border-t border-gray-100">
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Marketplace Region</p>
+            <MobileCountryPicker onClose={() => setMenuOpen(false)} />
+          </div>
         </nav>
       </div>
     </>

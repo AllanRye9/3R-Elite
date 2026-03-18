@@ -127,80 +127,84 @@ function CategoryBarInner() {
     timeoutRef.current = setTimeout(() => setOpenMenu(null), MENU_CLOSE_DELAY_MS);
   };
 
+  const activeCategory = openMenu ? topCategories.find((c) => c.label === openMenu) : null;
+
   return (
-    <div className="flex items-center gap-0.5 overflow-x-auto no-scrollbar relative">
-      <Link
-        href="/listings"
-        className={`flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] xs:text-xs font-semibold whitespace-nowrap transition-all interactive ${
-          !currentQ
-            ? 'bg-white/20 text-white'
-            : 'text-white/80 hover:text-white hover:bg-white/10'
-        }`}
-      >
-        All
-      </Link>
-      {topCategories.map((cat) => {
-        const catQ = new URL(cat.href, 'http://x').searchParams.get('q') || '';
-        const isActive = catQ.toLowerCase() === currentQ.toLowerCase() && catQ !== '';
-        const hasMega = Boolean(cat.megaMenu);
-        const isOpen = openMenu === cat.label;
+    /* Outer wrapper is the positioning context for mega menus so they escape the overflow container */
+    <div className="relative">
+      {/* Scrollable category links row */}
+      <div className="flex items-center gap-0.5 overflow-x-auto no-scrollbar">
+        <Link
+          href="/listings"
+          className={`flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] xs:text-xs font-semibold whitespace-nowrap transition-all interactive ${
+            !currentQ
+              ? 'bg-white/20 text-white'
+              : 'text-white/80 hover:text-white hover:bg-white/10'
+          }`}
+        >
+          All
+        </Link>
+        {topCategories.map((cat) => {
+          const catQ = new URL(cat.href, 'http://x').searchParams.get('q') || '';
+          const isActive = catQ.toLowerCase() === currentQ.toLowerCase() && catQ !== '';
+          const hasMega = Boolean(cat.megaMenu);
 
-        return (
-          <div
-            key={cat.label}
-            className="relative"
-            onMouseEnter={() => hasMega && handleMouseEnter(cat.label)}
-            onMouseLeave={handleMouseLeave}
-          >
-            <Link
-              href={cat.href}
-              className={`flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] xs:text-xs font-semibold whitespace-nowrap transition-all interactive ${
-                isActive
-                  ? 'bg-white/20 text-white'
-                  : 'text-white/80 hover:text-white hover:bg-white/10'
-              }`}
+          return (
+            <div
+              key={cat.label}
+              onMouseEnter={() => hasMega && handleMouseEnter(cat.label)}
+              onMouseLeave={handleMouseLeave}
             >
-              <span aria-hidden="true">{cat.icon}</span>
-              {cat.label}
-              {hasMega && (
-                <svg className="w-2.5 h-2.5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              )}
-            </Link>
-
-            {/* Mega Menu */}
-            {hasMega && isOpen && (
-              <div
-                className="absolute top-full left-0 pt-1 z-50"
-                onMouseEnter={() => handleMouseEnter(cat.label)}
-                onMouseLeave={handleMouseLeave}
+              <Link
+                href={cat.href}
+                className={`flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] xs:text-xs font-semibold whitespace-nowrap transition-all interactive ${
+                  isActive
+                    ? 'bg-white/20 text-white'
+                    : 'text-white/80 hover:text-white hover:bg-white/10'
+                }`}
               >
-                <div className="bg-white rounded-xl shadow-xl border border-gray-100 p-4 flex gap-6 min-w-[420px] animate-scale-in">
-                  {cat.megaMenu!.map((col) => (
-                    <div key={col.heading} className="flex-1 min-w-[120px]">
-                      <h4 className="text-xs font-extrabold text-gray-900 mb-2 uppercase tracking-wider">{col.heading}</h4>
-                      <ul className="space-y-1.5">
-                        {col.links.map((link) => (
-                          <li key={link.label}>
-                            <Link
-                              href={link.href}
-                              className="text-sm text-gray-600 hover:text-elite-gold hover:font-medium transition-colors block"
-                              onClick={() => setOpenMenu(null)}
-                            >
-                              {link.label}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                <span aria-hidden="true">{cat.icon}</span>
+                {cat.label}
+                {hasMega && (
+                  <svg className="w-2.5 h-2.5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                )}
+              </Link>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Mega Menu — rendered outside the overflow container so it is never clipped */}
+      {activeCategory?.megaMenu && (
+        <div
+          className="absolute left-0 top-full pt-1 z-[60]"
+          onMouseEnter={() => handleMouseEnter(activeCategory.label)}
+          onMouseLeave={handleMouseLeave}
+        >
+          <div className="bg-white rounded-xl shadow-2xl border border-gray-100 p-5 flex gap-8 min-w-[480px] animate-scale-in">
+            {activeCategory.megaMenu.map((col) => (
+              <div key={col.heading} className="flex-1 min-w-[140px]">
+                <h4 className="text-xs font-extrabold text-gray-900 mb-3 uppercase tracking-wider">{col.heading}</h4>
+                <ul className="space-y-2">
+                  {col.links.map((link) => (
+                    <li key={link.label}>
+                      <Link
+                        href={link.href}
+                        className="text-sm text-gray-600 hover:text-elite-gold hover:font-medium transition-colors block py-0.5"
+                        onClick={() => setOpenMenu(null)}
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
-            )}
+            ))}
           </div>
-        );
-      })}
+        </div>
+      )}
     </div>
   );
 }
