@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -44,6 +44,7 @@ export default function ListingDetailPage() {
   const [activeImage, setActiveImage] = useState(0);
   const [failedImages, setFailedImages] = useState<Set<number>>(new Set());
   const [cartAdded, setCartAdded] = useState(false);
+  const cartAddedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleMainImgError = (index: number) => {
     setFailedImages((prev) => {
@@ -52,6 +53,13 @@ export default function ListingDetailPage() {
       return next;
     });
   };
+
+  // Cleanup cart-added timer on unmount
+  useEffect(() => {
+    return () => {
+      if (cartAddedTimerRef.current) clearTimeout(cartAddedTimerRef.current);
+    };
+  }, []);
 
   // Reviews state
   const [reviews, setReviews] = useState<ProductReview[]>([]);
@@ -342,7 +350,8 @@ export default function ListingDetailPage() {
                   if (listing) {
                     addToCart(listing);
                     setCartAdded(true);
-                    setTimeout(() => setCartAdded(false), 2000);
+                    if (cartAddedTimerRef.current) clearTimeout(cartAddedTimerRef.current);
+                    cartAddedTimerRef.current = setTimeout(() => setCartAdded(false), 2000);
                   }
                 }}
               >

@@ -6,14 +6,12 @@ import { useAuth } from '@/context/AuthContext';
 import { formatCurrency } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 type Step = 'details' | 'payment' | 'confirmation';
 
 export default function CheckoutPage() {
   const { items, totalPrice, clearCart } = useCart();
   const { user } = useAuth();
-  const router = useRouter();
   const [step, setStep] = useState<Step>('details');
   const [submitting, setSubmitting] = useState(false);
 
@@ -43,7 +41,17 @@ export default function CheckoutPage() {
     setPayment((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const [paymentError, setPaymentError] = useState('');
+
   const handlePlaceOrder = async () => {
+    setPaymentError('');
+    // Basic payment validation before proceeding
+    if (payment.method === 'card') {
+      if (!payment.cardName || !payment.cardNumber || !payment.expiry || !payment.cvv) {
+        setPaymentError('Please fill in all card details.');
+        return;
+      }
+    }
     setSubmitting(true);
     // Simulate order placement delay
     await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -242,6 +250,10 @@ export default function CheckoutPage() {
                   <p>Account: <strong>1234-5678-9012</strong></p>
                   <p>Reference: <strong>Your name + order number</strong></p>
                 </div>
+              )}
+
+              {paymentError && (
+                <p className="text-red-600 text-sm font-medium bg-red-50 rounded-xl px-4 py-2">{paymentError}</p>
               )}
 
               <button

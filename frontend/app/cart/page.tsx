@@ -1,7 +1,6 @@
 'use client';
 
 import { useCart } from '@/context/CartContext';
-import { useCountry } from '@/context/CountryContext';
 import { formatCurrency } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,7 +8,6 @@ import { useRouter } from 'next/navigation';
 
 export default function CartPage() {
   const { items, removeFromCart, updateQuantity, clearCart, totalItems, totalPrice } = useCart();
-  const { currency } = useCountry();
   const router = useRouter();
 
   if (items.length === 0) {
@@ -49,9 +47,7 @@ export default function CartPage() {
         <div className="space-y-4">
           {items.map(({ listing, quantity }) => {
             const img = listing.productImages?.[0]?.cdnUrl ?? listing.images?.[0] ?? null;
-            const itemPrice = listing.currency === currency
-              ? formatCurrency(listing.price * quantity, listing.currency)
-              : formatCurrency(listing.price * quantity, listing.currency);
+            const itemPrice = formatCurrency(listing.price * quantity, listing.currency);
 
             return (
               <div key={listing.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex gap-4">
