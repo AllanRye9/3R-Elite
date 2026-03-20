@@ -20,8 +20,15 @@ export function ListingCard({ listing, showFavorite = true }: Props) {
     listing.images?.[0] || FALLBACK_IMG(listing.id)
   );
   const [imgFailed, setImgFailed] = useState(false);
-  const countryLabel = listing.country === 'UAE' ? 'UAE' : 'Uganda';
-  const countryFlag = listing.country === 'UAE' ? 'AE' : 'UG';
+  const countryMap: Record<string, { label: string; flag: string }> = {
+    UAE: { label: 'UAE', flag: 'AE' },
+    UGANDA: { label: 'Uganda', flag: 'UG' },
+    KENYA: { label: 'Kenya', flag: 'KE' },
+    CHINA: { label: 'China', flag: 'CN' },
+  };
+  const countryInfo = countryMap[listing.country] ?? { label: listing.country, flag: 'UN' };
+  const countryLabel = countryInfo.label;
+  const countryFlag = countryInfo.flag;
 
   const handleImgError = () => {
     if (!imgFailed) {

@@ -21,7 +21,7 @@ interface ListingSummary {
 export default function ProfilePage() {
   const { user, updateUser, loading } = useAuth();
   const router = useRouter();
-  const [form, setForm] = useState({ name: '', phone: '', country: 'UAE' as 'UAE' | 'UGANDA' });
+  const [form, setForm] = useState({ name: '', phone: '', country: 'UAE' as import('@/lib/types').Country });
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
@@ -255,11 +255,13 @@ export default function ProfilePage() {
             <label className="block text-sm font-semibold text-gray-700 mb-1.5">Country</label>
             <select
               value={form.country}
-              onChange={(e) => setForm({ ...form, country: e.target.value as 'UAE' | 'UGANDA' })}
+              onChange={(e) => setForm({ ...form, country: e.target.value as import('@/lib/types').Country })}
               className="input-premium"
             >
               <option value="UAE">🇦🇪 UAE</option>
               <option value="UGANDA">🇺🇬 Uganda</option>
+              <option value="KENYA">🇰🇪 Kenya</option>
+              <option value="CHINA">🇨🇳 China</option>
             </select>
           </div>
           <button

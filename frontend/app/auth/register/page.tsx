@@ -4,12 +4,13 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import type { Country } from '@/lib/types';
 
 export default function RegisterPage() {
   const { register } = useAuth();
   const router = useRouter();
   const [form, setForm] = useState({
-    email: '', password: '', name: '', phone: '', country: 'UAE' as 'UAE' | 'UGANDA',
+    email: '', password: '', name: '', phone: '', country: 'UAE' as Country,
   });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
@@ -134,11 +135,13 @@ export default function RegisterPage() {
               <label className="block text-sm font-semibold text-slate-800 mb-1.5">Country <span className="text-red-500">*</span></label>
               <select
                 value={form.country}
-                onChange={(e) => setForm({ ...form, country: e.target.value as 'UAE' | 'UGANDA' })}
+                onChange={(e) => setForm({ ...form, country: e.target.value as Country })}
                 className="input-premium"
               >
                 <option value="UAE">🇦🇪 United Arab Emirates</option>
                 <option value="UGANDA">🇺🇬 Uganda</option>
+                <option value="KENYA">🇰🇪 Kenya</option>
+                <option value="CHINA">🇨🇳 China</option>
               </select>
             </div>
 

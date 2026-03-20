@@ -6,6 +6,8 @@ import { useCountry } from '@/context/CountryContext';
 const COUNTRY_OPTIONS = [
   { value: 'UAE' as const, flag: '🇦🇪', label: 'UAE', full: 'United Arab Emirates' },
   { value: 'UGANDA' as const, flag: '🇺🇬', label: 'Uganda', full: 'Uganda' },
+  { value: 'KENYA' as const, flag: '🇰🇪', label: 'Kenya', full: 'Kenya' },
+  { value: 'CHINA' as const, flag: '🇨🇳', label: 'China', full: 'China' },
 ];
 
 export function CountrySelector() {

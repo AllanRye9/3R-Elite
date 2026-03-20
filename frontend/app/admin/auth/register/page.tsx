@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 import { setAuthSession } from '@/lib/authStorage';
 import { useAuth } from '@/context/AuthContext';
+import type { Country } from '@/lib/types';
 
 export default function AdminRegisterPage() {
   const { updateUser } = useAuth();
@@ -16,7 +17,7 @@ export default function AdminRegisterPage() {
     confirmPassword: '',
     name: '',
     adminSecret: '',
-    country: 'UAE' as 'UAE' | 'UGANDA',
+    country: 'UAE' as Country,
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -121,11 +122,13 @@ export default function AdminRegisterPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
             <select
               value={form.country}
-              onChange={(e) => setForm({ ...form, country: e.target.value as 'UAE' | 'UGANDA' })}
+              onChange={(e) => setForm({ ...form, country: e.target.value as Country })}
               className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-gray-700"
             >
               <option value="UAE">🇦🇪 United Arab Emirates</option>
               <option value="UGANDA">🇺🇬 Uganda</option>
+              <option value="KENYA">🇰🇪 Kenya</option>
+              <option value="CHINA">🇨🇳 China</option>
             </select>
           </div>
           <div>

@@ -34,7 +34,7 @@ interface RegisterData {
   password: string;
   name: string;
   phone?: string;
-  country: 'UAE' | 'UGANDA';
+  country: import('@/lib/types').Country;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
