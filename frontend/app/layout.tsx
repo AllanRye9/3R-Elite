@@ -6,15 +6,16 @@ import '@fontsource/playfair-display/700.css';
 import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
 import { CountryProvider } from '@/context/CountryContext';
+import { CartProvider } from '@/context/CartContext';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { MobileBottomNav } from '@/components/layout/MobileBottomNav';
 import { ToastProvider } from '@/components/ui/Toast';
 
 export const metadata: Metadata = {
-  title: '3R-Elite Marketplace - UAE & Uganda',
-  description: 'Buy and sell anything in UAE and Uganda. Find the best deals on electronics, vehicles, real estate, and more. Millions of listings.',
-  keywords: 'marketplace, buy, sell, UAE, Uganda, Dubai, Kampala, classifieds, deals, electronics, vehicles',
+  title: '3R-Elite Marketplace - UAE, Uganda, Kenya & China',
+  description: 'Buy and sell anything in UAE, Uganda, Kenya and China. Find the best deals on electronics, vehicles, real estate, and more. Millions of listings.',
+  keywords: 'marketplace, buy, sell, UAE, Uganda, Kenya, China, Dubai, Kampala, Nairobi, Beijing, classifieds, deals, electronics, vehicles',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
@@ -51,6 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="font-sans">
         <CountryProvider>
           <AuthProvider>
+            <CartProvider>
             <ToastProvider>
               <div className="min-h-screen flex flex-col bg-white">
                 <Header />
@@ -61,6 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <MobileBottomNav />
               </div>
             </ToastProvider>
+            </CartProvider>
           </AuthProvider>
         </CountryProvider>
       </body>

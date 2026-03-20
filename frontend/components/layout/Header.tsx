@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useCountry } from '@/context/CountryContext';
+import { useCart } from '@/context/CartContext';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { useRouter, usePathname } from 'next/navigation';
 import CategoryBar from '@/components/layout/CategoryBar';
@@ -12,10 +13,13 @@ import { CountrySelector } from '@/components/ui/CountrySelector';
 const mobileNavItems = [
   { href: '/', label: 'Home', icon: '🏠' },
   { href: '/listings', label: 'Browse Listings', icon: '🔍' },
+  { href: '/stores', label: 'Shop by Store', icon: '🏪' },
   { href: '/listings/create', label: 'Sell Something', icon: '➕' },
+  { href: '/cart', label: 'My Cart', icon: '🛒' },
   { href: '/messages', label: 'Messages', icon: '💬' },
   { href: '/profile/favorites', label: 'Saved Items', icon: '❤️' },
   { href: '/help', label: 'Help / FAQ', icon: '❓' },
+  { href: '/terms', label: 'Terms & Conditions', icon: '📋' },
 ];
 
 // 68px = drawer header only (guest); 140px = drawer header + user-info strip (logged in)
@@ -25,6 +29,8 @@ const DRAWER_HEADER_WITH_USER_H = '140px';
 const MOBILE_COUNTRY_OPTIONS = [
   { value: 'UAE' as const, flag: '🇦🇪', label: 'UAE', sub: 'United Arab Emirates' },
   { value: 'UGANDA' as const, flag: '🇺🇬', label: 'Uganda', sub: 'East Africa' },
+  { value: 'KENYA' as const, flag: '🇰🇪', label: 'Kenya', sub: 'East Africa' },
+  { value: 'CHINA' as const, flag: '🇨🇳', label: 'China', sub: 'Asia Pacific' },
 ];
 
 function MobileCountryPicker({ onClose }: { onClose: () => void }) {
@@ -54,13 +60,18 @@ function MobileCountryPicker({ onClose }: { onClose: () => void }) {
 export default function Header() {
   const { user, logout } = useAuth();
   const { country } = useCountry();
+  const { totalItems } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileDropOpen, setProfileDropOpen] = useState(false);
+  const [browseDropOpen, setBrowseDropOpen] = useState(false);
+  const [sellDropOpen, setSellDropOpen] = useState(false);
   const [searchQ, setSearchQ] = useState('');
   const [scrolled, setScrolled] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const profileDropRef = useRef<HTMLDivElement>(null);
+  const browseDropRef = useRef<HTMLDivElement>(null);
+  const sellDropRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -72,13 +83,21 @@ export default function Header() {
   useEffect(() => {
     setMenuOpen(false);
     setProfileDropOpen(false);
+    setBrowseDropOpen(false);
+    setSellDropOpen(false);
   }, [pathname]);
 
-  // Close profile dropdown on outside click
+  // Close dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (profileDropRef.current && !profileDropRef.current.contains(e.target as Node)) {
         setProfileDropOpen(false);
+      }
+      if (browseDropRef.current && !browseDropRef.current.contains(e.target as Node)) {
+        setBrowseDropOpen(false);
+      }
+      if (sellDropRef.current && !sellDropRef.current.contains(e.target as Node)) {
+        setSellDropOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -98,9 +117,9 @@ export default function Header() {
 
   return (
     <>
-      <header className={`sticky top-0 z-50 shadow-sm transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md border-b border-gray-100' : 'bg-elite-navy'}`}>
+      <header className={`sticky top-0 z-50 shadow-sm transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md border-b border-gray-100' : 'bg-gradient-to-r from-sky-600 via-blue-700 to-indigo-700'}`}>
         {/* Top utility bar — desktop only */}
-        <div className="hidden sm:flex justify-between items-center max-w-7xl mx-auto px-4 h-10 text-xs text-white/80 bg-elite-navy relative z-10">
+        <div className="hidden sm:flex justify-between items-center max-w-7xl mx-auto px-4 h-10 text-xs text-white/80 bg-gradient-to-r from-blue-800 via-indigo-800 to-purple-800 relative z-10">
           <div className="flex items-center gap-4">
             <Link href="/listings/create" className="hover:text-white flex items-center gap-1 transition-colors">
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
@@ -134,7 +153,7 @@ export default function Header() {
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0 group hover:scale-105 active:scale-95 transition-all">
-            <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-base ${scrolled ? 'bg-elite-navy text-elite-gold' : 'bg-elite-gold/20 text-elite-gold'}`}>3R</div>
+            <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-base ${scrolled ? 'bg-elite-navy text-elite-gold' : 'bg-white/20 text-white'}`}>3R</div>
             <span className={`font-bold text-lg sm:text-xl tracking-tight whitespace-nowrap ${scrolled ? 'text-elite-navy' : 'text-white'}`}>
               <span className="font-extrabold">3R</span> <span className="italic font-serif">Elite</span>
             </span>
@@ -160,7 +179,8 @@ export default function Header() {
           </form>
 
           {/* Desktop Navigation */}
-          <nav className="flex items-center gap-2 sm:gap-3 ml-auto">
+          <nav className="flex items-center gap-1 sm:gap-2 ml-auto">
+            {/* Home */}
             <Link
               href="/"
               className={`relative p-2 rounded-lg hidden sm:flex items-center justify-center transition-colors ${scrolled ? 'text-gray-600 hover:bg-gray-100' : 'text-white hover:bg-white/20'}`}
@@ -171,12 +191,84 @@ export default function Header() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 22V12h6v10" />
               </svg>
             </Link>
-            <Link
-              href="/listings/create"
-              className={`hidden sm:flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${scrolled ? 'bg-elite-navy text-elite-gold hover:bg-elite-charcoal' : 'bg-elite-gold text-white hover:bg-elite-gold-light'}`}
-            >
-              Sell
-            </Link>
+
+            {/* Browse dropdown */}
+            <div ref={browseDropRef} className="relative hidden sm:block">
+              <button
+                onClick={() => { setBrowseDropOpen((p) => !p); setSellDropOpen(false); }}
+                className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${scrolled ? 'text-gray-700 hover:bg-gray-100 border border-gray-200' : 'text-white hover:bg-white/20'}`}
+                aria-expanded={browseDropOpen}
+              >
+                Browse
+                <svg className={`w-3 h-3 transition-transform duration-200 ${browseDropOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {browseDropOpen && (
+                <div className="absolute left-0 top-full mt-2 w-52 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 animate-scale-in">
+                  <div className="py-1.5">
+                    {[
+                      { href: '/listings', icon: '🔍', label: 'All Listings' },
+                      { href: '/stores', icon: '🏪', label: 'Shop by Store' },
+                      { href: '/listings?sort=views', icon: '🔥', label: 'Most Popular' },
+                      { href: '/listings?sort=price_asc', icon: '💰', label: 'Best Deals' },
+                      { href: '/listings?country=UAE', icon: '🇦🇪', label: 'UAE Listings' },
+                      { href: '/listings?country=UGANDA', icon: '🇺🇬', label: 'Uganda Listings' },
+                      { href: '/listings?country=KENYA', icon: '🇰🇪', label: 'Kenya Listings' },
+                      { href: '/listings?country=CHINA', icon: '🇨🇳', label: 'China Listings' },
+                    ].map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setBrowseDropOpen(false)}
+                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-sky-50 hover:text-sky-700 transition-colors"
+                      >
+                        <span className="text-base">{item.icon}</span>
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Sell dropdown */}
+            <div ref={sellDropRef} className="relative hidden sm:block">
+              <button
+                onClick={() => { setSellDropOpen((p) => !p); setBrowseDropOpen(false); }}
+                className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${scrolled ? 'bg-elite-navy text-elite-gold hover:bg-elite-charcoal' : 'bg-white/20 text-white hover:bg-white/30 border border-white/30'}`}
+                aria-expanded={sellDropOpen}
+              >
+                Sell
+                <svg className={`w-3 h-3 transition-transform duration-200 ${sellDropOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {sellDropOpen && (
+                <div className="absolute left-0 top-full mt-2 w-52 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 animate-scale-in">
+                  <div className="py-1.5">
+                    {[
+                      { href: '/listings/create', icon: '➕', label: 'Post a Listing' },
+                      { href: '/stores', icon: '🏪', label: 'Open Your Store' },
+                      { href: '/advertising', icon: '📣', label: 'Advertise' },
+                      { href: '/profile/listings', icon: '📦', label: 'My Listings' },
+                    ].map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setSellDropOpen(false)}
+                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-sky-50 hover:text-sky-700 transition-colors"
+                      >
+                        <span className="text-base">{item.icon}</span>
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Messages */}
             <Link
               href="/messages"
               className={`relative p-2 rounded-lg hidden sm:flex items-center justify-center transition-colors ${scrolled ? 'text-gray-600 hover:bg-gray-100' : 'text-white hover:bg-white/20'}`}
@@ -187,6 +279,8 @@ export default function Header() {
               </svg>
               {user && <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border border-white" aria-hidden="true" />}
             </Link>
+
+            {/* Saved items */}
             <Link
               href="/profile/favorites"
               className={`relative p-2 rounded-lg hidden sm:flex items-center justify-center transition-colors ${scrolled ? 'text-gray-600 hover:bg-gray-100' : 'text-white hover:bg-white/20'}`}
@@ -196,6 +290,24 @@ export default function Header() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
             </Link>
+
+            {/* Cart */}
+            <Link
+              href="/cart"
+              className={`relative p-2 rounded-lg hidden sm:flex items-center justify-center transition-colors ${scrolled ? 'text-gray-600 hover:bg-gray-100' : 'text-white hover:bg-white/20'}`}
+              aria-label="Shopping Cart"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-orange-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center leading-none">
+                  {totalItems > 9 ? '9+' : totalItems}
+                </span>
+              )}
+            </Link>
+
+            {/* Help */}
             <Link
               href="/help"
               className={`relative p-2 rounded-lg hidden sm:flex items-center justify-center transition-colors ${scrolled ? 'text-gray-600 hover:bg-gray-100' : 'text-white hover:bg-white/20'}`}
@@ -297,7 +409,7 @@ export default function Header() {
         </div>
 
         {/* Mobile search bar */}
-        <div className={`sm:hidden border-t px-3 py-2 ${scrolled ? 'border-gray-100 bg-white' : 'border-white/10 bg-elite-charcoal'}`}>
+        <div className={`sm:hidden border-t px-3 py-2 ${scrolled ? 'border-gray-100 bg-white' : 'border-white/10 bg-blue-800/50 backdrop-blur-sm'}`}>
           <form onSubmit={handleSearch} className="flex rounded-lg overflow-hidden ring-2 ring-white/20">
             <input
               type="text"
@@ -334,7 +446,7 @@ export default function Header() {
         aria-hidden={!menuOpen}
       >
         {/* Drawer header */}
-        <div className="flex items-center justify-between px-4 py-4 bg-elite-navy text-white">
+        <div className="flex items-center justify-between px-4 py-4 bg-gradient-to-r from-sky-600 via-blue-700 to-indigo-700 text-white">
           <Link href="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-md flex items-center justify-center font-black text-sm bg-elite-gold/20 text-elite-gold">3R</div>
             <span className="font-extrabold text-lg">3R <span className="italic font-serif">Elite</span></span>

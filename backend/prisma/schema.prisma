@@ -17,11 +17,15 @@ enum Role {
 enum Country {
   UAE
   UGANDA
+  KENYA
+  CHINA
 }
 
 enum Currency {
   AED
   UGX
+  KES
+  CNY
 }
 
 enum Condition {

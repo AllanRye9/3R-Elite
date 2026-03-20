@@ -1,6 +1,6 @@
 export type Role = 'BUYER' | 'SELLER' | 'ADMIN';
-export type Country = 'UAE' | 'UGANDA';
-export type Currency = 'AED' | 'UGX';
+export type Country = 'UAE' | 'UGANDA' | 'KENYA' | 'CHINA';
+export type Currency = 'AED' | 'UGX' | 'KES' | 'CNY';
 export type Condition = 'NEW' | 'USED';
 export type ListingStatus = 'ACTIVE' | 'PENDING' | 'SOLD' | 'EXPIRED' | 'HIDDEN' | 'REJECTED';
 export type Placement = 'NONE' | 'LATEST_COLLECTIONS' | 'FEATURED_DEAL';

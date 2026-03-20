@@ -44,7 +44,19 @@ function ListingsContent() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+    <div>
+      {/* Colorful cover header for listings */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-sky-500 via-blue-600 to-purple-700 py-10 px-4">
+        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 25% 50%, #ffffff30 0%, transparent 60%), radial-gradient(circle at 75% 20%, #ffffff20 0%, transparent 50%)' }} />
+        <div className="relative max-w-4xl mx-auto text-center">
+          <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">Browse All Listings</h1>
+          <p className="text-sky-100 text-sm md:text-base">
+            Discover thousands of products from verified sellers across UAE, Uganda, Kenya and China.
+          </p>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
       {/* Search */}
       <div className="mb-4">
         <SearchBar
@@ -148,6 +160,7 @@ function ListingsContent() {
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   );

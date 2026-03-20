@@ -4,9 +4,15 @@ export function cn(...inputs: ClassValue[]) {
   return clsx(inputs);
 }
 
-export function formatCurrency(amount: number, currency: 'AED' | 'UGX'): string {
+export function formatCurrency(amount: number, currency: 'AED' | 'UGX' | 'KES' | 'CNY'): string {
   if (currency === 'AED') {
     return `AED ${amount.toLocaleString('en-AE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  }
+  if (currency === 'KES') {
+    return `KES ${Math.round(amount).toLocaleString('en-KE')}`;
+  }
+  if (currency === 'CNY') {
+    return `¥ ${amount.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   }
   return `UGX ${Math.round(amount).toLocaleString('en-UG')}`;
 }
@@ -36,10 +42,26 @@ export const UGANDA_LOCATIONS = [
   'Entebbe', 'Lira', 'Mbale', 'Mukono', 'Soroti',
 ];
 
-export function getLocations(country: 'UAE' | 'UGANDA'): string[] {
-  return country === 'UAE' ? UAE_LOCATIONS : UGANDA_LOCATIONS;
+export const KENYA_LOCATIONS = [
+  'Nairobi', 'Mombasa', 'Kisumu', 'Nakuru', 'Eldoret',
+  'Nyeri', 'Meru', 'Malindi', 'Thika', 'Machakos',
+];
+
+export const CHINA_LOCATIONS = [
+  'Beijing', 'Shanghai', 'Guangzhou', 'Shenzhen', 'Chengdu',
+  'Hangzhou', 'Wuhan', 'Xian', 'Nanjing', 'Tianjin',
+];
+
+export function getLocations(country: 'UAE' | 'UGANDA' | 'KENYA' | 'CHINA'): string[] {
+  if (country === 'UAE') return UAE_LOCATIONS;
+  if (country === 'UGANDA') return UGANDA_LOCATIONS;
+  if (country === 'KENYA') return KENYA_LOCATIONS;
+  return CHINA_LOCATIONS;
 }
 
-export function getCurrency(country: 'UAE' | 'UGANDA'): 'AED' | 'UGX' {
-  return country === 'UAE' ? 'AED' : 'UGX';
+export function getCurrency(country: 'UAE' | 'UGANDA' | 'KENYA' | 'CHINA'): 'AED' | 'UGX' | 'KES' | 'CNY' {
+  if (country === 'UAE') return 'AED';
+  if (country === 'UGANDA') return 'UGX';
+  if (country === 'KENYA') return 'KES';
+  return 'CNY';
 }

@@ -13,12 +13,14 @@ interface CountryContextType {
 
 const CountryContext = createContext<CountryContextType | undefined>(undefined);
 
+const VALID_COUNTRIES: Country[] = ['UAE', 'UGANDA', 'KENYA', 'CHINA'];
+
 export function CountryProvider({ children }: { children: React.ReactNode }) {
   const [country, setCountryState] = useState<Country>('UAE');
 
   useEffect(() => {
     const saved = localStorage.getItem('selectedCountry') as Country;
-    if (saved === 'UAE' || saved === 'UGANDA') setCountryState(saved);
+    if (VALID_COUNTRIES.includes(saved)) setCountryState(saved);
   }, []);
 
   const setCountry = (c: Country) => {
