@@ -69,11 +69,13 @@ model User {
   phone            String?
   avatar           String?
   country          Country   @default(UAE)
-  isVerified       Boolean   @default(false)
-  isBanned         Boolean   @default(false)
-  refreshToken     String?
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  isVerified            Boolean   @default(false)
+  isBanned              Boolean   @default(false)
+  refreshToken          String?
+  passwordResetToken    String?
+  passwordResetExpiry   DateTime?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
 
   listings         Listing[]
   sentMessages     Message[] @relation("SentMessages")

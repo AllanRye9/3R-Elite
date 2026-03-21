@@ -106,11 +106,74 @@ const topCategories: TopCategory[] = [
       },
     ],
   },
-  { label: 'Classifieds', icon: '📋', href: '/listings?q=classifieds' },
-  { label: 'Electronics', icon: '💻', href: '/listings?q=electronics' },
-  { label: 'Fashion', icon: '👗', href: '/listings?q=fashion' },
-  { label: 'Furniture & Garden', icon: '🛋️', href: '/listings?q=furniture' },
-  { label: 'Services', icon: '🔧', href: '/listings?q=services' },
+  { label: 'Classifieds', icon: '📋', href: '/listings?q=classifieds', megaMenu: [
+    { heading: 'Household', links: [
+      { label: 'Furniture', href: '/listings?q=furniture+classifieds' },
+      { label: 'Appliances', href: '/listings?q=appliances' },
+      { label: 'Tools & Garden', href: '/listings?q=tools+garden' },
+    ]},
+    { heading: 'Personal', links: [
+      { label: 'Kids & Baby', href: '/listings?q=kids+baby' },
+      { label: 'Sports & Outdoors', href: '/listings?q=sports+outdoors' },
+      { label: 'Books & Hobbies', href: '/listings?q=books+hobbies' },
+    ]},
+  ]},
+  { label: 'Electronics', icon: '💻', href: '/listings?q=electronics', megaMenu: [
+    { heading: 'Computing', links: [
+      { label: 'Laptops', href: '/listings?q=laptops' },
+      { label: 'Desktops & Monitors', href: '/listings?q=desktops' },
+      { label: 'Tablets', href: '/listings?q=tablets' },
+    ]},
+    { heading: 'Mobile & Audio', links: [
+      { label: 'Smartphones', href: '/listings?q=smartphones' },
+      { label: 'Headphones', href: '/listings?q=headphones' },
+      { label: 'Cameras', href: '/listings?q=cameras' },
+    ]},
+    { heading: 'Gaming', links: [
+      { label: 'Consoles', href: '/listings?q=gaming+consoles' },
+      { label: 'Games & Accessories', href: '/listings?q=gaming+accessories' },
+    ]},
+  ]},
+  { label: 'Fashion', icon: '👗', href: '/listings?q=fashion', megaMenu: [
+    { heading: 'Women', links: [
+      { label: 'Clothing', href: '/listings?q=women+clothing' },
+      { label: 'Shoes', href: '/listings?q=women+shoes' },
+      { label: 'Bags & Accessories', href: '/listings?q=women+bags' },
+    ]},
+    { heading: 'Men', links: [
+      { label: 'Clothing', href: '/listings?q=men+clothing' },
+      { label: 'Shoes', href: '/listings?q=men+shoes' },
+      { label: 'Watches', href: '/listings?q=watches' },
+    ]},
+    { heading: 'Kids', links: [
+      { label: 'Girls Clothing', href: '/listings?q=girls+clothing' },
+      { label: 'Boys Clothing', href: '/listings?q=boys+clothing' },
+    ]},
+  ]},
+  { label: 'Furniture & Garden', icon: '🛋️', href: '/listings?q=furniture', megaMenu: [
+    { heading: 'Indoor', links: [
+      { label: 'Living Room', href: '/listings?q=living+room+furniture' },
+      { label: 'Bedroom', href: '/listings?q=bedroom+furniture' },
+      { label: 'Kitchen & Dining', href: '/listings?q=kitchen+furniture' },
+    ]},
+    { heading: 'Outdoor', links: [
+      { label: 'Garden Furniture', href: '/listings?q=garden+furniture' },
+      { label: 'BBQ & Grills', href: '/listings?q=bbq+grills' },
+      { label: 'Plants & Seeds', href: '/listings?q=plants+seeds' },
+    ]},
+  ]},
+  { label: 'Services', icon: '🔧', href: '/listings?q=services', megaMenu: [
+    { heading: 'Home Services', links: [
+      { label: 'Cleaning', href: '/listings?q=cleaning+services' },
+      { label: 'Plumbing & Electrical', href: '/listings?q=plumbing+electrical' },
+      { label: 'Movers & Storage', href: '/listings?q=movers+storage' },
+    ]},
+    { heading: 'Professional', links: [
+      { label: 'Tutoring', href: '/listings?q=tutoring' },
+      { label: 'Design & Creative', href: '/listings?q=design+creative' },
+      { label: 'IT & Tech Support', href: '/listings?q=it+tech+support' },
+    ]},
+  ]},
 ];
 
 function CategoryBarInner() {

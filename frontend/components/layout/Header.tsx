@@ -65,6 +65,7 @@ export default function Header() {
   const [profileDropOpen, setProfileDropOpen] = useState(false);
   const [browseDropOpen, setBrowseDropOpen] = useState(false);
   const [sellDropOpen, setSellDropOpen] = useState(false);
+  const [helpDropOpen, setHelpDropOpen] = useState(false);
   const [searchQ, setSearchQ] = useState('');
   const [scrolled, setScrolled] = useState(false);
   const router = useRouter();
@@ -72,6 +73,7 @@ export default function Header() {
   const profileDropRef = useRef<HTMLDivElement>(null);
   const browseDropRef = useRef<HTMLDivElement>(null);
   const sellDropRef = useRef<HTMLDivElement>(null);
+  const helpDropRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -85,6 +87,7 @@ export default function Header() {
     setProfileDropOpen(false);
     setBrowseDropOpen(false);
     setSellDropOpen(false);
+    setHelpDropOpen(false);
   }, [pathname]);
 
   // Close dropdowns on outside click
@@ -98,6 +101,9 @@ export default function Header() {
       }
       if (sellDropRef.current && !sellDropRef.current.contains(e.target as Node)) {
         setSellDropOpen(false);
+      }
+      if (helpDropRef.current && !helpDropRef.current.contains(e.target as Node)) {
+        setHelpDropOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -310,16 +316,58 @@ export default function Header() {
               )}
             </Link>
 
-            {/* Help */}
-            <Link
-              href="/help"
-              className={`relative p-2 rounded-lg hidden sm:flex items-center justify-center transition-colors ${scrolled ? 'text-gray-600 hover:bg-gray-100' : 'text-white hover:bg-white/20'}`}
-              aria-label="Help"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </Link>
+            {/* Help dropdown */}
+            <div ref={helpDropRef} className="relative hidden sm:block">
+              <button
+                onClick={() => { setHelpDropOpen((p) => !p); setBrowseDropOpen(false); setSellDropOpen(false); }}
+                className={`relative p-2 rounded-lg flex items-center justify-center transition-colors ${scrolled ? 'text-gray-600 hover:bg-gray-100' : 'text-white hover:bg-white/20'}`}
+                aria-label="Help"
+                aria-expanded={helpDropOpen}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </button>
+              {helpDropOpen && (
+                <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 animate-scale-in">
+                  <div className="px-4 py-2.5 bg-gradient-to-r from-sky-50 to-blue-50 border-b border-sky-100">
+                    <p className="text-xs font-bold text-sky-700 uppercase tracking-wider">Support & Help</p>
+                  </div>
+                  <div className="py-1.5">
+                    {[
+                      { href: '/help', icon: '❓', label: 'Help Center' },
+                      { href: '/safety', icon: '🛡️', label: 'Safety Tips' },
+                      { href: '/about', icon: 'ℹ️', label: 'About Us' },
+                      { href: '/terms', icon: '📋', label: 'Terms of Service' },
+                      { href: '/privacy', icon: '🔒', label: 'Privacy Policy' },
+                    ].map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setHelpDropOpen(false)}
+                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-sky-50 hover:text-sky-700 transition-colors"
+                      >
+                        <span className="text-base">{item.icon}</span>
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                  <div className="px-4 py-3 bg-sky-50 border-t border-sky-100">
+                    <p className="text-xs text-gray-500 mb-1">Contact support</p>
+                    <a
+                      href="mailto:support@3relite.com"
+                      className="text-xs font-semibold text-sky-600 hover:text-sky-700 transition-colors flex items-center gap-1.5"
+                      onClick={() => setHelpDropOpen(false)}
+                    >
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                      support@3relite.com
+                    </a>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* User account — desktop with dropdown */}
             {user ? (
