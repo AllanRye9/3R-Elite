@@ -18,6 +18,7 @@ import reviewRoutes from './routes/reviews';
 import adminRoutes from './routes/admin';
 import uploadRoutes from './routes/upload';
 import statsRoutes from './routes/stats';
+import docRoutes from './routes/doc';
 import { getServiceReadiness } from './utils/serviceConfig';
 
 const app = express();
