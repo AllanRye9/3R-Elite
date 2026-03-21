@@ -9,7 +9,7 @@ export default function QuickActions() {
         href="https://wa.me/?text=Hi%20I%20found%20you%20on%203R%20Elite"
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-green-500 text-white font-semibold text-sm hover:bg-green-600 transition-colors shadow-sm interactive"
+        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold text-sm hover:from-green-600 hover:to-emerald-700 hover:shadow-lg hover:-translate-y-0.5 transition-all shadow-sm interactive"
         aria-label="Start a WhatsApp conversation"
       >
         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -19,7 +19,7 @@ export default function QuickActions() {
       </a>
       <Link
         href="/listings?q=electronics"
-        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0EA5E9] text-white font-semibold text-sm hover:bg-[#0284c7] transition-colors shadow-sm interactive"
+        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-cyan-500 to-sky-600 text-white font-semibold text-sm hover:from-cyan-600 hover:to-sky-700 hover:shadow-lg hover:-translate-y-0.5 transition-all shadow-sm interactive"
         aria-label="Browse tech sale"
       >
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -29,13 +29,23 @@ export default function QuickActions() {
       </Link>
       <Link
         href="/listings/create"
-        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-elite-navy text-white font-semibold text-sm hover:bg-elite-charcoal transition-colors shadow-sm interactive"
+        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-violet-600 to-purple-700 text-white font-semibold text-sm hover:from-violet-700 hover:to-purple-800 hover:shadow-lg hover:-translate-y-0.5 transition-all shadow-sm interactive"
         aria-label="Sell on 3R Elite"
       >
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
         </svg>
         Sell on 3R Elite
+      </Link>
+      <Link
+        href="/listings"
+        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-rose-500 to-pink-600 text-white font-semibold text-sm hover:from-rose-600 hover:to-pink-700 hover:shadow-lg hover:-translate-y-0.5 transition-all shadow-sm interactive"
+        aria-label="Browse all listings"
+      >
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+        </svg>
+        Browse All
       </Link>
     </section>
   );

@@ -33,10 +33,14 @@ const allowedOrigins = rawCorsOrigins.split(',').map((o) => o.trim()).filter(Boo
 // (Access-Control-Allow-Origin, etc.) are present on every response –
 // including preflight OPTIONS replies – before helmet adds its own
 // restrictive Cross-Origin-* headers.
-app.use(cors({
+const corsOptions: cors.CorsOptions = {
   origin: (origin, callback) => {
     // Allow requests with no origin (e.g. server-to-server, curl, Postman)
     if (!origin) return callback(null, true);
+    // When the wildcard '*' is in the allowed list, reflect the requesting
+    // origin back.  A literal '*' cannot be used with credentials:true, so
+    // we must echo the origin instead.
+    if (allowedOrigins.includes('*')) return callback(null, true);
     if (allowedOrigins.includes(origin)) return callback(null, true);
     // Return false instead of an error so the response still gets CORS
     // headers (the browser can read the rejection) rather than blowing up
@@ -44,9 +48,15 @@ app.use(cors({
     callback(null, false);
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+// Explicitly handle all OPTIONS preflight requests so that CORS headers
+// are always present — even on routes that don't otherwise accept OPTIONS.
+app.options('*', cors(corsOptions));
 
 // Security middleware – configured so its Cross-Origin-* defaults do not
 // strip or conflict with the CORS headers set above.
