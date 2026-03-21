@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/components/ui/Toast';
+import AuthColorBlend from '@/components/ui/AuthColorBlend';
 
 function LoginForm() {
   const { login, user, loading: authLoading } = useAuth();
@@ -77,19 +78,18 @@ function LoginForm() {
   };
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center px-4 py-12">
+    <AuthColorBlend className="flex items-center justify-center">
       <div className="w-full max-w-md animate-fade-up">
-        {/* Card */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-xl p-7 sm:p-8">
-          {/* Logo */}
-          <div className="flex justify-center mb-6">
-            <Link href="/" className="w-12 h-12 bg-gradient-to-br from-sky-400 to-brand-600 rounded-2xl flex items-center justify-center shadow-glow hover:scale-105 transition-transform" aria-label="Go to homepage">
+        <div className="rounded-3xl border border-white/30 dark:border-white/20 bg-white/95 dark:bg-slate-900/85 shadow-2xl backdrop-blur-xl p-6 sm:p-7">
+          <div className="flex items-center justify-between mb-5">
+            <Link href="/" className="w-11 h-11 bg-gradient-to-br from-fuchsia-500 via-sky-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-glow hover:scale-105 transition-transform" aria-label="Go to homepage">
               <span className="text-white font-black text-lg">3R</span>
             </Link>
+            <span className="text-[11px] font-semibold text-sky-700 dark:text-sky-200 bg-sky-50 dark:bg-sky-500/20 border border-sky-100 dark:border-sky-300/20 rounded-full px-2.5 py-1">Secure sign in</span>
           </div>
 
-          <h1 className="text-2xl font-extrabold text-gray-900 mb-1 text-center">Welcome back</h1>
-          <p className="text-sm text-gray-500 text-center mb-6">Sign in to your 3R-Elite account</p>
+          <h1 className="text-[1.65rem] leading-tight font-extrabold text-slate-950 dark:text-white mb-1">Welcome back</h1>
+          <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">Sign in to continue to your account.</p>
 
           {error && (
             <div className="flex items-start gap-2 bg-red-50 border border-red-200 text-red-700 rounded-xl p-3.5 text-sm mb-5 animate-scale-in">
@@ -98,7 +98,7 @@ function LoginForm() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-3.5">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1.5">Email address</label>
               <input
@@ -146,7 +146,7 @@ function LoginForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full btn-primary py-3 text-sm font-bold disabled:opacity-60 disabled:cursor-not-allowed relative overflow-hidden"
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-fuchsia-600 via-sky-600 to-indigo-600 text-white text-sm font-bold shadow-glow hover:brightness-110 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -157,12 +157,7 @@ function LoginForm() {
             </button>
           </form>
 
-          <div className="relative my-5">
-            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-100" /></div>
-            <div className="relative flex justify-center"><span className="bg-white px-3 text-xs text-gray-400 font-medium">OR</span></div>
-          </div>
-
-          <p className="text-center text-sm text-gray-500">
+          <p className="text-center text-sm text-slate-600 dark:text-slate-300 mt-4">
             Don&apos;t have an account?{' '}
             <Link href="/auth/register" className="text-sky-600 hover:text-sky-700 font-bold transition-colors">
               Create one free →
@@ -170,13 +165,12 @@ function LoginForm() {
           </p>
         </div>
 
-        {/* Trust badges */}
-        <div className="flex items-center justify-center gap-4 mt-4 text-xs text-gray-400">
-          <span className="flex items-center gap-1">🔒 Secure Login</span>
-          <span className="flex items-center gap-1">🛡️ Protected</span>
+        <div className="flex items-center justify-center gap-3 mt-4 text-[11px] text-white/95">
+          <span className="rounded-full border border-white/30 bg-white/15 px-3 py-1">🔒 Secure</span>
+          <span className="rounded-full border border-white/30 bg-white/15 px-3 py-1">🛡️ Protected</span>
         </div>
       </div>
-    </div>
+    </AuthColorBlend>
   );
 }
 

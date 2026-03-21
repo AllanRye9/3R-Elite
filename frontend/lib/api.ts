@@ -3,7 +3,23 @@ import { clearAuthSession, getAccessToken, getRefreshToken, isAuthSessionExpired
 
 // Strip trailing slashes so that template literals like `${API_URL}/api`
 // never produce a double-slash (e.g. "https://example.com//api").
-export const API_URL = (process.env.NEXT_PUBLIC_API_URL || '').replace(/\/+$/, '');
+const configuredApiUrl = process.env.NEXT_PUBLIC_API_URL || '';
+const normalizedConfiguredApiUrl = configuredApiUrl.replace(/\/+$/, '');
+
+function resolveApiUrl(): string {
+  if (normalizedConfiguredApiUrl) {
+    return normalizedConfiguredApiUrl;
+  }
+
+  // Safe local default for dev/docker compose when NEXT_PUBLIC_API_URL is missing.
+  if (typeof window !== 'undefined') {
+    return 'http://localhost:5000';
+  }
+
+  return 'http://backend:5000';
+}
+
+export const API_URL = resolveApiUrl();
 
 export const api = axios.create({
   baseURL: `${API_URL}/api`,

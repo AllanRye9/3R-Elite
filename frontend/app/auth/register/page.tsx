@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import AuthColorBlend from '@/components/ui/AuthColorBlend';
 import type { Country } from '@/lib/types';
 
 export default function RegisterPage() {
@@ -37,20 +38,18 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="relative min-h-[70vh] overflow-hidden px-4 py-10 sm:py-14">
-      <div className="absolute inset-0 bg-gradient-to-br from-elite-navy via-sky-500 to-sky-300 opacity-90" />
-      <div className="absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.28),transparent_60%)]" />
-      <div className="relative mx-auto w-full max-w-md animate-fade-up">
-        <div className="rounded-3xl border border-white/30 bg-white/96 shadow-2xl backdrop-blur p-7 sm:p-8">
-          {/* Logo */}
-          <div className="flex justify-center mb-5">
-            <Link href="/" className="w-12 h-12 bg-gradient-to-br from-sky-400 to-brand-600 rounded-2xl flex items-center justify-center shadow-glow hover:scale-105 transition-transform" aria-label="Go to homepage">
+    <AuthColorBlend>
+      <div className="mx-auto w-full max-w-md animate-fade-up">
+        <div className="rounded-3xl border border-white/30 dark:border-white/20 bg-white/95 dark:bg-slate-900/85 shadow-2xl backdrop-blur-xl p-6 sm:p-7">
+          <div className="flex items-center justify-between mb-5">
+            <Link href="/" className="w-11 h-11 bg-gradient-to-br from-fuchsia-500 via-sky-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-glow hover:scale-105 transition-transform" aria-label="Go to homepage">
               <span className="text-white font-black text-lg">3R</span>
             </Link>
+            <span className="text-[11px] font-semibold text-sky-700 dark:text-sky-200 bg-sky-50 dark:bg-sky-500/20 border border-sky-100 dark:border-sky-300/20 rounded-full px-2.5 py-1">Free account</span>
           </div>
 
-          <h1 className="text-2xl font-extrabold text-slate-950 mb-1 text-center">Create Account</h1>
-          <p className="text-sm text-slate-600 text-center mb-5">Join thousands of buyers and sellers</p>
+          <h1 className="text-[1.65rem] leading-tight font-extrabold text-slate-950 dark:text-white mb-1">Create your account</h1>
+          <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">Start buying and selling in minutes.</p>
 
           {error && (
             <div className="flex items-start gap-2 bg-red-50 border border-red-200 text-red-700 rounded-xl p-3.5 text-sm mb-4 animate-scale-in">
@@ -59,7 +58,7 @@ export default function RegisterPage() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-3.5">
             <div>
               <label className="block text-sm font-semibold text-slate-800 mb-1.5">Full Name <span className="text-red-500">*</span></label>
               <input
@@ -71,6 +70,7 @@ export default function RegisterPage() {
                 className="input-premium"
               />
             </div>
+
             <div>
               <label className="block text-sm font-semibold text-slate-800 mb-1.5">Email <span className="text-red-500">*</span></label>
               <input
@@ -83,6 +83,7 @@ export default function RegisterPage() {
                 className="input-premium"
               />
             </div>
+
             <div>
               <label className="block text-sm font-semibold text-slate-800 mb-1.5">Password <span className="text-red-500">*</span></label>
               <div className="relative">
@@ -121,34 +122,37 @@ export default function RegisterPage() {
                 </div>
               )}
             </div>
-            <div>
-              <label className="block text-sm font-semibold text-slate-800 mb-1.5">Phone <span className="text-slate-500 font-normal">(optional)</span></label>
-              <input
-                type="tel"
-                value={form.phone}
-                onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                placeholder="+971 50 000 0000"
-                className="input-premium"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-slate-800 mb-1.5">Country <span className="text-red-500">*</span></label>
-              <select
-                value={form.country}
-                onChange={(e) => setForm({ ...form, country: e.target.value as Country })}
-                className="input-premium"
-              >
-                <option value="UAE">🇦🇪 United Arab Emirates</option>
-                <option value="UGANDA">🇺🇬 Uganda</option>
-                <option value="KENYA">🇰🇪 Kenya</option>
-                <option value="CHINA">🇨🇳 China</option>
-              </select>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-sm font-semibold text-slate-800 mb-1.5">Phone <span className="text-slate-500 font-normal">(optional)</span></label>
+                <input
+                  type="tel"
+                  value={form.phone}
+                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                  placeholder="+971 50..."
+                  className="input-premium"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-800 mb-1.5">Country <span className="text-red-500">*</span></label>
+                <select
+                  value={form.country}
+                  onChange={(e) => setForm({ ...form, country: e.target.value as Country })}
+                  className="input-premium"
+                >
+                  <option value="UAE">🇦🇪 UAE</option>
+                  <option value="UGANDA">🇺🇬 Uganda</option>
+                  <option value="KENYA">🇰🇪 Kenya</option>
+                  <option value="CHINA">🇨🇳 China</option>
+                </select>
+              </div>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full btn-primary py-3 text-sm font-bold mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-fuchsia-600 via-sky-600 to-indigo-600 text-white text-sm font-bold mt-1 shadow-glow hover:brightness-110 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -158,7 +162,7 @@ export default function RegisterPage() {
               ) : 'Create Free Account'}
             </button>
 
-            <p className="text-center text-xs text-slate-500 mt-1">
+            <p className="text-center text-xs text-slate-500 dark:text-slate-300 mt-1">
               By registering, you agree to our{' '}
               <Link href="/terms" className="text-sky-600 hover:underline">Terms</Link>{' '}
               and{' '}
@@ -166,12 +170,7 @@ export default function RegisterPage() {
             </p>
           </form>
 
-          <div className="relative my-5">
-            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-100" /></div>
-            <div className="relative flex justify-center"><span className="bg-white px-3 text-xs text-slate-500 font-medium">OR</span></div>
-          </div>
-
-          <p className="text-center text-sm text-slate-600">
+          <p className="text-center text-sm text-slate-600 dark:text-slate-300 mt-4">
             Already have an account?{' '}
             <Link href="/auth/login" className="text-sky-600 hover:text-sky-700 font-bold transition-colors">
               Sign in →
@@ -179,12 +178,12 @@ export default function RegisterPage() {
           </p>
         </div>
 
-        <div className="flex items-center justify-center gap-4 mt-4 text-xs text-white/90">
-          <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1">🆓 Free to Register</span>
-          <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1">🔒 Secure & Private</span>
+        <div className="flex items-center justify-center gap-3 mt-4 text-[11px] text-white/95">
+          <span className="rounded-full border border-white/30 bg-white/15 px-3 py-1">🆓 Free</span>
+          <span className="rounded-full border border-white/30 bg-white/15 px-3 py-1">🔒 Secure</span>
         </div>
       </div>
-    </div>
+    </AuthColorBlend>
   );
 }
 

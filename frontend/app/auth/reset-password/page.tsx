@@ -4,6 +4,7 @@ import { Suspense, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { api } from '@/lib/api';
+import AuthColorBlend from '@/components/ui/AuthColorBlend';
 
 function passwordStrengthClass(length: number): string {
   if (length === 0) return 'bg-gray-200';
@@ -140,7 +141,7 @@ function ResetPasswordForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full inline-flex items-center justify-center rounded-xl bg-elite-navy px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-sky-700 disabled:opacity-60"
+            className="w-full inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-fuchsia-600 via-sky-600 to-indigo-600 px-5 py-3 text-sm font-semibold text-white transition-all hover:brightness-110 shadow-glow disabled:opacity-60"
           >
             {loading ? 'Updating password…' : 'Set new password'}
           </button>
@@ -161,21 +162,21 @@ function ResetPasswordForm() {
 
 export default function ResetPasswordPage() {
   return (
-    <div className="bg-[radial-gradient(circle_at_top,_rgba(14,165,233,0.12),_transparent_34%),linear-gradient(180deg,_#ffffff_0%,_#f8fafc_100%)] px-4 py-12 sm:py-16 min-h-screen">
-      <div className="mx-auto max-w-xl rounded-[2rem] border border-sky-100 bg-white p-8 shadow-[0_25px_80px_rgba(15,23,42,0.08)] sm:p-10">
-        <span className="inline-flex rounded-full bg-sky-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-sky-700">
+    <AuthColorBlend>
+      <div className="mx-auto max-w-xl rounded-3xl border border-white/30 dark:border-white/20 bg-white/95 dark:bg-slate-900/85 p-6 sm:p-8 shadow-2xl backdrop-blur-xl">
+        <span className="inline-flex rounded-full bg-sky-100 dark:bg-sky-500/20 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-sky-700 dark:text-sky-200">
           Account security
         </span>
-        <h1 className="mt-4 text-3xl font-black tracking-tight text-elite-navy sm:text-4xl">
+        <h1 className="mt-4 text-3xl font-black tracking-tight text-slate-950 dark:text-white sm:text-4xl">
           Set a new password
         </h1>
-        <p className="mt-2 text-sm text-slate-500">
+        <p className="mt-2 text-sm text-slate-500 dark:text-slate-300">
           Enter a new password for your account below.
         </p>
         <Suspense fallback={<div className="mt-6 text-slate-500 text-sm">Loading…</div>}>
           <ResetPasswordForm />
         </Suspense>
       </div>
-    </div>
+    </AuthColorBlend>
   );
 }

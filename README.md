@@ -140,7 +140,7 @@ Provider order in backend:
 
 **Frontend** (`frontend/.env.local`):
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:4000/api
+NEXT_PUBLIC_API_URL=http://localhost:4000
 ```
 
 ### 3. Start with Docker Compose (recommended)
@@ -172,6 +172,9 @@ npm run dev
 ## 🧪 Development
 
 ```bash
+# Quick full checks (backend + frontend)
+npm run check
+
 # Type-check the backend
 cd backend && npx tsc --noEmit
 

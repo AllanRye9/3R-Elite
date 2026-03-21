@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { api } from '@/lib/api';
+import AuthColorBlend from '@/components/ui/AuthColorBlend';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -26,13 +27,19 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="bg-[radial-gradient(circle_at_top,_rgba(14,165,233,0.12),_transparent_34%),linear-gradient(180deg,_#ffffff_0%,_#f8fafc_100%)] px-4 py-12 sm:py-16 min-h-screen">
-      <div className="mx-auto max-w-xl rounded-[2rem] border border-sky-100 bg-white p-8 shadow-[0_25px_80px_rgba(15,23,42,0.08)] sm:p-10">
-        <span className="inline-flex rounded-full bg-sky-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-sky-700">
-          Account support
-        </span>
-        <h1 className="mt-4 text-3xl font-black tracking-tight text-elite-navy sm:text-4xl">
-          Forgot your password?
+    <AuthColorBlend>
+      <div className="mx-auto max-w-xl rounded-3xl border border-white/30 dark:border-white/20 bg-white/95 dark:bg-slate-900/85 p-6 sm:p-8 shadow-2xl backdrop-blur-xl">
+        <div className="flex items-center justify-between">
+          <span className="inline-flex rounded-full bg-sky-50 dark:bg-sky-500/20 border border-sky-100 dark:border-sky-300/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-sky-700 dark:text-sky-200">
+            Account support
+          </span>
+          <Link href="/auth/login" className="text-xs font-semibold text-slate-500 dark:text-slate-300 hover:text-sky-700 dark:hover:text-sky-200 transition-colors">
+            ← Back to sign in
+          </Link>
+        </div>
+
+        <h1 className="mt-4 text-3xl font-black tracking-tight text-slate-950 dark:text-white sm:text-4xl">
+          Forgot password?
         </h1>
 
         {submitted ? (
@@ -54,7 +61,7 @@ export default function ForgotPasswordPage() {
               </button>
               .
             </p>
-            <div className="mt-6 rounded-2xl border border-slate-100 bg-slate-50 p-4 text-sm text-slate-600">
+              <div className="mt-6 rounded-2xl border border-slate-100 bg-slate-50 p-4 text-sm text-slate-600">
               <p>Still having trouble? Email us at{' '}
                 <a href="mailto:support@3relite.com" className="text-sky-600 font-semibold hover:underline">
                   support@3relite.com
@@ -64,7 +71,7 @@ export default function ForgotPasswordPage() {
           </div>
         ) : (
           <>
-            <p className="mt-4 text-base leading-7 text-slate-600">
+            <p className="mt-4 text-base leading-7 text-slate-600 dark:text-slate-300">
               Enter the email address tied to your account and we&apos;ll send you a link to reset your password.
             </p>
 
@@ -92,7 +99,7 @@ export default function ForgotPasswordPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full inline-flex items-center justify-center rounded-xl bg-elite-navy px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-sky-700 disabled:opacity-60"
+                className="w-full inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-fuchsia-600 via-sky-600 to-indigo-600 px-5 py-3 text-sm font-semibold text-white transition-all hover:brightness-110 shadow-glow disabled:opacity-60"
               >
                 {loading ? 'Sending…' : 'Send reset link'}
               </button>
@@ -107,17 +114,10 @@ export default function ForgotPasswordPage() {
               </p>
             </div>
 
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link
-                href="/auth/login"
-                className="inline-flex items-center justify-center rounded-xl border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
-              >
-                ← Back to sign in
-              </Link>
-            </div>
+            <div className="mt-6 flex flex-wrap gap-3" />
           </>
         )}
       </div>
-    </div>
+    </AuthColorBlend>
   );
 }
