@@ -18,6 +18,7 @@ import reviewRoutes from './routes/reviews';
 import adminRoutes from './routes/admin';
 import uploadRoutes from './routes/upload';
 import statsRoutes from './routes/stats';
+import docRoutes from './routes/doc';
 
 const app = express();
 
@@ -121,6 +122,12 @@ app.use('/api/reviews', reviewRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/stats', statsRoutes);
+app.use('/api/doc', docRoutes);
+
+// 404 handler for unmatched API routes – must come after all route registrations.
+app.use('/api', (_req: Request, res: Response) => {
+  res.status(404).json({ message: 'Not found' });
+});
 
 // Error handler
 app.use(errorHandler);

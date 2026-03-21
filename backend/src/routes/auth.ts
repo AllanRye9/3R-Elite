@@ -15,7 +15,7 @@ const registerValidation = [
   body('email').isEmail().normalizeEmail(),
   body('password').isLength({ min: 6 }),
   body('name').trim().notEmpty(),
-  body('country').isIn(['UAE', 'UGANDA']),
+  body('country').isIn(['UAE', 'UGANDA', 'KENYA', 'CHINA']),
 ];
 
 router.post('/register', registerValidation, async (req: Request, res: Response, next: NextFunction) => {
