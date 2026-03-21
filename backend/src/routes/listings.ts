@@ -134,6 +134,18 @@ router.post('/', authenticate, async (req: AuthRequest, res: Response, next: Nex
       return next(createError('Missing required fields', 400));
     }
 
+    // Validate that the price is a positive number
+    const parsedPrice = parseFloat(price);
+    if (isNaN(parsedPrice) || parsedPrice < 0) {
+      return next(createError('Price must be a valid non-negative number', 400));
+    }
+
+    // Validate category exists
+    const categoryExists = await prisma.category.findUnique({ where: { id: categoryId } });
+    if (!categoryExists) {
+      return next(createError('Category not found', 400));
+    }
+
     // Build the initial images array: use provided URLs or temp preview URLs from imageIds.
     let initialImages: string[] = images || [];
 
@@ -150,7 +162,7 @@ router.post('/', authenticate, async (req: AuthRequest, res: Response, next: Nex
     const listing = await prisma.listing.create({
       data: {
         title, description,
-        price: parseFloat(price),
+        price: parsedPrice,
         currency: currency || 'AED',
         condition: condition || 'USED',
         status: 'PENDING',

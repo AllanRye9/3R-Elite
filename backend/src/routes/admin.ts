@@ -4,6 +4,8 @@ import { authenticate, authorize } from '../middleware/auth';
 import { AuthRequest } from '../middleware/auth';
 import { createError } from '../middleware/errorHandler';
 import { uploadToCDN } from '../utils/cdn';
+import { sendImageApprovedEmail, sendImageRejectedEmail } from '../utils/email';
+import { logger } from '../utils/logger';
 import fs from 'fs';
 import path from 'path';
 
@@ -585,6 +587,20 @@ router.put('/images/:id/approve', async (req: AuthRequest, res: Response, next: 
     }
 
     res.json(updated);
+
+    // Notify the seller fully asynchronously after the response is flushed.
+    const notifyApproved = async () => {
+      if (!image.sellerId) return;
+      const seller = await prisma.user.findUnique({ where: { id: image.sellerId }, select: { email: true, name: true } });
+      if (!seller) return;
+      const listing = image.listingId
+        ? await prisma.listing.findUnique({ where: { id: image.listingId }, select: { title: true } })
+        : null;
+      sendImageApprovedEmail(seller.email, seller.name, listing?.title).catch((err) =>
+        logger.error(`Image approval email failed for ${seller.email}: ${String(err)}`)
+      );
+    };
+    setImmediate(() => { notifyApproved().catch((err) => logger.error('notifyApproved error:', String(err))); });
   } catch (err) {
     next(err);
   }
@@ -625,6 +641,20 @@ router.put('/images/:id/reject', async (req: AuthRequest, res: Response, next: N
     }
 
     res.json(updated);
+
+    // Notify the seller fully asynchronously after the response is flushed.
+    const notifyRejected = async () => {
+      if (!image.sellerId) return;
+      const seller = await prisma.user.findUnique({ where: { id: image.sellerId }, select: { email: true, name: true } });
+      if (!seller) return;
+      const listing = image.listingId
+        ? await prisma.listing.findUnique({ where: { id: image.listingId }, select: { title: true } })
+        : null;
+      sendImageRejectedEmail(seller.email, seller.name, reason || undefined, listing?.title).catch((err) =>
+        logger.error(`Image rejection email failed for ${seller.email}: ${String(err)}`)
+      );
+    };
+    setImmediate(() => { notifyRejected().catch((err) => logger.error('notifyRejected error:', String(err))); });
   } catch (err) {
     next(err);
   }

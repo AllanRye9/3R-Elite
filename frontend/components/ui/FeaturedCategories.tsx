@@ -12,56 +12,56 @@ const featuredCats: FeaturedCat[] = [
   {
     label: 'Fine Timepieces',
     icon: '⌚',
-    color: 'from-[#0B132B] to-[#1C2541]',
+    color: 'from-violet-600 to-purple-700',
     href: '/listings?q=watches',
     desc: 'Luxury watches & clocks',
   },
   {
     label: 'Designer Apparel',
     icon: '👔',
-    color: 'from-[#0B132B] to-[#1C2541]',
+    color: 'from-rose-500 to-pink-700',
     href: '/listings?q=fashion',
     desc: 'Premium clothing & style',
   },
   {
     label: 'Tech Innovations',
     icon: '💻',
-    color: 'from-[#0B132B] to-[#1C2541]',
+    color: 'from-cyan-500 to-sky-700',
     href: '/listings?q=electronics',
     desc: 'Cutting-edge technology',
   },
   {
     label: 'Bespoke Home',
     icon: '🏡',
-    color: 'from-[#0B132B] to-[#1C2541]',
+    color: 'from-emerald-500 to-teal-700',
     href: '/listings?q=home',
     desc: 'Curated living spaces',
   },
   {
     label: 'Luxury Vehicles',
     icon: '🚗',
-    color: 'from-[#0B132B] to-[#1C2541]',
+    color: 'from-orange-500 to-red-600',
     href: '/listings?q=vehicles',
     desc: 'Premium automobiles',
   },
   {
     label: 'Fine Jewellery',
     icon: '💎',
-    color: 'from-[#0B132B] to-[#1C2541]',
+    color: 'from-amber-500 to-yellow-600',
     href: '/listings?q=jewellery',
     desc: 'Exquisite adornments',
   },
   {
     label: 'Art & Collectibles',
     icon: '🎨',
-    color: 'from-[#0B132B] to-[#1C2541]',
+    color: 'from-indigo-500 to-blue-700',
     href: '/listings?q=art',
     desc: 'Rare finds & originals',
   },
   {
     label: 'Premium Services',
     icon: '✦',
-    color: 'from-[#0B132B] to-[#1C2541]',
+    color: 'from-fuchsia-500 to-violet-600',
     href: '/listings?q=services',
     desc: 'Elite-grade assistance',
   },
@@ -91,13 +91,13 @@ export default function FeaturedCategories() {
           <Link
             key={cat.label}
             href={cat.href}
-            className={`group relative overflow-hidden rounded-lg xs:rounded-xl p-3 xs:p-4 bg-gradient-to-br ${cat.color} text-white hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 interactive border border-elite-gold/10 hover:border-elite-gold/30`}
+            className={`group relative overflow-hidden rounded-lg xs:rounded-xl p-3 xs:p-4 bg-gradient-to-br ${cat.color} text-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 interactive`}
           >
-            {/* Decorative circle */}
-            <div className="absolute -top-4 -right-4 w-16 h-16 bg-elite-gold/10 rounded-full" aria-hidden="true" />
+            {/* Decorative glow */}
+            <div className="absolute -top-4 -right-4 w-16 h-16 bg-white/10 rounded-full" aria-hidden="true" />
 
             <div
-              className="text-2xl xs:text-3xl mb-1.5 xs:mb-2 group-hover:scale-110 transition-transform duration-300 inline-block"
+              className="text-2xl xs:text-3xl mb-1.5 xs:mb-2 group-hover:scale-110 transition-transform duration-300 inline-block drop-shadow"
               aria-hidden="true"
             >
               {cat.icon}

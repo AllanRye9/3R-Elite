@@ -174,3 +174,90 @@ export async function sendPasswordResetEmail(to: string, name: string, resetToke
 </html>`;
   await send(to, subject, html);
 }
+
+export async function sendImageApprovedEmail(to: string, name: string, listingTitle?: string): Promise<void> {
+  const subject = 'Your image has been approved ✅';
+  const listingNote = listingTitle
+    ? `<p style="font-size:14px;color:#374151;line-height:1.7;margin:0 0 16px;">
+        Your image for the listing <strong style="color:#0284c7;">${listingTitle}</strong> has been reviewed and approved by our moderation team. It is now live on the marketplace.
+       </p>`
+    : `<p style="font-size:14px;color:#374151;line-height:1.7;margin:0 0 16px;">
+        One of your uploaded images has been reviewed and approved by our moderation team. It is now live on the marketplace.
+       </p>`;
+  const html = `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8" /></head>
+<body style="margin:0;padding:0;font-family:Inter,Helvetica Neue,Arial,sans-serif;background:#f0fdf4;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="padding:32px 16px;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:20px;overflow:hidden;box-shadow:0 4px 24px rgba(22,163,74,0.10);">
+        <tr><td style="background:linear-gradient(135deg,#16a34a 0%,#15803d 60%,#166534 100%);padding:36px 40px 28px;">
+          <span style="font-size:24px;font-weight:800;color:#ffffff;">3R Elite</span>
+          <p style="color:rgba(255,255,255,0.85);font-size:14px;margin:4px 0 0;">Image Moderation Update</p>
+        </td></tr>
+        <tr><td style="padding:36px 40px;">
+          <h1 style="font-size:24px;font-weight:800;color:#16a34a;margin:0 0 12px;">Image Approved! ✅</h1>
+          <p style="font-size:16px;color:#374151;line-height:1.7;margin:0 0 12px;">Hi ${name},</p>
+          ${listingNote}
+          <a href="${FRONTEND_URL}/profile/listings" style="display:inline-block;background:linear-gradient(135deg,#16a34a,#15803d);color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:14px 32px;border-radius:12px;margin-bottom:24px;">View My Listings →</a>
+          <hr style="border:none;border-top:1px solid #dcfce7;margin:0 0 20px;" />
+          <p style="font-size:13px;color:#6b7280;margin:0;">Questions? <a href="mailto:support@3relite.com" style="color:#16a34a;font-weight:600;">support@3relite.com</a></p>
+        </td></tr>
+        <tr><td style="background:#f0fdf4;padding:16px 40px;border-top:1px solid #dcfce7;">
+          <p style="font-size:12px;color:#9ca3af;margin:0;text-align:center;">&copy; ${new Date().getFullYear()} 3R Elite Marketplace. All rights reserved.</p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+  await send(to, subject, html);
+}
+
+export async function sendImageRejectedEmail(to: string, name: string, reason?: string, listingTitle?: string): Promise<void> {
+  const subject = 'Image moderation update — action required';
+  const reasonNote = reason
+    ? `<div style="background:#fff7ed;border:1.5px solid #fed7aa;border-radius:12px;padding:16px;margin-bottom:20px;">
+        <p style="font-size:13px;font-weight:700;color:#92400e;margin:0 0 6px;">Reason:</p>
+        <p style="font-size:13px;color:#92400e;margin:0;">${reason}</p>
+       </div>`
+    : '';
+  const listingNote = listingTitle ? `for the listing <strong style="color:#dc2626;">${listingTitle}</strong>` : '';
+  const html = `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8" /></head>
+<body style="margin:0;padding:0;font-family:Inter,Helvetica Neue,Arial,sans-serif;background:#fff1f2;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="padding:32px 16px;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:20px;overflow:hidden;box-shadow:0 4px 24px rgba(220,38,38,0.10);">
+        <tr><td style="background:linear-gradient(135deg,#dc2626 0%,#b91c1c 60%,#991b1b 100%);padding:36px 40px 28px;">
+          <span style="font-size:24px;font-weight:800;color:#ffffff;">3R Elite</span>
+          <p style="color:rgba(255,255,255,0.85);font-size:14px;margin:4px 0 0;">Image Moderation Update</p>
+        </td></tr>
+        <tr><td style="padding:36px 40px;">
+          <h1 style="font-size:24px;font-weight:800;color:#dc2626;margin:0 0 12px;">Image Not Approved ❌</h1>
+          <p style="font-size:16px;color:#374151;line-height:1.7;margin:0 0 12px;">Hi ${name},</p>
+          <p style="font-size:14px;color:#374151;line-height:1.7;margin:0 0 16px;">
+            An image you uploaded ${listingNote} did not meet our content guidelines and has been removed.
+          </p>
+          ${reasonNote}
+          <p style="font-size:14px;color:#374151;line-height:1.7;margin:0 0 20px;">
+            You are welcome to upload a replacement image. Please review our
+            <a href="${FRONTEND_URL}/safety" style="color:#dc2626;font-weight:600;">community guidelines</a> before re-uploading.
+          </p>
+          <a href="${FRONTEND_URL}/listings/create" style="display:inline-block;background:linear-gradient(135deg,#dc2626,#b91c1c);color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:14px 32px;border-radius:12px;margin-bottom:24px;">Upload New Image →</a>
+          <hr style="border:none;border-top:1px solid #fee2e2;margin:0 0 20px;" />
+          <p style="font-size:13px;color:#6b7280;margin:0;">Questions? <a href="mailto:support@3relite.com" style="color:#dc2626;font-weight:600;">support@3relite.com</a></p>
+        </td></tr>
+        <tr><td style="background:#fff1f2;padding:16px 40px;border-top:1px solid #fee2e2;">
+          <p style="font-size:12px;color:#9ca3af;margin:0;text-align:center;">&copy; ${new Date().getFullYear()} 3R Elite Marketplace. All rights reserved.</p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+  await send(to, subject, html);
+}
