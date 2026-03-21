@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="bg-elite-navy text-gray-300">
+    <footer className="bg-gradient-to-r from-indigo-900 via-sky-800 to-fuchsia-900 text-gray-300">
       {/* Main footer content - hidden on mobile, shown on md+ */}
       <div className="hidden md:block">
         <div className="max-w-7xl mx-auto px-4 py-12">
@@ -10,9 +10,9 @@ export default function Footer() {
             {/* Brand column */}
             <div className="lg:col-span-2">
               <Link href="/" className="flex items-center gap-2 mb-3 w-fit hover:opacity-80 transition-opacity">
-                <div className="w-8 h-8 bg-elite-gold/20 rounded-lg flex items-center justify-center font-black text-elite-gold text-sm border border-elite-gold/30">3R</div>
+                <div className="w-8 h-8 bg-gradient-to-br from-fuchsia-500 via-sky-500 to-indigo-600 rounded-lg flex items-center justify-center font-black text-white text-sm border border-white/30 shadow-glow">3R</div>
                 <span className="font-extrabold text-white text-lg tracking-tight">
-                  <span>3R</span> <span className="font-serif italic text-elite-gold">Elite</span>
+                  <span>3R</span> <span className="font-serif italic text-sky-200">Elite</span>
                 </span>
               </Link>
               <p className="text-sm leading-relaxed mb-4 max-w-xs text-gray-300">
@@ -32,7 +32,7 @@ export default function Footer() {
                     key={s.label}
                     href={s.href}
                     aria-label={s.label}
-                    className="w-9 h-9 rounded-lg bg-white/10 hover:bg-elite-gold hover:text-white flex items-center justify-center text-xs text-gray-300 transition-colors interactive"
+                    className="w-9 h-9 rounded-lg bg-white/10 hover:bg-gradient-to-r hover:from-fuchsia-500 hover:to-sky-500 hover:text-white flex items-center justify-center text-xs text-gray-300 transition-colors interactive"
                   >
                     {s.icon}
                   </a>
@@ -44,11 +44,11 @@ export default function Footer() {
             <div>
               <h4 className="text-white font-bold mb-4 text-sm uppercase tracking-wide border-b border-white/10 pb-2">Company</h4>
               <ul className="space-y-2.5 text-sm">
-                <li><Link href="/about" className="text-gray-300 hover:text-elite-gold transition-colors">About Us</Link></li>
-                <li><Link href="/advertising" className="text-gray-300 hover:text-elite-gold transition-colors">Advertising</Link></li>
-                <li><Link href="/blog" className="text-gray-300 hover:text-elite-gold transition-colors">Blog</Link></li>
-                <li><Link href="/careers" className="text-gray-300 hover:text-elite-gold transition-colors">Careers</Link></li>
-                <li><Link href="/press" className="text-gray-300 hover:text-elite-gold transition-colors">Press</Link></li>
+                <li><Link href="/about" className="text-gray-300 hover:text-sky-200 transition-colors">About Us</Link></li>
+                <li><Link href="/advertising" className="text-gray-300 hover:text-sky-200 transition-colors">Advertising</Link></li>
+                <li><Link href="/blog" className="text-gray-300 hover:text-sky-200 transition-colors">Blog</Link></li>
+                <li><Link href="/careers" className="text-gray-300 hover:text-sky-200 transition-colors">Careers</Link></li>
+                <li><Link href="/press" className="text-gray-300 hover:text-sky-200 transition-colors">Press</Link></li>
               </ul>
             </div>
 
@@ -56,12 +56,12 @@ export default function Footer() {
             <div>
               <h4 className="text-white font-bold mb-4 text-sm uppercase tracking-wide border-b border-white/10 pb-2">Our Locations</h4>
               <ul className="space-y-2.5 text-sm">
-                <li><Link href="/listings?country=UAE" className="text-gray-300 hover:text-elite-gold transition-colors">🇦🇪 UAE</Link></li>
-                <li><Link href="/listings?country=UAE&location=Dubai" className="text-gray-300 hover:text-elite-gold transition-colors">Dubai</Link></li>
-                <li><Link href="/listings?country=UAE&location=Abu+Dhabi" className="text-gray-300 hover:text-elite-gold transition-colors">Abu Dhabi</Link></li>
-                <li><Link href="/listings?country=UGANDA" className="text-gray-300 hover:text-elite-gold transition-colors">🇺🇬 Uganda</Link></li>
-                <li><Link href="/listings?country=UGANDA&location=Kampala" className="text-gray-300 hover:text-elite-gold transition-colors">Kampala</Link></li>
-                <li><Link href="/listings?country=UGANDA&location=Wakiso" className="text-gray-300 hover:text-elite-gold transition-colors">Wakiso</Link></li>
+                <li><Link href="/listings?country=UAE" className="text-gray-300 hover:text-sky-200 transition-colors">🇦🇪 UAE</Link></li>
+                <li><Link href="/listings?country=UAE&location=Dubai" className="text-gray-300 hover:text-sky-200 transition-colors">Dubai</Link></li>
+                <li><Link href="/listings?country=UAE&location=Abu+Dhabi" className="text-gray-300 hover:text-sky-200 transition-colors">Abu Dhabi</Link></li>
+                <li><Link href="/listings?country=UGANDA" className="text-gray-300 hover:text-sky-200 transition-colors">🇺🇬 Uganda</Link></li>
+                <li><Link href="/listings?country=UGANDA&location=Kampala" className="text-gray-300 hover:text-sky-200 transition-colors">Kampala</Link></li>
+                <li><Link href="/listings?country=UGANDA&location=Wakiso" className="text-gray-300 hover:text-sky-200 transition-colors">Wakiso</Link></li>
               </ul>
             </div>
 
@@ -69,11 +69,11 @@ export default function Footer() {
             <div>
               <h4 className="text-white font-bold mb-4 text-sm uppercase tracking-wide border-b border-white/10 pb-2">Support</h4>
               <ul className="space-y-2.5 text-sm">
-                <li><Link href="/help" className="text-gray-300 hover:text-elite-gold transition-colors">Help Center</Link></li>
-                <li><a href="mailto:support@3relite.com" className="text-gray-300 hover:text-elite-gold transition-colors">Contact Us</a></li>
-                <li><Link href="/safety" className="text-gray-300 hover:text-elite-gold transition-colors">Safety Tips</Link></li>
-                <li><Link href="/privacy" className="text-gray-300 hover:text-elite-gold transition-colors">Privacy Policy</Link></li>
-                <li><Link href="/terms" className="text-gray-300 hover:text-elite-gold transition-colors">Terms of Service</Link></li>
+                <li><Link href="/help" className="text-gray-300 hover:text-sky-200 transition-colors">Help Center</Link></li>
+                <li><a href="mailto:support@3relite.com" className="text-gray-300 hover:text-sky-200 transition-colors">Contact Us</a></li>
+                <li><Link href="/safety" className="text-gray-300 hover:text-sky-200 transition-colors">Safety Tips</Link></li>
+                <li><Link href="/privacy" className="text-gray-300 hover:text-sky-200 transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/terms" className="text-gray-300 hover:text-sky-200 transition-colors">Terms of Service</Link></li>
               </ul>
             </div>
           </div>
@@ -83,9 +83,9 @@ export default function Footer() {
       {/* Compact mobile footer - shown only below md */}
       <div className="md:hidden px-4 py-6">
         <Link href="/" className="flex items-center justify-center gap-2 mb-4 hover:opacity-80 transition-opacity">
-          <div className="w-7 h-7 bg-elite-gold/20 rounded-lg flex items-center justify-center font-black text-elite-gold text-xs border border-elite-gold/30">3R</div>
+          <div className="w-7 h-7 bg-gradient-to-br from-fuchsia-500 via-sky-500 to-indigo-600 rounded-lg flex items-center justify-center font-black text-white text-xs border border-white/30 shadow-glow">3R</div>
           <span className="font-extrabold text-white text-base tracking-tight">
-            <span>3R</span> <span className="font-serif italic text-elite-gold">Elite</span>
+            <span>3R</span> <span className="font-serif italic text-sky-200">Elite</span>
           </span>
         </Link>
         <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2.5 text-xs mb-4">
@@ -108,7 +108,7 @@ export default function Footer() {
               key={s.label}
               href={s.href}
               aria-label={s.label}
-              className="w-9 h-9 rounded-lg bg-white/10 hover:bg-elite-gold flex items-center justify-center text-xs text-gray-300 transition-colors interactive"
+              className="w-9 h-9 rounded-lg bg-white/10 hover:bg-gradient-to-r hover:from-fuchsia-500 hover:to-sky-500 flex items-center justify-center text-xs text-gray-300 transition-colors interactive"
             >
               {s.icon}
             </a>

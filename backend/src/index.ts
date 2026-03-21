@@ -1,20 +1,18 @@
 import 'dotenv/config';
-import app from './app';
 import { logger } from './utils/logger';
 import { prisma } from './utils/prisma';
-
-// Validate required environment variables early so operators get a clear
-// message instead of a cryptic JWT runtime error.
-// DATABASE_URL / DATABASE_PRIVATE_URL are validated inside utils/prisma.ts.
-const jwtMissing = ['JWT_SECRET', 'JWT_REFRESH_SECRET'].filter((v) => !process.env[v]);
-if (jwtMissing.length > 0) {
-  logger.error(`Missing required environment variables: ${jwtMissing.join(', ')}`);
-  process.exit(1);
-}
+import { validateAndLogServiceConfig } from './utils/serviceConfig';
 
 const PORT = parseInt(process.env.PORT ?? '', 10) || 5000;
 
 async function main() {
+  try {
+    validateAndLogServiceConfig();
+  } catch (err) {
+    logger.error(String(err));
+    process.exit(1);
+  }
+
   try {
     await prisma.$connect();
     logger.info('Database connected');
@@ -27,6 +25,8 @@ async function main() {
     );
     process.exit(1);
   }
+
+  const { default: app } = await import('./app');
 
   app.listen(PORT, '0.0.0.0', () => {
     logger.info(`Server running on port ${PORT} in ${process.env.NODE_ENV} mode`);

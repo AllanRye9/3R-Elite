@@ -18,7 +18,7 @@ import reviewRoutes from './routes/reviews';
 import adminRoutes from './routes/admin';
 import uploadRoutes from './routes/upload';
 import statsRoutes from './routes/stats';
-import docRoutes from './routes/doc';
+import { getServiceReadiness } from './utils/serviceConfig';
 
 const app = express();
 
@@ -63,6 +63,15 @@ app.get('/health', async (_req: Request, res: Response) => {
     logger.error('Health check failed – database unreachable', err);
     res.status(503).json({ status: 'error', database: 'disconnected' });
   }
+});
+
+app.get('/health/services', (_req: Request, res: Response) => {
+  const readiness = getServiceReadiness();
+  const status = readiness.jwt.ready ? 200 : 503;
+  res.status(status).json({
+    status: readiness.jwt.ready ? 'ok' : 'error',
+    services: readiness,
+  });
 });
 
 // General API rate limit — generous enough for normal multi-tab browsing.

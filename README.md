@@ -12,7 +12,8 @@
 | **Backend** | Node.js, Express.js, TypeScript |
 | **Database** | PostgreSQL (via Prisma ORM) |
 | **Auth** | JWT (access + refresh tokens) |
-| **CDN** | Cloudinary (with local fallback) |
+| **CDN** | Cloudflare Images / Cloudinary (with local fallback) |
+| **Email** | Resend / SMTP (with log-only fallback) |
 | **Containerization** | Docker / Docker Compose |
 
 ---
@@ -109,13 +110,33 @@ cd 3R-Elite
 DATABASE_URL=postgresql://user:password@localhost:5432/3relite
 JWT_SECRET=your_jwt_secret
 JWT_REFRESH_SECRET=your_refresh_secret
+JWT_EXPIRES_IN=1h
+JWT_REFRESH_EXPIRES_IN=7d
 ADMIN_SECRET=your_admin_registration_secret
+
+# CDN providers (Cloudflare Images is used first when configured)
+CLOUDFLARE_ACCOUNT_ID=your_cloudflare_account_id
+CLOUDFLARE_IMAGES_API_TOKEN=your_cloudflare_images_api_token
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
+
+# Email providers (Resend is used first when configured)
+RESEND_API_KEY=re_xxxxxxxxx
+RESEND_FROM_EMAIL=no-reply@yourdomain.com
+SMTP_HOST=smtp.your-provider.com
+SMTP_PORT=587
+SMTP_USER=your_smtp_user
+SMTP_PASS=your_smtp_password
+SMTP_FROM=support@yourdomain.com
+
 CORS_ORIGIN=http://localhost:3000
 PORT=4000
 ```
+
+Provider order in backend:
+- Image upload: Cloudflare Images → Cloudinary → local `/uploads`
+- Email delivery: Resend → SMTP → log-only (non-blocking)
 
 **Frontend** (`frontend/.env.local`):
 ```env

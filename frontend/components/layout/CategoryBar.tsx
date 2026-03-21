@@ -198,10 +198,10 @@ function CategoryBarInner() {
 
   const getLinkClasses = (isActive: boolean) => {
     if (isActive) {
-      return 'bg-elite-gold text-elite-navy shadow-sm ring-1 ring-elite-gold-light/80';
+      return 'bg-gradient-to-r from-fuchsia-500 via-sky-500 to-indigo-500 text-white shadow-glow ring-1 ring-white/40';
     }
 
-    return 'text-white/85 hover:text-white hover:bg-white/10';
+    return 'text-white/90 hover:text-white hover:bg-white/20 hover:shadow-glow';
   };
 
   return (
@@ -214,7 +214,7 @@ function CategoryBarInner() {
           className={`relative flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] xs:text-xs font-semibold whitespace-nowrap transition-all interactive ${getLinkClasses(isListingsView && !currentQ)}`}
         >
           All
-          {isListingsView && !currentQ && <span className="absolute inset-x-2 -bottom-0.5 h-0.5 rounded-full bg-elite-gold-light" aria-hidden="true" />}
+          {isListingsView && !currentQ && <span className="absolute inset-x-2 -bottom-0.5 h-0.5 rounded-full bg-white/90" aria-hidden="true" />}
         </Link>
         {topCategories.map((cat) => {
           const catQ = new URL(cat.href, 'http://x').searchParams.get('q') || '';
@@ -238,7 +238,7 @@ function CategoryBarInner() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 )}
-                {isActive && <span className="absolute inset-x-2 -bottom-0.5 h-0.5 rounded-full bg-elite-gold-light" aria-hidden="true" />}
+                {isActive && <span className="absolute inset-x-2 -bottom-0.5 h-0.5 rounded-full bg-white/90" aria-hidden="true" />}
               </Link>
             </div>
           );
@@ -280,7 +280,7 @@ function CategoryBarInner() {
 
 export default function CategoryBar() {
   return (
-    <div className="w-full border-t border-white/10 bg-elite-charcoal/80 backdrop-blur-sm">
+    <div className="w-full border-t border-white/20 bg-gradient-to-r from-indigo-800/90 via-sky-700/90 to-fuchsia-700/90 backdrop-blur-sm shadow-glow">
       <div className="w-full px-3 sm:px-6 py-1">
         <Suspense
           fallback={

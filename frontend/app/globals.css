@@ -100,7 +100,7 @@
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Arial, sans-serif;
     color: var(--text-primary);
-    background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 60%, #C5A059 100%); /* dark blue removed, now light */
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 28%, #c4b5fd 56%, #fbcfe8 78%, #fde68a 100%);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.6;

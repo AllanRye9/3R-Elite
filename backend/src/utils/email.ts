@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 import { logger } from './logger';
 
 function createTransport() {
@@ -23,10 +24,26 @@ function createTransport() {
 }
 
 const FROM_NAME = '3R Elite Marketplace';
-const FROM_EMAIL = process.env.SMTP_FROM || 'support@3relite.com';
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || process.env.SMTP_FROM || 'support@3relite.com';
 const FRONTEND_URL = process.env.FRONTEND_URL || 'https://3relite.com';
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 async function send(to: string, subject: string, html: string): Promise<void> {
+  if (resend) {
+    try {
+      await resend.emails.send({
+        from: `${FROM_NAME} <${FROM_EMAIL}>`,
+        to,
+        subject,
+        html,
+      });
+      logger.info(`Email sent to ${to} via Resend: ${subject}`);
+      return;
+    } catch (err) {
+      logger.error(`Resend delivery failed for ${to}: ${String(err)}`);
+    }
+  }
+
   const transport = createTransport();
   if (!transport) {
     logger.info(`[EMAIL] To: ${to} | Subject: ${subject}`);

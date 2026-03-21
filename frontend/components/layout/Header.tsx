@@ -123,17 +123,17 @@ export default function Header() {
 
   return (
     <>
-      <header className={`sticky top-0 z-50 shadow-sm transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md border-b border-gray-100' : 'bg-gradient-to-r from-sky-600 via-blue-700 to-indigo-700'}`}>
+      <header className={`sticky top-0 z-50 shadow-sm transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-xl border-b border-sky-100 shadow-glow' : 'bg-gradient-to-r from-fuchsia-600 via-sky-600 to-indigo-700'}`}>
         {/* Top utility bar — desktop only */}
-        <div className="hidden sm:flex justify-between items-center max-w-7xl mx-auto px-4 h-10 text-xs text-white/80 bg-gradient-to-r from-blue-800 via-indigo-800 to-purple-800 relative z-10">
+        <div className="hidden sm:flex justify-between items-center max-w-7xl mx-auto px-4 h-10 text-xs text-white/90 bg-gradient-to-r from-purple-700 via-indigo-700 to-sky-700 relative z-10">
           <div className="flex items-center gap-4">
-            <Link href="/listings/create" className="hover:text-white flex items-center gap-1 transition-colors">
+            <Link href="/listings/create" className="hover:text-elite-gold flex items-center gap-1 transition-colors">
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
               </svg>
               Sell
             </Link>
-            <Link href="/help" className="hover:text-white transition-colors">Help / FAQ</Link>
+            <Link href="/help" className="hover:text-elite-gold transition-colors">Help / FAQ</Link>
           </div>
           {/* Country selector — allows switching between UAE and Uganda */}
           <CountrySelector />
@@ -143,7 +143,7 @@ export default function Header() {
         <div className="max-w-7xl mx-auto px-4 flex items-center gap-2 sm:gap-4 h-16">
           {/* Hamburger toggle — mobile only */}
           <button
-            className="md:hidden p-2 rounded-lg text-white hover:bg-white/20 transition-colors"
+            className="md:hidden p-2 rounded-lg text-white hover:bg-white/20 transition-colors animate-pulse-glow"
             aria-label="Toggle menu"
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((prev) => !prev)}
@@ -159,7 +159,7 @@ export default function Header() {
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0 group hover:scale-105 active:scale-95 transition-all">
-            <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-base ${scrolled ? 'bg-elite-navy text-elite-gold' : 'bg-white/20 text-white'}`}>3R</div>
+            <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-base shadow-lg ${scrolled ? 'bg-gradient-to-br from-fuchsia-500 via-sky-500 to-indigo-600 text-white animate-pulse-glow' : 'bg-white/20 text-white'}`}>3R</div>
             <span className={`font-bold text-lg sm:text-xl tracking-tight whitespace-nowrap ${scrolled ? 'text-elite-navy' : 'text-white'}`}>
               <span className="font-extrabold">3R</span> <span className="italic font-serif">Elite</span>
             </span>
@@ -167,7 +167,7 @@ export default function Header() {
 
           {/* Search — desktop */}
           <form onSubmit={handleSearch} className="hidden sm:flex flex-1 max-w-lg mx-4">
-            <div className={`flex flex-1 rounded-lg overflow-hidden ring-2 transition-all ${scrolled ? 'ring-gray-200 focus-within:ring-brand-400' : 'ring-white/20 focus-within:ring-white/60'}`}>
+            <div className={`flex flex-1 rounded-xl overflow-hidden ring-2 transition-all shadow-lg ${scrolled ? 'ring-sky-200 focus-within:ring-fuchsia-400' : 'ring-white/30 focus-within:ring-white/70'}`}>
               <input
                 type="text"
                 value={searchQ}
@@ -177,7 +177,7 @@ export default function Header() {
               />
               <button
                 type="submit"
-                className={`px-4 py-2 text-base font-semibold transition-colors ${scrolled ? 'bg-elite-gold text-white hover:bg-elite-gold-dark' : 'bg-elite-gold/90 text-white hover:bg-elite-gold'}`}
+                className={`px-4 py-2 text-base font-semibold transition-colors ${scrolled ? 'bg-gradient-to-r from-fuchsia-600 via-sky-600 to-indigo-600 text-white hover:brightness-110' : 'bg-elite-gold/90 text-white hover:bg-elite-gold'}`}
               >
                 Search
               </button>
@@ -202,7 +202,7 @@ export default function Header() {
             <div ref={browseDropRef} className="relative hidden sm:block">
               <button
                 onClick={() => { setBrowseDropOpen((p) => !p); setSellDropOpen(false); }}
-                className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${scrolled ? 'text-gray-700 hover:bg-gray-100 border border-gray-200' : 'text-white hover:bg-white/20'}`}
+                className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${scrolled ? 'text-sky-700 hover:bg-gradient-to-r hover:from-sky-100 hover:to-fuchsia-100 border border-sky-200' : 'text-white hover:bg-white/20'}`}
                 aria-expanded={browseDropOpen}
               >
                 Browse
@@ -242,7 +242,7 @@ export default function Header() {
             <div ref={sellDropRef} className="relative hidden sm:block">
               <button
                 onClick={() => { setSellDropOpen((p) => !p); setBrowseDropOpen(false); }}
-                className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${scrolled ? 'bg-elite-navy text-elite-gold hover:bg-elite-charcoal' : 'bg-white/20 text-white hover:bg-white/30 border border-white/30'}`}
+                className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${scrolled ? 'bg-gradient-to-r from-fuchsia-600 via-sky-600 to-indigo-600 text-white hover:brightness-110 shadow-glow' : 'bg-white/20 text-white hover:bg-white/30 border border-white/30'}`}
                 aria-expanded={sellDropOpen}
               >
                 Sell
@@ -452,15 +452,15 @@ export default function Header() {
               </div>
             ) : (
               <div className="flex items-center gap-1.5">
-                <Link href="/auth/login" className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${scrolled ? 'text-gray-700 hover:bg-gray-100 border border-gray-200' : 'text-white/90 hover:text-white hover:bg-white/10 border border-white/30'}`}>Login</Link>
-                <Link href="/auth/register" className={`hidden sm:flex text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${scrolled ? 'bg-elite-gold text-white hover:bg-elite-gold-light' : 'bg-white text-elite-navy hover:bg-sky-50 border border-white/70'}`}>Register</Link>
+                <Link href="/auth/login" className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${scrolled ? 'text-sky-700 hover:bg-sky-50 border border-sky-200' : 'text-white/90 hover:text-white hover:bg-white/10 border border-white/30'}`}>Login</Link>
+                <Link href="/auth/register" className={`hidden sm:flex text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${scrolled ? 'bg-gradient-to-r from-fuchsia-600 via-sky-600 to-indigo-600 text-white hover:brightness-110 shadow-glow' : 'bg-white text-elite-navy hover:bg-sky-50 border border-white/70'}`}>Register</Link>
               </div>
             )}
           </nav>
         </div>
 
         {/* Mobile search bar */}
-        <div className={`sm:hidden border-t px-3 py-2 ${scrolled ? 'border-gray-100 bg-white' : 'border-white/10 bg-blue-800/50 backdrop-blur-sm'}`}>
+        <div className={`sm:hidden border-t px-3 py-2 ${scrolled ? 'border-sky-100 bg-white' : 'border-white/10 bg-indigo-800/40 backdrop-blur-sm'}`}>
           <form onSubmit={handleSearch} className="flex rounded-lg overflow-hidden ring-2 ring-white/20">
             <input
               type="text"
@@ -497,7 +497,7 @@ export default function Header() {
         aria-hidden={!menuOpen}
       >
         {/* Drawer header */}
-        <div className="flex items-center justify-between px-4 py-4 bg-gradient-to-r from-sky-600 via-blue-700 to-indigo-700 text-white">
+        <div className="flex items-center justify-between px-4 py-4 bg-gradient-to-r from-fuchsia-600 via-sky-600 to-indigo-700 text-white">
           <Link href="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-md flex items-center justify-center font-black text-sm bg-elite-gold/20 text-elite-gold">3R</div>
             <span className="font-extrabold text-lg">3R <span className="italic font-serif">Elite</span></span>
@@ -515,7 +515,7 @@ export default function Header() {
 
         {/* User info strip (logged in) */}
         {user && (
-          <div className="px-4 py-3 bg-gradient-to-r from-elite-navy to-sky-600 border-b border-white/10">
+          <div className="px-4 py-3 bg-gradient-to-r from-indigo-700 via-sky-600 to-fuchsia-600 border-b border-white/10">
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3 min-w-0">
                 <UserAvatar user={user} size="md" />
@@ -543,7 +543,7 @@ export default function Header() {
               key={item.href}
               href={item.href}
               onClick={() => setMenuOpen(false)}
-              className="flex items-center gap-3 px-4 py-3.5 text-gray-700 hover:bg-brand-50 hover:text-brand-600 transition-colors font-medium text-sm border-b border-gray-50"
+              className="flex items-center gap-3 px-4 py-3.5 text-gray-700 hover:bg-gradient-to-r hover:from-sky-50 hover:to-fuchsia-50 hover:text-indigo-600 transition-colors font-medium text-sm border-b border-gray-50"
             >
               <span className="text-xl w-6 text-center" aria-hidden="true">{item.icon}</span>
               {item.label}
@@ -568,14 +568,14 @@ export default function Header() {
               <Link
                 href="/auth/login"
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-elite-navy text-white font-semibold text-sm hover:bg-elite-charcoal transition-colors"
+                className="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-gradient-to-r from-fuchsia-600 via-sky-600 to-indigo-600 text-white font-semibold text-sm hover:brightness-110 transition-colors"
               >
                 Login
               </Link>
               <Link
                 href="/auth/register"
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg border-2 border-elite-navy text-elite-navy font-semibold text-sm hover:bg-brand-50 transition-colors"
+                className="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg border-2 border-sky-600 text-sky-700 font-semibold text-sm hover:bg-gradient-to-r hover:from-sky-50 hover:to-fuchsia-50 transition-colors"
               >
                 Create Account
               </Link>
