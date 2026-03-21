@@ -5,6 +5,12 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { api } from '@/lib/api';
 
+function passwordStrengthClass(length: number): string {
+  if (length === 0) return 'bg-gray-200';
+  if (length < 6) return 'bg-amber-400';
+  return 'bg-emerald-500';
+}
+
 function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -112,7 +118,7 @@ function ResetPasswordForm() {
                 {[1, 2, 3, 4, 5].map((i) => (
                   <div key={i} className={`h-1 flex-1 rounded-full transition-colors ${
                     form.password.length >= i * 2
-                      ? form.password.length < 6 ? 'bg-amber-400' : 'bg-emerald-500'
+                      ? passwordStrengthClass(form.password.length)
                       : 'bg-gray-200'
                   }`} />
                 ))}

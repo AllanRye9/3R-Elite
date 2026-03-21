@@ -15,6 +15,8 @@ function createTransport() {
   return nodemailer.createTransport({
     host,
     port,
+    // Port 465 uses implicit TLS (SSL), while other ports (e.g. 587) use
+    // STARTTLS — an upgrade from plain to encrypted mid-connection.
     secure: port === 465,
     auth: { user, pass },
   });
