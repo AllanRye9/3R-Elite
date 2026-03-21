@@ -192,11 +192,12 @@
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
     border: 1px solid rgba(226, 232, 240, 0.8);
-    transition: box-shadow var(--transition-base), transform var(--transition-base);
+    transition: box-shadow var(--transition-base), transform var(--transition-base), filter var(--transition-base);
   }
   .card-premium:hover {
     box-shadow: var(--shadow-xl);
     transform: translateY(-2px);
+    filter: brightness(1.01) saturate(1.05);
   }
 
   /* Gradient text */
@@ -260,7 +261,7 @@
     justify-content: center;
     gap: 8px;
     padding: 10px 20px;
-    background: #0EA5E9;
+    background: linear-gradient(135deg, #0EA5E9, #0284c7);
     color: #ffffff;
     border-radius: var(--radius-sm);
     font-weight: 600;
@@ -270,14 +271,16 @@
     cursor: pointer;
   }
   .btn-primary:hover {
-    background: #0284c7;
-    box-shadow: 0 4px 12px rgb(14 165 233 / 0.4);
+    background: linear-gradient(135deg, #38bdf8, #0284c7);
+    box-shadow: 0 4px 16px rgb(14 165 233 / 0.45);
+    filter: brightness(1.08) saturate(1.1);
     transform: translateY(-1px);
   }
   .btn-primary:active {
     background: #0369a1;
     transform: translateY(0);
     box-shadow: 0 1px 2px rgb(0 0 0 / 0.1);
+    filter: none;
   }
 
   .btn-secondary {
@@ -449,6 +452,113 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
+  /* Brightness / color-mix enhancement utilities */
+  .brightness-hover {
+    transition: filter var(--transition-base), transform var(--transition-base);
+  }
+  .brightness-hover:hover {
+    filter: brightness(1.12) saturate(1.15);
+    transform: translateY(-1px);
+  }
+
+  .color-pop {
+    position: relative;
+    overflow: hidden;
+  }
+  .color-pop::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg,
+      rgba(14,165,233,0.07) 0%,
+      rgba(99,102,241,0.05) 50%,
+      rgba(197,160,89,0.07) 100%);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    pointer-events: none;
+    mix-blend-mode: overlay;
+  }
+  .color-pop:hover::before {
+    opacity: 1;
+  }
+
+  /* Vivid gradient section backgrounds */
+  .bg-vivid-sky {
+    background: linear-gradient(135deg,
+      #0284c7 0%, #0ea5e9 25%, #38bdf8 50%, #7dd3fc 75%, #bae6fd 100%);
+  }
+  .bg-vivid-warm {
+    background: linear-gradient(135deg,
+      #f59e0b 0%, #fbbf24 30%, #fde68a 60%, #fef3c7 100%);
+  }
+  .bg-vivid-mixed {
+    background: linear-gradient(135deg,
+      #0284c7 0%, #6366f1 33%, #8b5cf6 66%, #C5A059 100%);
+  }
+  .bg-vivid-aurora {
+    background: linear-gradient(135deg,
+      #06b6d4 0%, #3b82f6 25%, #8b5cf6 50%, #ec4899 75%, #f59e0b 100%);
+  }
+
+  /* Glow overlay on hover for cards */
+  .glow-hover {
+    transition: box-shadow var(--transition-base), transform var(--transition-base);
+  }
+  .glow-hover:hover {
+    box-shadow: 0 0 0 2px rgba(14,165,233,0.3), 0 8px 32px rgba(14,165,233,0.15);
+    transform: translateY(-2px);
+  }
+
+  /* Multi-color underline animation */
+  .underline-rainbow {
+    position: relative;
+    display: inline-block;
+  }
+  .underline-rainbow::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #0ea5e9, #6366f1, #C5A059, #0ea5e9);
+    background-size: 200% 100%;
+    animation: rainbow-slide 3s linear infinite;
+    border-radius: 999px;
+  }
+
+  /* Mix-blend section decorators */
+  .section-vivid {
+    position: relative;
+    isolation: isolate;
+  }
+  .section-vivid::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, rgba(14,165,233,0.18) 0%, transparent 70%);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    border-radius: 50%;
+    z-index: -1;
+  }
+  .section-vivid::after {
+    content: '';
+    position: absolute;
+    bottom: -60px;
+    left: -60px;
+    width: 260px;
+    height: 260px;
+    background: radial-gradient(circle, rgba(197,160,89,0.14) 0%, transparent 70%);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    border-radius: 50%;
+    z-index: -1;
+  }
 }
 
 /* Keyframes */
@@ -496,6 +606,11 @@
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+
+@keyframes rainbow-slide {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
 }
 
 @keyframes float {
